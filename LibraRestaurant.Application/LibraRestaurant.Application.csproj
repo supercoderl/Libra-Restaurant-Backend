@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\LibraRestaurant.Domain\LibraRestaurant.Domain.csproj" />
+        <ProjectReference Include="..\LibraRestaurant.Proto\LibraRestaurant.Proto.csproj" />
+    </ItemGroup>
+
+
+</Project>
