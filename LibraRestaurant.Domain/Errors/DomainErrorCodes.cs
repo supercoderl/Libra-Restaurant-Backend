@@ -56,6 +56,26 @@ public static class DomainErrorCodes
         public const string EmptyStrore = "MENU_EMPTY_STORE";
 
         // General
-        public const string AlreadyExists = "ITEM_ALREADY_EXISTS";
+        public const string AlreadyExists = "MENU_ALREADY_EXISTS";
+    }
+
+    public static class Category
+    {
+        // Menu Validation
+        public const string EmptyId = "CATEGORY_EMPTY_ID";
+        public const string EmptyName = "CATEGORY_EMPTY_TITLE";
+
+        // General
+        public const string AlreadyExists = "CATEGORY_ALREADY_EXISTS";
+    }
+
+    public static class Currency
+    {
+        // Menu Validation
+        public const string EmptyId = "CURRENCY_EMPTY_ID";
+        public const string EmptyName = "CURRENCY_EMPTY_TITLE";
+
+        // General
+        public const string AlreadyExists = "CURRENCY_ALREADY_EXISTS";
     }
 }

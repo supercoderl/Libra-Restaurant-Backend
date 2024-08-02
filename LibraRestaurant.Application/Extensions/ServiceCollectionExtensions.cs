@@ -1,4 +1,9 @@
 using LibraRestaurant.Application.Interfaces;
+using LibraRestaurant.Application.Queries.Categories.GetAll;
+using LibraRestaurant.Application.Queries.Categories.GetCategoryById;
+using LibraRestaurant.Application.Queries.Categories.GetCurrencyById;
+using LibraRestaurant.Application.Queries.Currencies.GetAll;
+using LibraRestaurant.Application.Queries.Currencies.GetCurrencyById;
 using LibraRestaurant.Application.Queries.MenuItems.GetAll;
 using LibraRestaurant.Application.Queries.MenuItems.GetById;
 using LibraRestaurant.Application.Queries.Menus.GetAll;
@@ -8,6 +13,8 @@ using LibraRestaurant.Application.Queries.Users.GetUserById;
 using LibraRestaurant.Application.Services;
 using LibraRestaurant.Application.SortProviders;
 using LibraRestaurant.Application.ViewModels;
+using LibraRestaurant.Application.ViewModels.Categories;
+using LibraRestaurant.Application.ViewModels.Currencies;
 using LibraRestaurant.Application.ViewModels.MenuItems;
 using LibraRestaurant.Application.ViewModels.Menus;
 using LibraRestaurant.Application.ViewModels.Sorting;
@@ -24,6 +31,9 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IMenuItemService, MenuItemService>();
+        services.AddScoped<IMenuService, MenuService>();
+        services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<ICurrencyService, CurrencyService>();
 
         return services;
     }
@@ -42,6 +52,14 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRequestHandler<GetMenuByIdQuery, MenuViewModel?>, GetMenuByIdQueryHandler>();
         services.AddScoped<IRequestHandler<GetAllMenusQuery, PagedResult<MenuViewModel>>, GetAllMenusQueryHandler>();
 
+        // Category
+        services.AddScoped<IRequestHandler<GetCategoryByIdQuery, CategoryViewModel?>, GetCategoryByIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetAllCategoriesQuery, PagedResult<CategoryViewModel>>, GetAllCategoriesQueryHandler>();
+
+        // Currency
+        services.AddScoped<IRequestHandler<GetCurrencyByIdQuery, CurrencyViewModel?>, GetCurrencyByIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetAllCurrenciesQuery, PagedResult<CurrencyViewModel>>, GetAllCurrenciesQueryHandler>();
+
         return services;
     }
 
@@ -50,6 +68,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISortingExpressionProvider<UserViewModel, User>, UserViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<ItemViewModel, MenuItem>, ItemViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<MenuViewModel, Menu>, MenuViewModelSortProvider>();
+        services.AddScoped<ISortingExpressionProvider<CategoryViewModel, Category>, CategoryViewModelSortProvider>();
+        services.AddScoped<ISortingExpressionProvider<CurrencyViewModel, Currency>, CurrencyViewModelSortProvider>();
 
         return services;
     }
