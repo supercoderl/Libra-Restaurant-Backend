@@ -27,22 +27,25 @@ public sealed class UserEventHandler :
 
     public async Task Handle(UserCreatedEvent notification, CancellationToken cancellationToken)
     {
-/*        await _distributedCache.RemoveAsync(
-            CacheKeyGenerator.GetEntityCacheKey<Tenant>(notification.TenantId),
-            cancellationToken);*/
+        await Task.CompletedTask;
+        /*        await _distributedCache.RemoveAsync(
+                    CacheKeyGenerator.GetEntityCacheKey<Tenant>(notification.TenantId),
+                    cancellationToken);*/
     }
 
     public async Task Handle(UserDeletedEvent notification, CancellationToken cancellationToken)
     {
-/*        await _distributedCache.RemoveAsync(
-            CacheKeyGenerator.GetEntityCacheKey<Tenant>(notification.TenantId),
-            cancellationToken);*/
+        await Task.CompletedTask;
+        /*        await _distributedCache.RemoveAsync(
+                    CacheKeyGenerator.GetEntityCacheKey<Tenant>(notification.TenantId),
+                    cancellationToken);*/
     }
 
     public async Task Handle(UserUpdatedEvent notification, CancellationToken cancellationToken)
     {
-/*        await _distributedCache.RemoveAsync(
-            CacheKeyGenerator.GetEntityCacheKey<Tenant>(notification.TenantId),
-            cancellationToken);*/
+        await Task.CompletedTask;
+        /*        await _distributedCache.RemoveAsync(
+                    CacheKeyGenerator.GetEntityCacheKey<Tenant>(notification.TenantId),
+                    cancellationToken);*/
     }
 }

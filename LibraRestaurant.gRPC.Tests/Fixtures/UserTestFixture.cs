@@ -23,28 +23,28 @@ public sealed class UserTestFixture
         {
             new(
                 Guid.NewGuid(),
-                Guid.NewGuid(),
                 "test@test.de",
                 "Test First Name",
                 "Test Last Name",
+                "Test Mobile",
                 "Test Password",
-                UserRole.User),
+                DateTime.Now),
             new(
-                Guid.NewGuid(),
                 Guid.NewGuid(),
                 "email@Email.de",
                 "Email First Name",
                 "Email Last Name",
+                "Email Mobile",
                 "Email Password",
-                UserRole.Admin),
+                DateTime.Now),
             new(
-                Guid.NewGuid(),
                 Guid.NewGuid(),
                 "user@user.de",
                 "User First Name",
                 "User Last Name",
+                "User Mobile",
                 "User Password",
-                UserRole.User)
+                DateTime.Now)
         };
 
         var queryable = ExistingUsers.BuildMock();

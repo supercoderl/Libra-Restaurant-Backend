@@ -7,10 +7,10 @@ using Xunit;
 
 namespace LibraRestaurant.Domain.Tests.CommandHandler.User.UpdateUser;
 
-public sealed class UpdateUserCommandValidationTests :
+public sealed class UpdateItemCommandValidationTests :
     ValidationTestBase<UpdateUserCommand, UpdateUserCommandValidation>
 {
-    public UpdateUserCommandValidationTests() : base(new UpdateUserCommandValidation())
+    public UpdateItemCommandValidationTests() : base(new UpdateUserCommandValidation())
     {
     }
 
@@ -115,13 +115,13 @@ public sealed class UpdateUserCommandValidationTests :
         string? email = null,
         string? firstName = null,
         string? lastName = null,
-        UserRole? role = null)
+        string? mobile = null)
     {
         return new UpdateUserCommand(
             userId ?? Guid.NewGuid(),
             email ?? "test@email.com",
             firstName ?? "test",
             lastName ?? "email",
-            role ?? UserRole.User);
+            mobile ?? "09091234567");
     }
 }

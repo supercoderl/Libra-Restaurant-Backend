@@ -47,7 +47,7 @@ public sealed class DeleteUserCommandHandler : CommandHandlerBase,
             return;
         }
 
-        if (_user.GetUserId() != request.UserId && _user.GetUserRole() != UserRole.Admin)
+        if (_user.GetUserId() != request.UserId)
         {
             await NotifyAsync(
                 new DomainNotification(

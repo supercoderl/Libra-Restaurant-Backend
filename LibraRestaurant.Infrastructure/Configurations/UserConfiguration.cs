@@ -26,6 +26,11 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(MaxLengths.User.LastName);
 
         builder
+            .Property(user => user.Mobile)
+            .IsRequired()
+            .HasMaxLength(MaxLengths.User.Mobile);
+
+        builder
             .Property(user => user.Password)
             .IsRequired()
             .HasMaxLength(MaxLengths.User.Password);
@@ -35,8 +40,9 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
             "admin@email.com",
             "Admin",
             "User",
+            "09091234567",
             // !Password123#
             "$2a$12$Blal/uiFIJdYsCLTMUik/egLbfg3XhbnxBC6Sb5IKz2ZYhiU/MzL2",
-            UserRole.Admin));
+            System.DateTime.Now));
     }
 }

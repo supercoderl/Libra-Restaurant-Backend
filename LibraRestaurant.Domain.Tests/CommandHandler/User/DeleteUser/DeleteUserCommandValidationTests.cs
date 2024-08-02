@@ -5,10 +5,10 @@ using Xunit;
 
 namespace LibraRestaurant.Domain.Tests.CommandHandler.User.DeleteUser;
 
-public sealed class DeleteUserCommandValidationTests :
+public sealed class DeleteItemCommandValidationTests :
     ValidationTestBase<DeleteUserCommand, DeleteUserCommandValidation>
 {
-    public DeleteUserCommandValidationTests() : base(new DeleteUserCommandValidation())
+    public DeleteItemCommandValidationTests() : base(new DeleteUserCommandValidation())
     {
     }
 

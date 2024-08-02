@@ -6,8 +6,9 @@ message GrpcUser {
   string id = 1;
   string firstName = 3;
   string lastName = 4;
-  string email = 5;
-  bool isDeleted = 6;
+  string mobile = 5;
+  string email = 6;
+  bool isDeleted = 7;
 }
 
 message GetUsersByIdsResult {

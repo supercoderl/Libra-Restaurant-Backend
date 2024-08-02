@@ -17,7 +17,7 @@ namespace LibraRestaurant.Infrastructure.Migrations.EventStoreDb
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.8")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -30,6 +30,9 @@ namespace LibraRestaurant.Infrastructure.Migrations.EventStoreDb
 
                     b.Property<Guid>("AggregateId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AggregateNumberId")
+                        .HasColumnType("int");
 
                     b.Property<string>("CorrelationId")
                         .IsRequired()

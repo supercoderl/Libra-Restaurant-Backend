@@ -37,7 +37,8 @@ public sealed class GetUsersByIdsTestFixture : TestFixtureBase
             "user@user.de",
             "User First Name",
             "User Last Name",
+            "09091234567",
             "User Password",
-            UserRole.User);
+            DateTime.Now);
     }
 }

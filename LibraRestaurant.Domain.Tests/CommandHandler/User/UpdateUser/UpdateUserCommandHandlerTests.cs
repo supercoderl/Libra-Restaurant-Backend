@@ -9,9 +9,9 @@ using Xunit;
 
 namespace LibraRestaurant.Domain.Tests.CommandHandler.User.UpdateUser;
 
-public sealed class UpdateUserCommandHandlerTests
+public sealed class UpdateItemCommandHandlerTests
 {
-    private readonly UpdateUserCommandTestFixture _fixture = new();
+    private readonly UpdateItemCommandTestFixture _fixture = new();
 
     [Fact]
     public async Task Should_Update_User()
@@ -23,7 +23,7 @@ public sealed class UpdateUserCommandHandlerTests
             "test@email.com",
             "Test",
             "Email",
-            UserRole.User);
+            "09091234567");
 
         await _fixture.CommandHandler.Handle(command, default);
 
@@ -43,7 +43,7 @@ public sealed class UpdateUserCommandHandlerTests
             "test@email.com",
             "Test",
             "Email",
-            UserRole.User);
+            "09091234567");
 
         await _fixture.CommandHandler.Handle(command, default);
 
@@ -66,7 +66,7 @@ public sealed class UpdateUserCommandHandlerTests
             "test@email.com",
             "Test",
             "Email",
-            UserRole.User);
+            "09091234567");
 
         _fixture.UserRepository
             .GetByEmailAsync(command.Email)
@@ -75,8 +75,9 @@ public sealed class UpdateUserCommandHandlerTests
                 command.Email,
                 "Some",
                 "User",
+                "09091234567",
                 "234fs@#*@#",
-                UserRole.User));
+                DateTime.Now));
 
         await _fixture.CommandHandler.Handle(command, default);
 
@@ -100,12 +101,12 @@ public sealed class UpdateUserCommandHandlerTests
             "test@email.com",
             "Test",
             "Email",
-            UserRole.Admin);
+            "09091234567");
 
         await _fixture.CommandHandler.Handle(command, default);
 
         _fixture.UserRepository.Received(1).Update(Arg.Is<Entities.User>(u =>
-            u.Role == user.Role &&
+            u.Mobile == user.Mobile &&
             u.Id == command.UserId &&
             u.Email == command.Email &&
             u.FirstName == command.FirstName));

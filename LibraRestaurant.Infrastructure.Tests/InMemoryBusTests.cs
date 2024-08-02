@@ -1,9 +1,11 @@
 using System;
 using System.Threading.Tasks;
+using LibraRestaurant.Domain.Commands.MenuItems.DeleteItem;
 using LibraRestaurant.Domain.Commands.Users.DeleteUser;
 using LibraRestaurant.Domain.DomainEvents;
 using LibraRestaurant.Domain.EventHandler.Fanout;
 using LibraRestaurant.Domain.Notifications;
+using LibraRestaurant.Shared.Events.MenuItem;
 using LibraRestaurant.Shared.Events.User;
 using MediatR;
 using NSubstitute;
@@ -42,11 +44,17 @@ public sealed class InMemoryBusTests
 
         var inMemoryBus = new InMemoryBus(mediator, domainEventStore, fanoutEventHandler);
 
-        var userDeletedEvent = new UserDeletedEvent(Guid.NewGuid(), Guid.NewGuid());
+        var userDeletedEvent = new UserDeletedEvent(Guid.NewGuid());
 
         await inMemoryBus.RaiseEventAsync(userDeletedEvent);
 
         await mediator.Received(1).Publish(Arg.Is<UserDeletedEvent>(x => x.Equals(userDeletedEvent)));
+
+        var itemDeletedEvent = new ItemDeletedEvent(0);
+
+        await inMemoryBus.RaiseEventAsync(itemDeletedEvent);
+
+        await mediator.Received(1).Publish(Arg.Is<ItemDeletedEvent>(x => x.Equals(itemDeletedEvent)));
     }
 
     [Fact]
@@ -63,5 +71,11 @@ public sealed class InMemoryBusTests
         await inMemoryBus.SendCommandAsync(deleteUserCommand);
 
         await mediator.Received(1).Send(Arg.Is<DeleteUserCommand>(x => x.Equals(deleteUserCommand)));
+
+        var deleteItemCommand = new DeleteItemCommand(0);
+
+        await inMemoryBus.SendCommandAsync(deleteItemCommand);
+
+        await mediator.Received(1).Send(Arg.Is<DeleteUserCommand>(x => x.Equals(deleteItemCommand)));
     }
 }

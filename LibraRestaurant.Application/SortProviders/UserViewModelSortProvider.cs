@@ -14,8 +14,8 @@ public sealed class UserViewModelSortProvider : ISortingExpressionProvider<UserV
         { "email", user => user.Email },
         { "firstName", user => user.FirstName },
         { "lastName", user => user.LastName },
+        { "mobile", user => user.Mobile },
         { "lastloggedindate", user => user.LastLoggedinDate ?? DateTimeOffset.MinValue },
-        { "role", user => user.Role },
         { "status", user => user.Status }
     };
 

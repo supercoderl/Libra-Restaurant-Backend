@@ -30,6 +30,7 @@ public sealed class UsersContext : IUsersContext
             user.Email,
             user.FirstName,
             user.LastName,
+            user.Mobile,
             user.IsDeleted));
     }
 }

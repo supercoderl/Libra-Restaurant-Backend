@@ -99,4 +99,14 @@ public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : Enti
             _dbContext.Dispose();
         }
     }
+
+    public virtual async Task<TEntity?> GetByIdAsync(int id)
+    {
+        return await DbSet.FindAsync(id);
+    }
+
+    public virtual async Task<bool> ExistsAsync(int id)
+    {
+        return await DbSet.AnyAsync(entity => entity.NumberId == id);
+    }
 }

@@ -6,8 +6,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Protobuf Include="Users\Models.proto" GrpcServices="Both"/>
-        <Protobuf Include="Users\UsersApi.proto" GrpcServices="Both"/>
+      <None Remove="Menus\MenusApi.proto" />
+      <None Remove="Menus\Models.proto" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="Menus\MenusApi.proto" GrpcServices="Both" />
+        <Protobuf Include="Menus\Models.proto" GrpcServices="Both" />
+        <Protobuf Include="Users\Models.proto" GrpcServices="Both" />
+        <Protobuf Include="Users\UsersApi.proto" GrpcServices="Both" />
+        <Protobuf Include="MenuItems\Models.proto" GrpcServices="Both" />
+        <Protobuf Include="MenuItems\ItemsApi.proto" GrpcServices="Both" />
     </ItemGroup>
 
     <ItemGroup>

@@ -28,12 +28,12 @@ public sealed class ChangePasswordCommandTestFixture : CommandHandlerFixtureBase
     {
         var user = new Entities.User(
             Guid.NewGuid(),
-            Guid.NewGuid(),
             "max@mustermann.com",
             "Max",
             "Mustermann",
+            "09091234567",
             BC.HashPassword("z8]tnayvd5FNLU9:]AQm"),
-            UserRole.User);
+            DateTime.Now);
 
         User.GetUserId().Returns(user.Id);
 

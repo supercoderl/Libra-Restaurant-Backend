@@ -12,7 +12,7 @@ public sealed class UpdateUserCommandValidation : AbstractValidator<UpdateUserCo
         AddRuleForEmail();
         AddRuleForFirstName();
         AddRuleForLastName();
-        AddRuleForRole();
+        AddRuleForMobile();
     }
 
     private void AddRuleForId()
@@ -56,11 +56,14 @@ public sealed class UpdateUserCommandValidation : AbstractValidator<UpdateUserCo
             .WithMessage($"LastName may not be longer than {MaxLengths.User.LastName} characters");
     }
 
-    private void AddRuleForRole()
+    private void AddRuleForMobile()
     {
-        RuleFor(cmd => cmd.Role)
-            .IsInEnum()
-            .WithErrorCode(DomainErrorCodes.User.InvalidRole)
-            .WithMessage("Role is not a valid role");
+        RuleFor(cmd => cmd.Mobile)
+            .NotEmpty()
+            .WithErrorCode(DomainErrorCodes.User.EmptyMobile)
+            .WithMessage("Mobile may not be empty")
+            .MaximumLength(MaxLengths.User.Mobile)
+            .WithErrorCode(DomainErrorCodes.User.MobileExceedsMaxLength)
+            .WithMessage($"Mobile may not be longer than {MaxLengths.User.Mobile} characters");
     }
 }

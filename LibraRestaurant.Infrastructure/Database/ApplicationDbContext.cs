@@ -8,6 +8,8 @@ namespace LibraRestaurant.Infrastructure.Database;
 public partial class ApplicationDbContext : DbContext
 {
     public DbSet<User> Users { get; set; } = null!;
+    public DbSet<MenuItem> MenuItems { get; set; } = null!;
+    public DbSet<Menu> Menus { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -39,5 +41,7 @@ public partial class ApplicationDbContext : DbContext
     private static void ApplyConfigurations(ModelBuilder builder)
     {
         builder.ApplyConfiguration(new UserConfiguration());
+        builder.ApplyConfiguration(new MenuItemConfiguration());
+        builder.ApplyConfiguration(new MenuConfiguration());
     }
 }
