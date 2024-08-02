@@ -40,10 +40,10 @@ public sealed class LoginUserCommandHandlerTests
 
         userEmailClaim!.Value.Should().Be(user.Email);
 
-        var userRoleClaim = decodedToken.Claims
+/*        var userRoleClaim = decodedToken.Claims
             .FirstOrDefault(x => string.Equals(x.Type, ClaimTypes.Role));
 
-        userRoleClaim!.Value.Should().Be(user.Role.ToString());
+        userRoleClaim!.Value.Should().Be(user.Role.ToString());*/
     }
 
     [Fact]

@@ -9,9 +9,9 @@ using Xunit;
 
 namespace LibraRestaurant.Domain.Tests.CommandHandler.User.CreateUser;
 
-public sealed class CreateUserCommandHandlerTests
+public sealed class CreateItemCommandHandlerTests
 {
-    private readonly CreateUserCommandTestFixture _fixture = new();
+    private readonly CreateItemCommandTestFixture _fixture = new();
 
     [Fact]
     public async Task Should_Create_User()
@@ -25,6 +25,7 @@ public sealed class CreateUserCommandHandlerTests
             "test@email.com",
             "Test",
             "Email",
+            "09091234567",
             "Po=PF]PC6t.?8?ks)A6W");
 
         await _fixture.CommandHandler.Handle(command, default);
@@ -47,6 +48,7 @@ public sealed class CreateUserCommandHandlerTests
             "test@email.com",
             "Test",
             "Email",
+            "09091234567",
             "Po=PF]PC6t.?8?ks)A6W");
 
         await _fixture.CommandHandler.Handle(command, default);
@@ -72,14 +74,16 @@ public sealed class CreateUserCommandHandlerTests
                 "max@mustermann.com",
                 "Max",
                 "Mustermann",
+                "09091234567",
                 "Password",
-                UserRole.User));
+                DateTime.Now));
 
         var command = new CreateUserCommand(
             Guid.NewGuid(),
             "test@email.com",
             "Test",
             "Email",
+            "09091234567",
             "Po=PF]PC6t.?8?ks)A6W");
 
         await _fixture.CommandHandler.Handle(command, default);
@@ -103,6 +107,7 @@ public sealed class CreateUserCommandHandlerTests
             "test@email.com",
             "Test",
             "Email",
+            "09091234567",
             "Po=PF]PC6t.?8?ks)A6W");
 
         await _fixture.CommandHandler.Handle(command, default);

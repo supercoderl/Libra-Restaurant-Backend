@@ -5,6 +5,8 @@ using LibraRestaurant.Proto.Users;
 using Grpc.Net.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using LibraRestaurant.Proto.MenuItems;
+using LibraRestaurant.Proto.Menus;
 
 namespace LibraRestaurant.gRPC.Extensions;
 
@@ -47,7 +49,15 @@ public static class ServiceCollectionExtensions
         var usersClient = new UsersApi.UsersApiClient(channel);
         services.AddSingleton(usersClient);
 
+        var itemsClient = new ItemsApi.ItemsApiClient(channel);
+        services.AddSingleton(itemsClient);
+
+        var menusClient = new MenusApi.MenusApiClient(channel);
+        services.AddSingleton(menusClient);
+
         services.AddSingleton<IUsersContext, UsersContext>();
+        services.AddSingleton<IMenuItemsContext, MenuItemsContext>();
+        services.AddSingleton<IMenusContext, MenusContext>();
 
         return services;
     }

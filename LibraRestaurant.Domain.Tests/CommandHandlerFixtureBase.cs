@@ -23,7 +23,6 @@ public class CommandHandlerFixtureBase
         User = Substitute.For<IUser>();
 
         User.GetUserId().Returns(Guid.NewGuid());
-        User.GetUserRole().Returns(UserRole.Admin);
 
         UnitOfWork.CommitAsync().Returns(true);
     }

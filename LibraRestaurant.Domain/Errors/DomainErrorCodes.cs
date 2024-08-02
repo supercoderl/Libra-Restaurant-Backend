@@ -1,3 +1,5 @@
+using System.Net.NetworkInformation;
+
 namespace LibraRestaurant.Domain.Errors;
 
 public static class DomainErrorCodes
@@ -8,11 +10,12 @@ public static class DomainErrorCodes
         public const string EmptyId = "USER_EMPTY_ID";
         public const string EmptyFirstName = "USER_EMPTY_FIRST_NAME";
         public const string EmptyLastName = "USER_EMPTY_LAST_NAME";
+        public const string EmptyMobile = "USER_EMPTY_MOBILE";
         public const string EmailExceedsMaxLength = "USER_EMAIL_EXCEEDS_MAX_LENGTH";
         public const string FirstNameExceedsMaxLength = "USER_FIRST_NAME_EXCEEDS_MAX_LENGTH";
         public const string LastNameExceedsMaxLength = "USER_LAST_NAME_EXCEEDS_MAX_LENGTH";
+        public const string MobileExceedsMaxLength = "USER_MOBILE_EXCEEDS_MAX_LENGTH";
         public const string InvalidEmail = "USER_INVALID_EMAIL";
-        public const string InvalidRole = "USER_INVALID_ROLE";
 
         // User Password Validation
         public const string EmptyPassword = "USER_PASSWORD_MAY_NOT_BE_EMPTY";
@@ -26,5 +29,33 @@ public static class DomainErrorCodes
         // General
         public const string AlreadyExists = "USER_ALREADY_EXISTS";
         public const string PasswordIncorrect = "USER_PASSWORD_INCORRECT";
+    }
+
+    public static class MenuItem
+    {
+        // Item Validation
+        public const string EmptyId = "ITEM_EMPTY_ID";
+        public const string EmptyTitle = "ITEM_EMPTY_TITLE";
+        public const string EmptySlug = "ITEM_EMPTY_SLUG";
+        public const string EmptySKU = "ITEM_EMPTY_SKU";
+        public const string EmptyPrice = "ITEM_EMPTY_PRICE";
+        public const string EmptyQuantity = "ITEM_EMPTY_QUANTITY";
+        public const string TitleExceedsMaxLength = "ITEM_TITLE_EXCEEDS_MAX_LENGTH";
+        public const string SlugExceedsMaxLength = "ITEM_SLUG_EXCEEDS_MAX_LENGTH";
+        public const string SKUExceedsMaxLength = "ITEM_SKU_EXCEEDS_MAX_LENGTH";
+
+        // General
+        public const string AlreadyExists = "ITEM_ALREADY_EXISTS";
+    }
+
+    public static class Menu
+    {
+        // Menu Validation
+        public const string EmptyId = "MENU_EMPTY_ID";
+        public const string EmptyName = "MENU_EMPTY_TITLE";
+        public const string EmptyStrore = "MENU_EMPTY_STORE";
+
+        // General
+        public const string AlreadyExists = "ITEM_ALREADY_EXISTS";
     }
 }

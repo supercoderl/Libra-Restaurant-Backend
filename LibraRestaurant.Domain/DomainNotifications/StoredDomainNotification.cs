@@ -25,7 +25,6 @@ public class StoredDomainNotification : DomainNotification
         User = user;
         SerializedData = data;
         CorrelationId = correlationId;
-
         MessageType = domainNotification.MessageType;
     }
 

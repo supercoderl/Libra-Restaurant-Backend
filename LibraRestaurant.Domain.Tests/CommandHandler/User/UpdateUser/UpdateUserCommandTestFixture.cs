@@ -6,12 +6,12 @@ using NSubstitute;
 
 namespace LibraRestaurant.Domain.Tests.CommandHandler.User.UpdateUser;
 
-public sealed class UpdateUserCommandTestFixture : CommandHandlerFixtureBase
+public sealed class UpdateItemCommandTestFixture : CommandHandlerFixtureBase
 {
     public UpdateUserCommandHandler CommandHandler { get; }
     public IUserRepository UserRepository { get; }
 
-    public UpdateUserCommandTestFixture()
+    public UpdateItemCommandTestFixture()
     {
         UserRepository = Substitute.For<IUserRepository>();
 
@@ -30,8 +30,9 @@ public sealed class UpdateUserCommandTestFixture : CommandHandlerFixtureBase
             "max@mustermann.com",
             "Max",
             "Mustermann",
+            "09091234567",
             "Password",
-            UserRole.User);
+            DateTime.Now);
 
         UserRepository
             .GetByIdAsync(Arg.Is<Guid>(y => y == user.Id))
@@ -43,6 +44,5 @@ public sealed class UpdateUserCommandTestFixture : CommandHandlerFixtureBase
     public void SetupCurrentUser(Guid userId)
     {
         User.GetUserId().Returns(userId);
-        User.GetUserRole().Returns(UserRole.User);
     }
 }
