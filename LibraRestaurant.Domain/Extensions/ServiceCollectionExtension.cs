@@ -1,4 +1,10 @@
 
+using LibraRestaurant.Domain.Commands.MenuItems.CreateItem;
+using LibraRestaurant.Domain.Commands.MenuItems.DeleteItem;
+using LibraRestaurant.Domain.Commands.MenuItems.UpdateItem;
+using LibraRestaurant.Domain.Commands.Menus.CreateMenu;
+using LibraRestaurant.Domain.Commands.Menus.DeleteMenu;
+using LibraRestaurant.Domain.Commands.Menus.UpdateMenu;
 using LibraRestaurant.Domain.Commands.Users.ChangePassword;
 using LibraRestaurant.Domain.Commands.Users.CreateUser;
 using LibraRestaurant.Domain.Commands.Users.DeleteUser;
@@ -7,6 +13,8 @@ using LibraRestaurant.Domain.Commands.Users.UpdateUser;
 using LibraRestaurant.Domain.EventHandler;
 using LibraRestaurant.Domain.EventHandler.Fanout;
 using LibraRestaurant.Domain.Interfaces;
+using LibraRestaurant.Shared.Events.Menu;
+using LibraRestaurant.Shared.Events.MenuItem;
 using LibraRestaurant.Shared.Events.User;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +32,16 @@ public static class ServiceCollectionExtension
         services.AddScoped<IRequestHandler<ChangePasswordCommand>, ChangePasswordCommandHandler>();
         services.AddScoped<IRequestHandler<LoginUserCommand, string>, LoginUserCommandHandler>();
 
+        // Item
+        services.AddScoped<IRequestHandler<CreateItemCommand>, CreateItemCommandHandler>();
+        services.AddScoped<IRequestHandler<CreateItemCommand>, CreateItemCommandHandler>();
+        services.AddScoped<IRequestHandler<CreateItemCommand>, CreateItemCommandHandler>();
+
+        // Menu
+        services.AddScoped<IRequestHandler<CreateMenuCommand>, CreateMenuCommandHandler>();
+        services.AddScoped<IRequestHandler<UpdateMenuCommand>, UpdateMenuCommandHandler>();
+        services.AddScoped<IRequestHandler<DeleteMenuCommand>, DeleteMenuCommandHandler>();
+
         return services;
     }
 
@@ -37,6 +55,16 @@ public static class ServiceCollectionExtension
         services.AddScoped<INotificationHandler<UserUpdatedEvent>, UserEventHandler>();
         services.AddScoped<INotificationHandler<UserDeletedEvent>, UserEventHandler>();
         services.AddScoped<INotificationHandler<PasswordChangedEvent>, UserEventHandler>();
+
+        // Item
+        services.AddScoped<INotificationHandler<ItemCreatedEvent>, ItemEventHandler>();
+        services.AddScoped<INotificationHandler<ItemUpdatedEvent>, ItemEventHandler>();
+        services.AddScoped<INotificationHandler<ItemDeletedEvent>, ItemEventHandler>();
+
+        // Menu
+        services.AddScoped<INotificationHandler<MenuCreatedEvent>, MenuEventHandler>();
+        services.AddScoped<INotificationHandler<MenuUpdatedEvent>, MenuEventHandler>();
+        services.AddScoped<INotificationHandler<MenuDeletedEvent>, MenuEventHandler>();
 
         return services;
     }

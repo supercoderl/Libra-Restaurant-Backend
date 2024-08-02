@@ -27,12 +27,12 @@ public sealed class GetAllUsersTestFixture : QueryHandlerBaseFixture
     {
         var user = new User(
             ExistingUserId,
-            Guid.NewGuid(),
             "max@mustermann.com",
             "Max",
             "Mustermann",
+            "09091234567",
             "Password",
-            UserRole.User);
+            DateTime.Now);
 
         var query = new[] { user }.BuildMock();
 
@@ -45,12 +45,12 @@ public sealed class GetAllUsersTestFixture : QueryHandlerBaseFixture
     {
         var user = new User(
             ExistingUserId,
-            Guid.NewGuid(),
             "max@mustermann.com",
             "Max",
             "Mustermann",
+            "09091234567",
             "Password",
-            UserRole.User);
+            DateTime.Now);
 
         user.Delete();
 

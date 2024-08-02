@@ -8,10 +8,10 @@ using Xunit;
 
 namespace LibraRestaurant.Domain.Tests.CommandHandler.User.CreateUser;
 
-public sealed class CreateUserCommandValidationTests :
+public sealed class CreateItemCommandValidationTests :
     ValidationTestBase<CreateUserCommand, CreateUserCommandValidation>
 {
-    public CreateUserCommandValidationTests() : base(new CreateUserCommandValidation())
+    public CreateItemCommandValidationTests() : base(new CreateUserCommandValidation())
     {
     }
 
@@ -182,6 +182,7 @@ public sealed class CreateUserCommandValidationTests :
         string? email = null,
         string? firstName = null,
         string? lastName = null,
+        string? mobile = null,
         string? password = null)
     {
         return new CreateUserCommand(
@@ -189,6 +190,7 @@ public sealed class CreateUserCommandValidationTests :
             email ?? "test@email.com",
             firstName ?? "test",
             lastName ?? "email",
+            mobile ?? "09091234567",
             password ?? "Po=PF]PC6t.?8?ks)A6W");
     }
 }

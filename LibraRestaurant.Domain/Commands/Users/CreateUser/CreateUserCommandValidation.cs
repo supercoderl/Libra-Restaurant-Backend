@@ -13,6 +13,7 @@ public sealed class CreateUserCommandValidation : AbstractValidator<CreateUserCo
         AddRuleForEmail();
         AddRuleForFirstName();
         AddRuleForLastName();
+
         AddRuleForPassword();
     }
 
@@ -55,6 +56,17 @@ public sealed class CreateUserCommandValidation : AbstractValidator<CreateUserCo
             .MaximumLength(MaxLengths.User.LastName)
             .WithErrorCode(DomainErrorCodes.User.LastNameExceedsMaxLength)
             .WithMessage($"LastName may not be longer than {MaxLengths.User.LastName} characters");
+    }
+
+    private void AddRuleForMobile()
+    {
+        RuleFor(cmd => cmd.Mobile)
+            .NotEmpty()
+            .WithErrorCode(DomainErrorCodes.User.EmptyMobile)
+            .WithMessage("Mobile may not be empty")
+            .MaximumLength(MaxLengths.User.Mobile)
+            .WithErrorCode(DomainErrorCodes.User.MobileExceedsMaxLength)
+            .WithMessage($"Mobile may not be longer than {MaxLengths.User.Mobile} characters");
     }
 
     private void AddRuleForPassword()

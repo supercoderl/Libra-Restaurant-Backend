@@ -87,7 +87,7 @@ public sealed class LoginUserCommandHandler : CommandHandlerBase,
         var claims = new[]
         {
             new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.Role.ToString()),
+            new Claim(ClaimTypes.MobilePhone, user.Mobile),
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.FullName)
         };

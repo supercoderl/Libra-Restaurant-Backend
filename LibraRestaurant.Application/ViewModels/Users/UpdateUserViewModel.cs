@@ -8,4 +8,4 @@ public sealed record UpdateUserViewModel(
     string Email,
     string FirstName,
     string LastName,
-    UserRole Role);
+    string Mobile);
