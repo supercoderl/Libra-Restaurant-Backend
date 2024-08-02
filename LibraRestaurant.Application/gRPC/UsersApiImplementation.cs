@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LibraRestaurant.Domain.Interfaces.Repositories;
-using LibraRestaurant.Proto.Users;
 using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
 

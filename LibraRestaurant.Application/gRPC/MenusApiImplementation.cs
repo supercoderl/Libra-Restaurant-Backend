@@ -1,7 +1,5 @@
 ﻿using Grpc.Core;
 using LibraRestaurant.Domain.Interfaces.Repositories;
-using LibraRestaurant.Proto.Menus;
-using LibraRestaurant.Proto.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
