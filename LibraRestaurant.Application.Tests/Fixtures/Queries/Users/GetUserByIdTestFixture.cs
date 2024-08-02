@@ -26,12 +26,12 @@ public sealed class GetUserByIdTestFixture : QueryHandlerBaseFixture
     {
         var user = new User(
             ExistingUserId,
-            Guid.NewGuid(),
             "max@mustermann.com",
             "Max",
             "Mustermann",
+            "09091234567",
             "Password",
-            UserRole.User);
+            DateTime.Now);
 
         UserRepository.GetByIdAsync(Arg.Is<Guid>(y => y == ExistingUserId)).Returns(user);
     }
@@ -40,12 +40,12 @@ public sealed class GetUserByIdTestFixture : QueryHandlerBaseFixture
     {
         var user = new User(
             ExistingUserId,
-            Guid.NewGuid(),
             "max@mustermann.com",
             "Max",
             "Mustermann",
+            "09091234567",
             "Password",
-            UserRole.User);
+            DateTime.Now);
 
         user.Delete();
 

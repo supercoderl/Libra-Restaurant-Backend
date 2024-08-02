@@ -31,6 +31,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\LibraRestaurant.Api\LibraRestaurant.Api.csproj" />
+        <ProjectReference Include="..\LibraRestaurant.gRPC.Tests\LibraRestaurant.gRPC.Tests.csproj" />
         <ProjectReference Include="..\LibraRestaurant.Infrastructure\LibraRestaurant.Infrastructure.csproj" />
     </ItemGroup>
 

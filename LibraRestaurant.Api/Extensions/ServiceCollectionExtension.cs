@@ -22,7 +22,7 @@ public static class ServiceCollectionExtension
             {
                 Title = "LibraRestaurant",
                 Version = "v1",
-                Description = "A clean architecture API"
+                Description = "Effective management system for branches and restaurant operations."
             });
 
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

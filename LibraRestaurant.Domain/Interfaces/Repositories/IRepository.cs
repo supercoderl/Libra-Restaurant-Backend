@@ -17,10 +17,12 @@ public interface IRepository<TEntity> : IDisposable where TEntity : Entity
     IQueryable<TEntity> GetAllNoTracking();
 
     Task<TEntity?> GetByIdAsync(Guid id);
+    Task<TEntity?> GetByIdAsync(int id);
 
     void Update(TEntity entity);
 
     Task<bool> ExistsAsync(Guid id);
+    Task<bool> ExistsAsync(int id);
     public void Remove(TEntity entity, bool hardDelete = false);
     void RemoveRange(IEnumerable<TEntity> entities, bool hardDelete = false);
 }

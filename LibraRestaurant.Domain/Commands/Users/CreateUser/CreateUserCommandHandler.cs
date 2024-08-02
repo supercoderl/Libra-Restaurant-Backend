@@ -38,7 +38,7 @@ public sealed class CreateUserCommandHandler : CommandHandlerBase,
 
         var currentUser = await _userRepository.GetByIdAsync(_user.GetUserId());
 
-        if (currentUser is null || currentUser.Role != UserRole.Admin)
+        if (currentUser is null)
         {
             await NotifyAsync(
                 new DomainNotification(
@@ -79,8 +79,9 @@ public sealed class CreateUserCommandHandler : CommandHandlerBase,
             request.Email,
             request.FirstName,
             request.LastName,
+            request.Mobile,
             passwordHash,
-            UserRole.User);
+            System.DateTime.Now);
 
         _userRepository.Add(user);
 

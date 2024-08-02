@@ -7,9 +7,9 @@ using Xunit;
 
 namespace LibraRestaurant.Domain.Tests.CommandHandler.User.DeleteUser;
 
-public sealed class DeleteUserCommandHandlerTests
+public sealed class DeleteItemCommandHandlerTests
 {
-    private readonly DeleteUserCommandTestFixture _fixture = new();
+    private readonly DeleteItemCommandTestFixture _fixture = new();
 
     [Fact]
     public async Task Should_Delete_User()
@@ -48,8 +48,6 @@ public sealed class DeleteUserCommandHandlerTests
     public async Task Should_Not_Delete_User_Insufficient_Permissions()
     {
         var user = _fixture.SetupUser();
-
-        _fixture.SetupCurrentUser();
 
         var command = new DeleteUserCommand(user.Id);
 

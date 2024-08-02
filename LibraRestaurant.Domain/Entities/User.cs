@@ -9,8 +9,9 @@ public class User : Entity
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
     public string Password { get; private set; }
-    public UserRole Role { get; private set; }
+    public string Mobile {  get; private set; }
     public UserStatus Status { get; private set; }
+    public DateTime RegisteredAt { get; private set; }
     public DateTimeOffset? LastLoggedinDate { get; private set; }
 
     public string FullName => $"{FirstName}, {LastName}";
@@ -20,15 +21,17 @@ public class User : Entity
         string email,
         string firstName,
         string lastName,
+        string mobile,
         string password,
-        UserRole role,
+        DateTime registeredAt,
         UserStatus status = UserStatus.Active) : base(id)
     {
         Email = email;
         FirstName = firstName;
         LastName = lastName;
+        Mobile = mobile;
         Password = password;
-        Role = role;
+        RegisteredAt = registeredAt;
         Status = status;
     }
 
@@ -47,14 +50,19 @@ public class User : Entity
         LastName = lastName;
     }
 
+    public void SetMobile(string mobile)
+    {
+        Mobile = mobile;
+    }
+
     public void SetPassword(string password)
     {
         Password = password;
     }
 
-    public void SetRole(UserRole role)
+    public void SetRegisteredAt()
     {
-        Role = role;
+        RegisteredAt = DateTime.Now;
     }
 
     public void SetLastLoggedinDate(DateTimeOffset lastLoggedinDate)

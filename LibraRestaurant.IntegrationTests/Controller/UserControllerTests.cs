@@ -44,7 +44,7 @@ public sealed class UserControllerTests : IClassFixture<UserTestFixture>
 
         var currentUser = content.First(x => x.Id == TestAuthenticationOptions.TestUserId);
 
-        currentUser.Role.Should().Be(UserRole.Admin);
+        currentUser.Mobile.Should().Be(TestAuthenticationOptions.Mobile);
         currentUser.Email.Should().Be(TestAuthenticationOptions.Email);
         currentUser.FirstName.Should().Be(TestAuthenticationOptions.FirstName);
         currentUser.LastName.Should().Be(TestAuthenticationOptions.LastName);
@@ -78,7 +78,9 @@ public sealed class UserControllerTests : IClassFixture<UserTestFixture>
             "some@user.com",
             "Test",
             "Email",
-            "1234#KSAD23s");
+            "09091234567",
+            "1234#KSAD23s",
+            DateTime.Now);
 
         var response = await _fixture.ServerClient.PostAsJsonAsync("/api/v1/user", user);
 
@@ -133,7 +135,7 @@ public sealed class UserControllerTests : IClassFixture<UserTestFixture>
             "newtest@email.com",
             "NewTest",
             "NewEmail",
-            UserRole.User);
+            "09091234567");
 
         var response = await _fixture.ServerClient.PutAsJsonAsync("/api/v1/user", user);
 
@@ -162,7 +164,7 @@ public sealed class UserControllerTests : IClassFixture<UserTestFixture>
         userContent.Email.Should().Be(user.Email);
         userContent.FirstName.Should().Be(user.FirstName);
         userContent.LastName.Should().Be(user.LastName);
-        userContent.Role.Should().Be(user.Role);
+        userContent.Mobile.Should().Be(user.Mobile);
     }
 
     [Fact]

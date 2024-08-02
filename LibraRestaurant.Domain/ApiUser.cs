@@ -38,7 +38,7 @@ public sealed class ApiUser : IUser
         throw new ArgumentException("Could not parse user id to guid");
     }
 
-    public UserRole GetUserRole()
+/*    public UserRole GetUserRole()
     {
         var claim = _httpContextAccessor.HttpContext?.User.Claims
             .FirstOrDefault(x => string.Equals(x.Type, ClaimTypes.Role));
@@ -49,7 +49,7 @@ public sealed class ApiUser : IUser
         }
 
         throw new ArgumentException("Could not parse user role");
-    }
+    }*/
 
     public string Name
     {

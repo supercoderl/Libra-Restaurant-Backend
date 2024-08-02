@@ -46,7 +46,7 @@ public sealed class UpdateUserCommandHandler : CommandHandlerBase,
             return;
         }
 
-        if (_user.GetUserId() != request.UserId && _user.GetUserRole() != UserRole.Admin)
+        if (_user.GetUserId() != request.UserId)
         {
             await NotifyAsync(
                 new DomainNotification(
@@ -70,11 +70,6 @@ public sealed class UpdateUserCommandHandler : CommandHandlerBase,
                         DomainErrorCodes.User.AlreadyExists));
                 return;
             }
-        }
-
-        if (_user.GetUserRole() == UserRole.Admin)
-        {
-            user.SetRole(request.Role);
         }
 
         user.SetEmail(request.Email);

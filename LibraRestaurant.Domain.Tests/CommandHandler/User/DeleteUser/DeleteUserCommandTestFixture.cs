@@ -6,12 +6,12 @@ using NSubstitute;
 
 namespace LibraRestaurant.Domain.Tests.CommandHandler.User.DeleteUser;
 
-public sealed class DeleteUserCommandTestFixture : CommandHandlerFixtureBase
+public sealed class DeleteItemCommandTestFixture : CommandHandlerFixtureBase
 {
     public DeleteUserCommandHandler CommandHandler { get; }
     private IUserRepository UserRepository { get; }
 
-    public DeleteUserCommandTestFixture()
+    public DeleteItemCommandTestFixture()
     {
         UserRepository = Substitute.For<IUserRepository>();
 
@@ -27,22 +27,17 @@ public sealed class DeleteUserCommandTestFixture : CommandHandlerFixtureBase
     {
         var user = new Entities.User(
             Guid.NewGuid(),
-            Guid.NewGuid(),
             "max@mustermann.com",
             "Max",
             "Mustermann",
+            "09091234567",
             "Password",
-            UserRole.User);
+            DateTime.Now);
 
         UserRepository
             .GetByIdAsync(Arg.Is<Guid>(y => y == user.Id))
             .Returns(user);
 
         return user;
-    }
-
-    public void SetupCurrentUser()
-    {
-        User.GetUserRole().Returns(UserRole.User);
     }
 }

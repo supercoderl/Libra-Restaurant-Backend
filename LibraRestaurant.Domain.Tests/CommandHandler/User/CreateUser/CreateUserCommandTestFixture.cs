@@ -6,12 +6,12 @@ using NSubstitute;
 
 namespace LibraRestaurant.Domain.Tests.CommandHandler.User.CreateUser;
 
-public sealed class CreateUserCommandTestFixture : CommandHandlerFixtureBase
+public sealed class CreateItemCommandTestFixture : CommandHandlerFixtureBase
 {
     public CreateUserCommandHandler CommandHandler { get; }
     public IUserRepository UserRepository { get; }
 
-    public CreateUserCommandTestFixture()
+    public CreateItemCommandTestFixture()
     {
         UserRepository = Substitute.For<IUserRepository>();
 
@@ -30,8 +30,9 @@ public sealed class CreateUserCommandTestFixture : CommandHandlerFixtureBase
             "max@mustermann.com",
             "Max",
             "Mustermann",
+            "09091234567",
             "Password",
-            UserRole.User);
+            DateTime.Now);
 
         UserRepository
             .GetByIdAsync(Arg.Is<Guid>(y => y == user.Id))
@@ -53,7 +54,8 @@ public sealed class CreateUserCommandTestFixture : CommandHandlerFixtureBase
                 "some email",
                 "some first name",
                 "some last name",
+                "some mobile",
                 "some password",
-                UserRole.Admin));
+                DateTime.Now));
     }
 }

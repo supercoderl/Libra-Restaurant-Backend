@@ -7,4 +7,5 @@ public sealed record UserViewModel(
     string Email,
     string FirstName,
     string LastName,
+    string Mobile,
     bool IsDeleted);

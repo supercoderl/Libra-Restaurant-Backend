@@ -38,12 +38,12 @@ public sealed class LoginUserCommandTestFixture : CommandHandlerFixtureBase
     {
         var user = new Entities.User(
             Guid.NewGuid(),
-            Guid.NewGuid(),
             "max@mustermann.com",
             "Max",
             "Mustermann",
+            "01234567090",
             BC.HashPassword("z8]tnayvd5FNLU9:]AQm"),
-            UserRole.User);
+            DateTime.Now);
 
         User.GetUserId().Returns(user.Id);
 

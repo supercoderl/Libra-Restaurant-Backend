@@ -54,6 +54,7 @@ public sealed class UserService : IUserService
             user.Email,
             user.FirstName,
             user.LastName,
+            user.Mobile,
             user.Password));
 
         return userId;
@@ -66,7 +67,7 @@ public sealed class UserService : IUserService
             user.Email,
             user.FirstName,
             user.LastName,
-            user.Role));
+            user.Mobile));
     }
 
     public async Task DeleteUserAsync(Guid userId)

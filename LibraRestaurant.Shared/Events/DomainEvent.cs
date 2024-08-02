@@ -12,7 +12,17 @@ public abstract class DomainEvent : Message, INotification
         Timestamp = DateTime.Now;
     }
 
+    protected DomainEvent(int aggregateNumberId) : base(aggregateNumberId)
+    {
+        Timestamp = DateTime.Now;
+    }
+
     protected DomainEvent(Guid aggregateId, string? messageType) : base(aggregateId, messageType)
+    {
+        Timestamp = DateTime.Now;
+    }
+
+    protected DomainEvent(int aggregateNumberId, string? messageType) : base(aggregateNumberId, messageType)
     {
         Timestamp = DateTime.Now;
     }

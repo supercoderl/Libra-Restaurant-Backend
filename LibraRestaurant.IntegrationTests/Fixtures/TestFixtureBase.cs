@@ -44,16 +44,18 @@ public class TestFixtureBase : IAsyncLifetime
             "admin@email.com",
             "Admin",
             "User",
+            "09091234567",
             "$2a$12$Blal/uiFIJdYsCLTMUik/egLbfg3XhbnxBC6Sb5IKz2ZYhiU/MzL2",
-            UserRole.Admin));
+            DateTime.Now));
 
         dbContext.Users.Add(new User(
             TestAuthenticationOptions.TestUserId,
             TestAuthenticationOptions.Email,
             TestAuthenticationOptions.FirstName,
             TestAuthenticationOptions.LastName,
+            TestAuthenticationOptions.Mobile,
             TestAuthenticationOptions.Password,
-            UserRole.Admin));
+            DateTime.Now));
 
         SeedTestData(dbContext);
         await dbContext.SaveChangesAsync();
