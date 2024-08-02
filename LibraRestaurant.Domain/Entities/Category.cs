@@ -31,7 +31,7 @@ namespace LibraRestaurant.Domain.Entities
             Name = name;
         }
 
-        public void SetDescription(string description )
+        public void SetDescription(string? description )
         {
             Description = description;
         }
