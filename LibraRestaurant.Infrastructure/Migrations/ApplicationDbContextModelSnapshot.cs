@@ -25,6 +25,88 @@ namespace LibraRestaurant.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            Deleted = false,
+                            Id = new Guid("00000000-0000-0000-0000-000000000000"),
+                            IsActive = true,
+                            Name = "Món chính",
+                            NumberId = 1
+                        });
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Currency", b =>
+                {
+                    b.Property<int>("CurrencyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CurrencyId"));
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CurrencyId");
+
+                    b.ToTable("Currencies");
+
+                    b.HasData(
+                        new
+                        {
+                            CurrencyId = 1,
+                            Deleted = false,
+                            Id = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Name = "Việt Nam đồng",
+                            NumberId = 1
+                        });
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Menu", b =>
                 {
                     b.Property<int>("MenuId")
@@ -68,7 +150,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                             IsActive = true,
                             Name = "Menu nhà hàng Libra chi nhánh 1",
                             NumberId = 1,
-                            StoreId = new Guid("27fa6d40-b6d2-4dde-a444-165c825c1a55")
+                            StoreId = new Guid("33285ff4-f459-4fff-851a-b21d61e5f3ad")
                         });
                 });
 
@@ -98,6 +180,9 @@ namespace LibraRestaurant.Infrastructure.Migrations
 
                     b.Property<int>("NumberId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Picture")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("money");
@@ -136,7 +221,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         new
                         {
                             ItemId = 1,
-                            CreatedAt = new DateTime(2024, 8, 2, 15, 29, 2, 305, DateTimeKind.Local).AddTicks(7667),
+                            CreatedAt = new DateTime(2024, 8, 11, 20, 28, 11, 89, DateTimeKind.Local).AddTicks(9698),
                             Deleted = false,
                             Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             Instruction = "Ngon hơn khi dùng nóng",
@@ -148,6 +233,223 @@ namespace LibraRestaurant.Infrastructure.Migrations
                             Slug = "nem-lui-nuong-mia",
                             Summary = "Nem lụi được biết đến là đặc sản của vùng đất kinh kỳ đồng thời là lựa chọn mà mọi tín đồ yêu thích ẩm thực không thể bỏ qua. Món ăn hấp dẫn ngay từ cái nhìn đầu tiên với màu sắc vàng ươm cùng mùi vị thơm lừng sau khi được nướng lên. Thực khách sẽ cảm nhận trọn vẹn vị đậm đà pha chút mềm dai của thịt heo, giò sống hài hòa với các gia vị đặc biệt. Thêm vào đó, Nem lụi TASTY còn ngon hơn khi dùng kèm bánh tráng, bún tươi, rau sống và nước chấm sền sệt, vị bùi ngậy do chính các đầu bếp TASTY sáng tạo.",
                             Title = "Nem lụi nướng mía"
+                        });
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.OrderHeader", b =>
+                {
+                    b.Property<Guid>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CanceledReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CanceledTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CashierId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CompletedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CustomerNotes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DelayedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsCanceled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPreparationDelayed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsReady")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LatestStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LatestStatusUpdate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OrderNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PaymentMethodId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PaymentTimeId")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("PriceAdjustment")
+                        .HasColumnType("float");
+
+                    b.Property<string>("PriceAdjustmentReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("PriceCalculated")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("ReadyTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ReservationId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ServantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Subtotal")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Tax")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Total")
+                        .HasColumnType("float");
+
+                    b.HasKey("OrderId");
+
+                    b.ToTable("OrderHeaders");
+
+                    b.HasData(
+                        new
+                        {
+                            OrderId = new Guid("a23aa816-d99a-4f80-bc99-3855450fdfe0"),
+                            CashierId = new Guid("2da0f2ad-20a6-4c88-a8ec-b223e731af52"),
+                            Deleted = false,
+                            Id = new Guid("a23aa816-d99a-4f80-bc99-3855450fdfe0"),
+                            IsCanceled = false,
+                            IsCompleted = false,
+                            IsPaid = false,
+                            IsPreparationDelayed = false,
+                            IsReady = true,
+                            LatestStatus = "",
+                            LatestStatusUpdate = "",
+                            NumberId = 0,
+                            OrderNo = "00000001",
+                            PaymentMethodId = 1,
+                            PaymentTimeId = 1,
+                            PriceCalculated = 1000000.0,
+                            ReadyTime = new DateTime(2024, 8, 11, 20, 28, 11, 90, DateTimeKind.Local).AddTicks(4696),
+                            ReservationId = 1,
+                            ServantId = new Guid("983c799b-df0b-42b8-9ed9-9b483d3be7a7"),
+                            StoreId = new Guid("8a0af2be-f3b9-439b-bbfa-71579a3a185b"),
+                            Subtotal = 1000000.0,
+                            Tax = 10.0,
+                            Total = 1100000.0
+                        });
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Store", b =>
+                {
+                    b.Property<Guid>("StoreId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BankAccount")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BankBranch")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BankCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("DistrictId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Fax")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GpsLocation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Logo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TaxCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("WardId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("StoreId");
+
+                    b.ToTable("Stores");
+
+                    b.HasData(
+                        new
+                        {
+                            StoreId = new Guid("a23aa816-d99a-4f80-bc99-3855450fdfe0"),
+                            Address = "",
+                            CityId = 1,
+                            Deleted = false,
+                            DistrictId = 1,
+                            Id = new Guid("a23aa816-d99a-4f80-bc99-3855450fdfe0"),
+                            IsActive = true,
+                            Name = "Nhà hàng Libra - Chi nhánh 1",
+                            NumberId = 0,
+                            WardId = 1
                         });
                 });
 
@@ -204,7 +506,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7a084978-d224-4669-8198-7a0c03a66d82"),
+                            Id = new Guid("a23aa816-d99a-4f80-bc99-3855450fdfe0"),
                             Deleted = false,
                             Email = "admin@email.com",
                             FirstName = "Admin",
@@ -212,7 +514,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                             Mobile = "09091234567",
                             NumberId = 0,
                             Password = "$2a$12$Blal/uiFIJdYsCLTMUik/egLbfg3XhbnxBC6Sb5IKz2ZYhiU/MzL2",
-                            RegisteredAt = new DateTime(2024, 8, 2, 15, 29, 2, 305, DateTimeKind.Local).AddTicks(6019),
+                            RegisteredAt = new DateTime(2024, 8, 11, 20, 28, 11, 89, DateTimeKind.Local).AddTicks(7764),
                             Status = 0
                         });
                 });

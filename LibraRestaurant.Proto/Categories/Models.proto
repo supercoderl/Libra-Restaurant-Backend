@@ -10,7 +10,7 @@ message GrpcCategory {
   bool isDeleted = 5;
 }
 
-message GetCategoiesByIdsResult {
+message GetCategoriesByIdsResult {
   repeated GrpcCategory categories = 1;
 }
 

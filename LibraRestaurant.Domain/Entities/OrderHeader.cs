@@ -55,8 +55,8 @@ namespace LibraRestaurant.Domain.Entities
             string latestStatus,
             string latestStatusUpdate,
             bool isPaid,
-            bool isPreparationDelay,
-            DateTime? delayTime,
+            bool isPreparationDelayed,
+            DateTime? delayedTime,
             bool isCanceled,
             DateTime? canceledTime,
             string? canceledReason,
@@ -84,8 +84,8 @@ namespace LibraRestaurant.Domain.Entities
             LatestStatus = latestStatus;
             LatestStatusUpdate = latestStatusUpdate;
             IsPaid = isPaid;
-            IsPreparationDelayed = isPreparationDelay;
-            DelayedTime = delayTime;
+            IsPreparationDelayed = isPreparationDelayed;
+            DelayedTime = delayedTime;
             IsCanceled = isCanceled;
             CanceledTime = canceledTime;
             CanceledReason = canceledReason;
@@ -180,9 +180,9 @@ namespace LibraRestaurant.Domain.Entities
             IsPaid = isPaid;
         }
 
-        public void SetIsPreparationDelay( bool isPreparationDelay )
+        public void SetIsPreparationDelayed( bool isPreparationDelayed )
         {
-            IsPreparationDelayed = isPreparationDelay;
+            IsPreparationDelayed = isPreparationDelayed;
         }
 
         public void SetDelayTime( DateTime? delayTime )
@@ -195,14 +195,14 @@ namespace LibraRestaurant.Domain.Entities
             IsCanceled = isCanceled;
         }
 
-        public void SetCancelTime( DateTime? cancelTime )
+        public void SetCancelTime( DateTime? canceledTime )
         {
-            CanceledTime = cancelTime;
+            CanceledTime = canceledTime;
         }
 
-        public void SetCanceledReason( string? cancelReason )
+        public void SetCanceledReason( string? canceledReason )
         {
-            CanceledReason = cancelReason;
+            CanceledReason = canceledReason;
         }
 
         public void SetIsReady( bool isReady )

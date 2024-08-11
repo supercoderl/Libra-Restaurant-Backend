@@ -15,6 +15,7 @@ namespace LibraRestaurant.Application.ViewModels.MenuItems
         double Price,
         int Quantity,
         string? Recipe,
-        string? Instruction
+        string? Instruction,
+        string? Base64
     );
 }

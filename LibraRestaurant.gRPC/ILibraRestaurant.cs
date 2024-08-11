@@ -9,4 +9,5 @@ public interface ILibraRestaurant
     IMenusContext Menus { get; }
     ICategoriesContext Categories { get; }
     ICurrenciesContext Currencies { get; }
+    IOrdersContext Orders { get; }
 }

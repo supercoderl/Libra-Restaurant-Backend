@@ -19,14 +19,22 @@ namespace LibraRestaurant.Application.Services
     public sealed class MenuItemService : IMenuItemService
     {
         private readonly IMediatorHandler _bus;
+        private readonly IImageService _imageService;
 
-        public MenuItemService(IMediatorHandler bus)
+        public MenuItemService(IMediatorHandler bus, IImageService imageService)
         {
             _bus = bus;
+            _imageService = imageService;
         }
 
         public async Task<int> CreateItemAsync(CreateItemViewModel item)
         {
+            string? path = null;
+            if(item.Base64 is not null)
+            {
+                path = await _imageService.UploadFile(item.Base64, string.Concat("Product-", DateTime.Now.Date.ToString("dd-MM-yyyy")), "Restaurant/Items");
+            }
+
             await _bus.SendCommandAsync(new CreateItemCommand(
                 0,
                 item.Title,
@@ -36,7 +44,8 @@ namespace LibraRestaurant.Application.Services
                 item.Price,
                 item.Quantity,
                 item.Recipe,
-                item.Instruction
+                item.Instruction,
+                path
             ));
 
             return 0;
@@ -59,6 +68,12 @@ namespace LibraRestaurant.Application.Services
 
         public async Task UpdateItemAsync(UpdateItemViewModel item)
         {
+            string? path = null;
+            if (item.Base64 is not null)
+            {
+                path = await _imageService.UploadFile(item.Base64, string.Concat("Product-", DateTime.Now.Date.ToString("dd-MM-yyyy")), "Restaurant/Items");
+            }
+
             await _bus.SendCommandAsync(new UpdateItemCommand(
                 item.ItemId,
                 item.Title,
@@ -68,6 +83,7 @@ namespace LibraRestaurant.Application.Services
                 item.Price,
                 item.Quantity,
                 item.Recipe,
+                path,
                 item.Instruction
             ));
         }

@@ -1,9 +1,16 @@
 ﻿using LibraRestaurant.gRPC.Contexts;
 using LibraRestaurant.gRPC.Interfaces;
 using LibraRestaurant.gRPC.Models;
-using Grpc.Net.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using LibraRestaurant.Proto.Users;
+using LibraRestaurant.Proto.MenuItems;
+using LibraRestaurant.Proto.Menus;
+using LibraRestaurant.Proto.Categories;
+using LibraRestaurant.Proto.Currencies;
+using Grpc.Net.Client;
+using LibraRestaurant.Proto.Orders;
+using LibraRestaurant.Proto.Stores;
 
 namespace LibraRestaurant.gRPC.Extensions;
 
@@ -58,11 +65,19 @@ public static class ServiceCollectionExtensions
         var currenciesClient = new CurrenciesApi.CurrenciesApiClient(channel);
         services.AddSingleton(currenciesClient);
 
+        var ordersClient = new OrdersApi.OrdersApiClient(channel);
+        services.AddSingleton(ordersClient);
+
+        var storesClient = new StoresApi.StoresApiClient(channel);
+        services.AddSingleton(storesClient);
+
         services.AddSingleton<IUsersContext, UsersContext>();
         services.AddSingleton<IMenuItemsContext, MenuItemsContext>();
         services.AddSingleton<IMenusContext, MenusContext>();
         services.AddSingleton<ICategoriesContext, CategoriesContext>();
         services.AddSingleton<ICurrenciesContext, CurrenciesContext>();
+        services.AddSingleton<IOrdersContext, OrdersContext>();
+        services.AddSingleton<IStoresContext, StoresContext>();
 
         return services;
     }

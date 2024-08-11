@@ -50,6 +50,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IMenuRepository, MenuRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IStoreRepository, StoreRepository>();
 
         return services;
     }

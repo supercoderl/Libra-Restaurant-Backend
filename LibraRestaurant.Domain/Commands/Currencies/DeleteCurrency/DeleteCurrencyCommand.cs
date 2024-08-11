@@ -1,4 +1,5 @@
-﻿using LibraRestaurant.Domain.Commands.Users.DeleteUser;
+﻿using LibraRestaurant.Domain.Commands.Categories.DeleteCurrency;
+using LibraRestaurant.Domain.Commands.Users.DeleteUser;
 using System;
 using System.Collections.Generic;
 using System.Linq;

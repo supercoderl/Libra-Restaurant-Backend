@@ -13,6 +13,7 @@ namespace LibraRestaurant.Domain.Entities
         public string Slug { get; private set; }
         public string? Summary { get; private set; }
         public string SKU { get; private set; }
+        public string? Picture { get; private set; }
         public double Price { get; private set; }
         public int Quantity { get; private set; }
         public string? Recipe { get; private set; }
@@ -26,6 +27,7 @@ namespace LibraRestaurant.Domain.Entities
             string slug,
             string? summary,
             string sKU,
+            string? picture,
             double price,
             int quantity,
             string? recipe,
@@ -39,6 +41,7 @@ namespace LibraRestaurant.Domain.Entities
             Slug = slug;
             Summary = summary;
             SKU = sKU;
+            Picture = picture;
             Price = price;
             Quantity = quantity;
             Recipe = recipe;
@@ -65,6 +68,11 @@ namespace LibraRestaurant.Domain.Entities
         public void SetSKU(string sKU)
         {
             SKU = sKU;
+        }
+
+        public void SetPicture(string? picture)
+        {
+            Picture = picture;
         }
 
         public void SetPrice(double price)

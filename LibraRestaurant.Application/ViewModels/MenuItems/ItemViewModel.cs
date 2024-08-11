@@ -14,6 +14,7 @@ namespace LibraRestaurant.Application.ViewModels.MenuItems
         public string Slug { get; set; } = string.Empty;
         public string? Summary {  get; set; }
         public string SKU { get; set; } = string.Empty;
+        public string? Picture { get; set; }
         public double Price { get; set; }
         public int Quantity { get; set; }
         public string? Recipe { get; set; }
@@ -30,6 +31,7 @@ namespace LibraRestaurant.Application.ViewModels.MenuItems
                 Slug = item.Slug,
                 Summary = item.Summary,
                 SKU = item.SKU,
+                Picture = item.Picture,
                 Price = item.Price,
                 Quantity = item.Quantity,
                 Recipe = item.Recipe,
