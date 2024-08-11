@@ -20,6 +20,7 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.CreateItem
         public int Quantity { get; }
         public string? Recipe {  get; }
         public string? Instruction { get; }
+        public string? Picture { get; }
 
         public CreateItemCommand(
             int itemId,
@@ -30,7 +31,8 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.CreateItem
             double price,
             int quantity,
             string? recipe,
-            string? instruction
+            string? instruction,
+            string? picture
         ) : base(itemId)
         {
             ItemId = itemId;
@@ -42,6 +44,7 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.CreateItem
             Quantity = quantity;
             Recipe = recipe;
             Instruction = instruction;
+            Picture = picture;
         }
 
         public override bool IsValid()

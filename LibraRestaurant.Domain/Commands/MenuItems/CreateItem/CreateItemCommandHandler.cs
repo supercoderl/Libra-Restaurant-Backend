@@ -43,6 +43,7 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.CreateItem
                 request.Slug,
                 request.Summary,
                 request.SKU,
+                request.Picture,
                 request.Price,
                 request.Quantity,
                 request.Recipe,

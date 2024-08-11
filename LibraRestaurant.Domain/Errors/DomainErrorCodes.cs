@@ -78,4 +78,36 @@ public static class DomainErrorCodes
         // General
         public const string AlreadyExists = "CURRENCY_ALREADY_EXISTS";
     }
+
+    public static class Order
+    {
+        // Order Validation
+        public const string EmptyId = "ORDER_EMPTY_ID";
+        public const string EmptyOrderNo = "ORDER_EMPTY_ORDER_NO";
+        public const string EmptyStore = "ORDER_EMPTY_STORE_ID";
+        public const string EmptyServant = "ORDER_EMPTY_SERVANT_ID";
+        public const string EmptyCashier = "ORDER_EMPTY_CASHIER_ID";
+        public const string EmptyReservation = "ORDER_EMPTY_RESERVATION_ID";
+        public const string EmptyPriceCalculated = "ORDER_EMPTY_PRICE_CALCULATED";
+        public const string EmptySubtotal = "ORDER_EMPTY_SUBTOTAL";
+        public const string EmptyTax = "ORDER_EMPTY_TAX";
+        public const string EmptyTotal = "ORDER_EMPTY_TOTAL";
+
+        // General
+        public const string AlreadyExists = "ORDER_ALREADY_EXISTS";
+    }
+
+    public static class Store
+    {
+        // Store Validation
+        public const string EmptyId = "STORE_EMPTY_ID";
+        public const string EmptyName = "STORE_EMPTY_NAME";
+        public const string EmptyCity = "STORE_EMPTY_CITY_ID";
+        public const string EmptyDistrict = "STORE_EMPTY_DISTRICT_ID";
+        public const string EmptyWard = "STORE_EMPTY_WARD_ID";
+        public const string EmptyAddress = "STORE_EMPTY_ADDRESS";
+
+        // General
+        public const string AlreadyExists = "STORE_ALREADY_EXISTS";
+    }
 }

@@ -10,8 +10,10 @@ public partial class ApplicationDbContext : DbContext
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<MenuItem> MenuItems { get; set; } = null!;
     public DbSet<Menu> Menus { get; set; } = null!;
-    public DbSet<Category> Categories { get; set; }
-    public DbSet<Currency> Currencies { get; set; }
+    public DbSet<Category> Categories { get; set; } = null!;
+    public DbSet<Currency> Currencies { get; set; } = null!;
+    public DbSet<OrderHeader> OrderHeaders { get; set; } = null!;
+    public DbSet<Store> Stores { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -47,5 +49,7 @@ public partial class ApplicationDbContext : DbContext
         builder.ApplyConfiguration(new MenuConfiguration());
         builder.ApplyConfiguration(new CategoryConfiguration());
         builder.ApplyConfiguration(new CurrencyConfiguration());
+        builder.ApplyConfiguration(new OrderConfiguration());
+        builder.ApplyConfiguration(new StoreConfiguration());   
     }
 }

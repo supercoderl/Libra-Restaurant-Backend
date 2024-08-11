@@ -50,6 +50,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         b => b.MigrationsAssembly("LibraRestaurant.Infrastructure"));
 });
 
+builder.Services.AddCors(builder =>
+{
+    builder.AddPolicy("policy", p => p.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+});
+
 builder.Services.AddSwagger();
 builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration, "LibraRestaurant.Infrastructure");
@@ -107,7 +112,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("policy");
 app.UseAuthentication();
 app.UseAuthorization();
 

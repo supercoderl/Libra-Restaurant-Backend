@@ -5,13 +5,14 @@ namespace LibraRestaurant.gRPC;
 public sealed class LibraRestaurant : ILibraRestaurant
 {
     public LibraRestaurant(
-        IUsersContext users, IMenuItemsContext items, IMenusContext menus, ICategoriesContext categories, ICurrenciesContext currencies)
+        IUsersContext users, IMenuItemsContext items, IMenusContext menus, ICategoriesContext categories, ICurrenciesContext currencies, IOrdersContext orders)
     {
         Users = users;
         Items = items;
         Menus = menus;
         Currencies = currencies;
         Categories = categories;
+        Orders = orders;
     }
 
     public IUsersContext Users { get; }
@@ -23,4 +24,6 @@ public sealed class LibraRestaurant : ILibraRestaurant
     public ICategoriesContext Categories { get; }
 
     public ICurrenciesContext Currencies { get; }
+
+    public IOrdersContext Orders { get; }
 }

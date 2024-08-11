@@ -36,6 +36,7 @@ namespace LibraRestaurant.gRPC.Contexts
                 item.Quantity,
                 item.Recipe,
                 item.Instruction,
+                item.Picture,
                 item.IsDeleted));
         }
 

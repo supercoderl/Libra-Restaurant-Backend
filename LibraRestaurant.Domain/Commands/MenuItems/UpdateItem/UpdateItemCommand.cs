@@ -19,6 +19,7 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.UpdateItem
         public double Price { get; }
         public int Quantity { get; }
         public string? Recipe { get; }
+        public string? Picture { get; }
         public string? Instruction { get; }
 
         public UpdateItemCommand(
@@ -30,6 +31,7 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.UpdateItem
             double price,
             int quantity,
             string? recipe,
+            string? picture,
             string? instruction) : base(itemId)
         {
             ItemId = itemId;
@@ -40,6 +42,7 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.UpdateItem
             Price = price;
             Quantity = quantity;
             Recipe = recipe;
+            Picture = picture;
             Instruction = instruction;
         }
 

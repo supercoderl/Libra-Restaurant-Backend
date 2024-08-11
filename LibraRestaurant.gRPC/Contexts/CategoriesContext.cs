@@ -13,7 +13,7 @@ namespace LibraRestaurant.gRPC.Contexts
     {
         private readonly CategoriesApi.CategoriesApiClient _client;
 
-        public CategoriesContext(CategoriesApi.MenusApiClient client)
+        public CategoriesContext(CategoriesApi.CategoriesApiClient client)
         {
             _client = client;
         }
@@ -26,7 +26,7 @@ namespace LibraRestaurant.gRPC.Contexts
 
             var result = await _client.GetByIdsAsync(request);
 
-            return result.Menus.Select(menu => new CategoryViewModel(
+            return result.Categories.Select(menu => new CategoryViewModel(
                 menu.Id,
                 menu.Name,
                 menu.Description,

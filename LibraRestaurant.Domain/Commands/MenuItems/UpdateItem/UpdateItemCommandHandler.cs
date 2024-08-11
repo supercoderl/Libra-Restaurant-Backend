@@ -55,6 +55,7 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.UpdateItem
             item.SetPrice(request.Price);
             item.SetQuantity(request.Quantity);
             item.SetRecipe(request.Recipe);
+            item.SetPicture(request.Picture);
             item.SetInstruction(request.Instruction);
             item.SetLastUpdatedAt(DateTime.Now);
 

@@ -1,0 +1,42 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "LibraRestaurant.Proto.Orders";
+
+message GrpcOrder {
+  string id = 1;
+  string orderNo = 2;
+  string storeId = 3;
+  int32 paymentMethodId = 4;
+  int32 paymentTimeId = 5;
+  string servantId = 6;
+  string cashierId = 7;
+  string customerNotes = 8;
+  int32 reservationId = 9;
+  double priceCalculated = 10;
+  double priceAdjustment = 11;
+  string priceAdjustmentReason = 12;
+  double subtotal = 13;
+  double tax = 14;
+  double total = 15;
+  string latestStatus = 16;
+  string latestStatusUpdate = 17;
+  bool isPaid = 18;
+  bool isPreparationDelayed = 19;
+  string delayedTime = 20;
+  bool isCanceled = 21;
+  string canceledTime = 22;
+  string canceledReason = 23;
+  bool isReady = 24;
+  string readyTime = 25;
+  bool isCompleted = 26;
+  string completedTime = 27;
+  bool isDeleted = 28;
+}
+
+message GetOrdersByIdsResult {
+  repeated GrpcOrder orders = 1;
+}
+
+message GetOrdersByIdsRequest {
+  repeated string ids = 1;
+}

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using LibraRestaurant.Domain.Interfaces.Repositories;
 using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
+using LibraRestaurant.Proto.Users;
 
 namespace LibraRestaurant.Application.gRPC;
 
