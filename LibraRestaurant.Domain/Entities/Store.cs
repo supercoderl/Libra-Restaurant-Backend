@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,9 @@ namespace LibraRestaurant.Domain.Entities
         public string? BankBranch { get; private set; }
         public string? BankCode { get; private set; }
         public string? BankAccount { get; private set; }
+
+        [InverseProperty("Store")]
+        public virtual ICollection<Reservation>? Reservations { get; set; } = new List<Reservation>();
 
         public Store(
             Guid storeId,

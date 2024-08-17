@@ -1,5 +1,7 @@
-﻿using System;
+﻿using LibraRestaurant.Domain.Enums;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,10 +13,10 @@ namespace LibraRestaurant.Domain.Entities
         public Guid OrderId { get; private set; }   
         public string OrderNo { get; private set; }
         public Guid StoreId { get; private set; }
-        public int PaymentMethodId { get; private set; }
-        public int PaymentTimeId { get; private set; }
-        public Guid ServantId { get; private set; }
-        public Guid CashierId { get; private set; }
+        public int? PaymentMethodId { get; private set; }
+        public int? PaymentTimeId { get; private set; }
+        public Guid? ServantId { get; private set; }
+        public Guid? CashierId { get; private set; }
         public string? CustomerNotes { get; private set; }
         public int ReservationId { get; private set; }
         public double PriceCalculated { get; private set; }
@@ -23,8 +25,8 @@ namespace LibraRestaurant.Domain.Entities
         public double Subtotal { get; private set; }
         public double Tax { get; private set; }
         public double Total { get; private set; }
-        public string LatestStatus { get; private set; }
-        public string LatestStatusUpdate {  get; private set; }
+        public OrderStatus LatestStatus { get; private set; }
+        public DateTime LatestStatusUpdate {  get; private set; }
         public bool IsPaid { get; private set; }
         public bool IsPreparationDelayed { get; private set; }
         public DateTime? DelayedTime { get; private set; }
@@ -36,14 +38,21 @@ namespace LibraRestaurant.Domain.Entities
         public bool IsCompleted { get; private set; }
         public DateTime? CompletedTime { get; private set; }
 
+        [ForeignKey("ReservationId")]
+        [InverseProperty("OrderHeaders")]
+        public virtual Reservation? Reservation { get; set; }
+
+        [InverseProperty("OrderHeader")]
+        public virtual ICollection<OrderLine>? OrderLines { get; set; } = new List<OrderLine>();
+
         public OrderHeader(
             Guid orderId,
             string orderNo,
             Guid storeId,
-            int paymentMethodId,
-            int paymentTimeId,
-            Guid servantId,
-            Guid cashierId,
+            int? paymentMethodId,
+            int? paymentTimeId,
+            Guid? servantId,
+            Guid? cashierId,
             string? customerNotes,
             int reservationId,
             double priceCalculated,
@@ -52,8 +61,8 @@ namespace LibraRestaurant.Domain.Entities
             double subtotal,
             double tax,
             double total,
-            string latestStatus,
-            string latestStatusUpdate,
+            OrderStatus latestStatus,
+            DateTime latestStatusUpdate,
             bool isPaid,
             bool isPreparationDelayed,
             DateTime? delayedTime,
@@ -105,22 +114,22 @@ namespace LibraRestaurant.Domain.Entities
             StoreId = storeId;
         }
 
-        public void SetPaymentMethodId( int paymentMethodId )
+        public void SetPaymentMethodId( int? paymentMethodId )
         {
             PaymentMethodId = paymentMethodId;
         }
 
-        public void SetPaymentTimeId( int paymentTimeId )
+        public void SetPaymentTimeId( int? paymentTimeId )
         {
             PaymentTimeId = paymentTimeId;
         }
 
-        public void SetServantId( Guid serantId )
+        public void SetServantId( Guid? serantId )
         {
             ServantId = serantId;
         }
 
-        public void SetCashierId( Guid cashierId )
+        public void SetCashierId( Guid? cashierId )
         {
             CashierId = cashierId;
         }
@@ -165,12 +174,12 @@ namespace LibraRestaurant.Domain.Entities
             Total = total; 
         }
 
-        public void SetLatestStatus( string latestStatus )
+        public void SetLatestStatus( OrderStatus latestStatus )
         {
             LatestStatus = latestStatus;
         }
 
-        public void SetLatestStatusUpdate( string latestStatusUpdate )
+        public void SetLatestStatusUpdate( DateTime latestStatusUpdate )
         {
             LatestStatusUpdate = latestStatusUpdate;
         }

@@ -1,4 +1,5 @@
 ﻿using LibraRestaurant.Domain.Commands.Menu.UpdateMenu;
+using LibraRestaurant.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,12 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
         private static readonly UpdateOrderCommandValidation s_validation = new();
 
         public Guid OrderId { get; }
-        public string OrderNo { get; }
+        public string? OrderNo { get; }
         public Guid StoreId { get; }
-        public int PaymentMethodId { get; }
-        public int PaymentTimeId { get; }
-        public Guid ServantId { get; }
-        public Guid CashierId { get; }
+        public int? PaymentMethodId { get; }
+        public int? PaymentTimeId { get; }
+        public Guid? ServantId { get; }
+        public Guid? CashierId { get; }
         public string? CustomerNotes { get; }
         public int ReservationId { get; }
         public double PriceCalculated { get; }
@@ -26,8 +27,8 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
         public double Subtotal { get; }
         public double Tax { get; }
         public double Total { get; }
-        public string LatestStatus { get; }
-        public string LatestStatusUpdate { get; }
+        public OrderStatus LatestStatus { get; }
+        public DateTime LatestStatusUpdate { get; }
         public bool IsPaid { get; }
         public bool IsPreparationDelayed { get; }
         public DateTime? DelayedTime { get; }
@@ -41,12 +42,12 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
 
         public UpdateOrderCommand(
             Guid orderId,
-            string orderNo,
+            string? orderNo,
             Guid storeId,
-            int paymentMethodId,
-            int paymentTimeId,
-            Guid servantId,
-            Guid cashierId,
+            int? paymentMethodId,
+            int? paymentTimeId,
+            Guid? servantId,
+            Guid? cashierId,
             string? customerNotes,
             int reservationId,
             double priceCalculated,
@@ -55,8 +56,8 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
             double subtotal,
             double tax,
             double total,
-            string latestStatus,
-            string latestStatusUpdate,
+            OrderStatus latestStatus,
+            DateTime latestStatusUpdate,
             bool isPaid,
             bool isPreparationDelayed,
             DateTime? delayedTime,

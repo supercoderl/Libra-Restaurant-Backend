@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,9 @@ namespace LibraRestaurant.Domain.Entities
         public string? Instruction { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime? LastUpdatedAt { get; private set; }
+
+        [InverseProperty("Item")]
+        public virtual ICollection<OrderLine>? OrderLines { get; set; } = new List<OrderLine>();
 
         public MenuItem(
             int itemId,

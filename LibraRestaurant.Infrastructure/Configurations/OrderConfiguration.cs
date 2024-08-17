@@ -27,19 +27,21 @@ namespace LibraRestaurant.Infrastructure.Configurations
 
             builder
                 .Property(order => order.PaymentMethodId)
-                .IsRequired();
+                .HasColumnType("int")
+                .IsRequired(false);
 
             builder
                 .Property(order => order.PaymentTimeId)
-                .IsRequired();
+                .HasColumnType("int")
+                .IsRequired(false);
 
             builder
                 .Property(order => order.ServantId)
-                .IsRequired();
+                .HasColumnType("uniqueidentifier");
 
             builder
                 .Property(order => order.CashierId)
-                .IsRequired();
+                .HasColumnType("uniqueidentifier");
 
             builder
                 .Property(order => order.CustomerNotes);
@@ -72,10 +74,12 @@ namespace LibraRestaurant.Infrastructure.Configurations
 
             builder
                 .Property(order => order.LatestStatus)
+                .HasColumnType("int")
                 .IsRequired();
 
             builder
                 .Property(order => order.LatestStatusUpdate)
+                .HasColumnType("datetime")
                 .IsRequired();
 
             builder
@@ -118,34 +122,12 @@ namespace LibraRestaurant.Infrastructure.Configurations
             builder
                 .Property(order => order.CompletedTime);
 
-            builder.HasData(new OrderHeader(
-                Ids.Seed.UserId,
-                "00000001",
-                Guid.NewGuid(),
-                1,
-                1,
-                Guid.NewGuid(),
-                Guid.NewGuid(),
-                null,
-                1,
-                1000000,
-                null,
-                null,
-                1000000,
-                10,
-                1100000,
-                string.Empty,
-                string.Empty,
-                false,
-                false,
-                null,
-                false,
-                null,
-                null,
-                true,
-                DateTime.Now,
-                false,
-                null));
+            builder
+                .HasOne(r => r.Reservation)
+                .WithMany(o => o.OrderHeaders)
+                .HasForeignKey(o => o.ReservationId)
+                .HasConstraintName("FK_OrderHeader_Reservation_ReservationId")
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

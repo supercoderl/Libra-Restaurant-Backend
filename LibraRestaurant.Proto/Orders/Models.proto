@@ -18,19 +18,17 @@ message GrpcOrder {
   double subtotal = 13;
   double tax = 14;
   double total = 15;
-  string latestStatus = 16;
-  string latestStatusUpdate = 17;
-  bool isPaid = 18;
-  bool isPreparationDelayed = 19;
-  string delayedTime = 20;
-  bool isCanceled = 21;
-  string canceledTime = 22;
-  string canceledReason = 23;
-  bool isReady = 24;
-  string readyTime = 25;
-  bool isCompleted = 26;
-  string completedTime = 27;
-  bool isDeleted = 28;
+  bool isPaid = 16;
+  bool isPreparationDelayed = 17;
+  string delayedTime = 18;
+  bool isCanceled = 19;
+  string canceledTime = 20;
+  string canceledReason = 21;
+  bool isReady = 22;
+  string readyTime = 23;
+  bool isCompleted = 24;
+  string completedTime = 25;
+  bool isDeleted = 26;
 }
 
 message GetOrdersByIdsResult {

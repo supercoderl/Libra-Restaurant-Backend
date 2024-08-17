@@ -21,6 +21,11 @@ namespace LibraRestaurant.Infrastructure.Repositories
             return await DbSet.SingleOrDefaultAsync(item => item.OrderNo == orderNo);
         }
 
+        public async Task<OrderHeader?> GetByStoreAndReservationAsync(Guid storeId, int reservationId)
+        {
+            return await DbSet.SingleOrDefaultAsync(item => item.StoreId == storeId && item.ReservationId == reservationId && item.LatestStatus == Domain.Enums.OrderStatus.Draft);
+        }
+
         public async Task<OrderHeader?> GetByStoreAsync(Guid storeId)
         {
             return await DbSet.SingleOrDefaultAsync(item => item.StoreId == storeId);

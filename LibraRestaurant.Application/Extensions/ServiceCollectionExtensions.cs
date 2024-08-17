@@ -9,8 +9,15 @@ using LibraRestaurant.Application.Queries.MenuItems.GetAll;
 using LibraRestaurant.Application.Queries.MenuItems.GetById;
 using LibraRestaurant.Application.Queries.Menus.GetAll;
 using LibraRestaurant.Application.Queries.Menus.GetUserById;
+using LibraRestaurant.Application.Queries.OrderLines.GetAll;
+using LibraRestaurant.Application.Queries.OrderLines.GetOrderLineById;
+using LibraRestaurant.Application.Queries.OrderLines.GetOrderLineByOrderAndItem;
 using LibraRestaurant.Application.Queries.Orders.GetAll;
 using LibraRestaurant.Application.Queries.Orders.GetOrderById;
+using LibraRestaurant.Application.Queries.Orders.GetOrderByStoreAndReservation;
+using LibraRestaurant.Application.Queries.Reservations.GetAll;
+using LibraRestaurant.Application.Queries.Reservations.GetReservationById;
+using LibraRestaurant.Application.Queries.Reservations.GetReservationByTableNumberAndStoreId;
 using LibraRestaurant.Application.Queries.Stores.GetAll;
 using LibraRestaurant.Application.Queries.Stores.GetStoreById;
 using LibraRestaurant.Application.Queries.Users.GetAll;
@@ -22,7 +29,9 @@ using LibraRestaurant.Application.ViewModels.Categories;
 using LibraRestaurant.Application.ViewModels.Currencies;
 using LibraRestaurant.Application.ViewModels.MenuItems;
 using LibraRestaurant.Application.ViewModels.Menus;
+using LibraRestaurant.Application.ViewModels.OrderLines;
 using LibraRestaurant.Application.ViewModels.Orders;
+using LibraRestaurant.Application.ViewModels.Reservations;
 using LibraRestaurant.Application.ViewModels.Sorting;
 using LibraRestaurant.Application.ViewModels.Stores;
 using LibraRestaurant.Application.ViewModels.Users;
@@ -45,6 +54,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IImageService, ImageService>();
         services.AddScoped<IStoreService, StoreService>();
+        services.AddScoped<IReservationService, ReservationService>();
+        services.AddScoped<IOrderLineService, OrderLineService>();
 
         services.AddSingleton<Cloudinary>(sp =>
         {
@@ -85,10 +96,21 @@ public static class ServiceCollectionExtensions
         // Order
         services.AddScoped<IRequestHandler<GetOrderByIdQuery, OrderViewModel?>, GetOrderByIdQueryHandler>();
         services.AddScoped<IRequestHandler<GetAllOrdersQuery, PagedResult<OrderViewModel>>, GetAllOrdersQueryHandler>();
+        services.AddScoped<IRequestHandler<GetOrderByStoreAndReservationQuery, OrderViewModel?>, GetOrderByStoreAndReservationQueryHandler>();
 
         // Store
         services.AddScoped<IRequestHandler<GetStoreByIdQuery, StoreViewModel?>, GetStoreByIdQueryHandler>();
         services.AddScoped<IRequestHandler<GetAllStoresQuery, PagedResult<StoreViewModel>>, GetAllStoresQueryHandler>();
+
+        // Reservation
+        services.AddScoped<IRequestHandler<GetReservationByIdQuery, ReservationViewModel?>, GetReservationByIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetAllReservationsQuery, PagedResult<ReservationViewModel>>, GetAllReservationsQueryHandler>();
+        services.AddScoped<IRequestHandler<GetReservationByTableNumberAndStoreIdQuery, ReservationViewModel?>, GetReservationByTableNumberAndStoreIdQueryHandler>();
+
+        // OrderLine
+        services.AddScoped<IRequestHandler<GetOrderLineByIdQuery, OrderLineViewModel?>, GetOrderLineByIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetAllOrderLinesQuery, PagedResult<OrderLineViewModel>>, GetAllOrderLinesQueryHandler>();
+        services.AddScoped<IRequestHandler<GetOrderLineByOrderAndItemQuery, OrderLineViewModel?>, GetOrderLineByOrderAndItemQueryHandler>();
 
         return services;
     }
@@ -102,6 +124,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISortingExpressionProvider<CurrencyViewModel, Currency>, CurrencyViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<OrderViewModel, OrderHeader>, OrderViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<StoreViewModel, Store>, StoreViewModelSortProvider>();
+        services.AddScoped<ISortingExpressionProvider<ReservationViewModel, Reservation>, ReservationViewModelSortProvider>();
+        services.AddScoped<ISortingExpressionProvider<OrderLineViewModel, OrderLine>, OrderLineViewModelSortProvider>();
 
         return services;
     }

@@ -20,7 +20,7 @@ namespace LibraRestaurant.Application.Interfaces
             string searchTerm = "",
             SortQuery? sortQuery = null);
 
-        public Task<int> CreateOrderAsync(CreateOrderViewModel order);
+        public Task<Guid> CreateOrderAsync(CreateOrderViewModel order);
         public Task UpdateOrderAsync(UpdateOrderViewModel order);
         public Task DeleteOrderAsync(Guid orderId);
     }

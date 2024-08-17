@@ -48,7 +48,10 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
                 return;
             }
 
-            order.SetOrderNo(request.OrderNo);
+            if(request.OrderNo is not null)
+            {
+                order.SetOrderNo(request.OrderNo);
+            }
             order.SetStoreId(request.StoreId);
             order.SetPaymentMethodId(request.PaymentMethodId);
             order.SetPaymentTimeId(request.PaymentTimeId);

@@ -14,6 +14,8 @@ public partial class ApplicationDbContext : DbContext
     public DbSet<Currency> Currencies { get; set; } = null!;
     public DbSet<OrderHeader> OrderHeaders { get; set; } = null!;
     public DbSet<Store> Stores { get; set; } = null!;
+    public DbSet<Reservation> Reservations { get; set; } = null!;
+    public DbSet<OrderLine> OrderLines { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -51,5 +53,7 @@ public partial class ApplicationDbContext : DbContext
         builder.ApplyConfiguration(new CurrencyConfiguration());
         builder.ApplyConfiguration(new OrderConfiguration());
         builder.ApplyConfiguration(new StoreConfiguration());   
+        builder.ApplyConfiguration(new ReservationConfiguration());
+        builder.ApplyConfiguration(new OrderLineConfiguration());
     }
 }
