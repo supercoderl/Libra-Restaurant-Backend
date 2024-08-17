@@ -11,9 +11,16 @@ using LibraRestaurant.Domain.Commands.MenuItems.UpdateItem;
 using LibraRestaurant.Domain.Commands.Menus.CreateMenu;
 using LibraRestaurant.Domain.Commands.Menus.DeleteMenu;
 using LibraRestaurant.Domain.Commands.Menus.UpdateMenu;
+using LibraRestaurant.Domain.Commands.OrderLines.CreateOrderLine;
+using LibraRestaurant.Domain.Commands.OrderLines.DeleteOrderLine;
+using LibraRestaurant.Domain.Commands.OrderLines.UpdateOrderLine;
 using LibraRestaurant.Domain.Commands.Orders.CreateOrder;
 using LibraRestaurant.Domain.Commands.Orders.DeleteOrder;
 using LibraRestaurant.Domain.Commands.Orders.UpdateOrder;
+using LibraRestaurant.Domain.Commands.Reservation.UpdateReservation;
+using LibraRestaurant.Domain.Commands.Reservations.CreateReservation;
+using LibraRestaurant.Domain.Commands.Reservations.DeleteReservation;
+using LibraRestaurant.Domain.Commands.Reservations.UpdateReservation;
 using LibraRestaurant.Domain.Commands.Stores.CreateStore;
 using LibraRestaurant.Domain.Commands.Stores.DeleteStore;
 using LibraRestaurant.Domain.Commands.Stores.UpdateStore;
@@ -30,6 +37,8 @@ using LibraRestaurant.Shared.Events.Currency;
 using LibraRestaurant.Shared.Events.Menu;
 using LibraRestaurant.Shared.Events.MenuItem;
 using LibraRestaurant.Shared.Events.OrderHead;
+using LibraRestaurant.Shared.Events.OrderLine;
+using LibraRestaurant.Shared.Events.Reservation;
 using LibraRestaurant.Shared.Events.Store;
 using LibraRestaurant.Shared.Events.User;
 using MediatR;
@@ -78,6 +87,16 @@ public static class ServiceCollectionExtension
         services.AddScoped<IRequestHandler<UpdateStoreCommand>, UpdateStoreCommandHandler>();
         services.AddScoped<IRequestHandler<DeleteStoreCommand>, DeleteStoreCommandHandler>();
 
+        // Reservation
+        services.AddScoped<IRequestHandler<CreateReservationCommand>, CreateReservationCommandHandler>();
+        services.AddScoped<IRequestHandler<UpdateReservationCommand>, UpdateReservationCommandHandler>();
+        services.AddScoped<IRequestHandler<DeleteReservationCommand>, DeleteReservationCommandHandler>();
+
+        // OrderLine
+        services.AddScoped<IRequestHandler<CreateOrderLineCommand>, CreateOrderLineCommandHandler>();
+        services.AddScoped<IRequestHandler<UpdateOrderLineCommand>, UpdateOrderLineCommandHandler>();
+        services.AddScoped<IRequestHandler<DeleteOrderLineCommand>, DeleteOrderLineCommandHandler>();
+
         return services;
     }
 
@@ -121,6 +140,16 @@ public static class ServiceCollectionExtension
         services.AddScoped<INotificationHandler<StoreCreatedEvent>, StoreEventHandler>();
         services.AddScoped<INotificationHandler<StoreUpdatedEvent>, StoreEventHandler>();
         services.AddScoped<INotificationHandler<StoreDeletedEvent>, StoreEventHandler>();
+
+        // Reservation
+        services.AddScoped<INotificationHandler<ReservationCreatedEvent>, ReservationEventHandler>();
+        services.AddScoped<INotificationHandler<ReservationUpdatedEvent>, ReservationEventHandler>();
+        services.AddScoped<INotificationHandler<ReservationDeletedEvent>, ReservationEventHandler>();
+
+        // OrderLine
+        services.AddScoped<INotificationHandler<OrderLineCreatedEvent>, OrderLineEventHandler>();
+        services.AddScoped<INotificationHandler<OrderLineUpdatedEvent>, OrderLineEventHandler>();
+        services.AddScoped<INotificationHandler<OrderLineDeletedEvent>, OrderLineEventHandler>();
 
         return services;
     }

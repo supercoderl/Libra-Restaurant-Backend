@@ -9,10 +9,10 @@ public sealed class OrderViewModel
     public Guid OrderId { get; set; }
     public string OrderNo { get; set; } = string.Empty;
     public Guid StoreId { get; set; }
-    public int PaymentMethodId { get; set; } 
-    public int PaymentTimeId { get; set; }
-    public Guid ServantId { get; set; }
-    public Guid CashierId { get; set; }
+    public int? PaymentMethodId { get; set; } 
+    public int? PaymentTimeId { get; set; }
+    public Guid? ServantId { get; set; }
+    public Guid? CashierId { get; set; }
     public string? CustomerNotes { get; set; }
     public int ReservationId { get; set; }
     public double PriceCalculated { get; set; }
@@ -21,8 +21,8 @@ public sealed class OrderViewModel
     public double Subtotal { get; set; }
     public double Tax { get; set; }
     public double Total { get; set; }
-    public string LatestStatus { get; set; } = string.Empty;
-    public string LatestStatusUpdate { get; set; } = string.Empty;
+    public OrderStatus LatestStatus { get; set; }
+    public DateTime LatestStatusUpdate { get; set; }
     public bool IsPaid { get; set; }
     public bool IsPreparationDelayed { get; set; }
     public DateTime? DelayedTime { get; set; }

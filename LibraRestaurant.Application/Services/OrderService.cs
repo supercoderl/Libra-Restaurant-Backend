@@ -19,6 +19,8 @@ using LibraRestaurant.Domain.Commands.Orders.UpdateOrder;
 using LibraRestaurant.Domain.Commands.Orders.DeleteOrder;
 using LibraRestaurant.Application.Queries.Orders.GetOrderById;
 using LibraRestaurant.Application.Queries.Orders.GetAll;
+using LibraRestaurant.Domain.Enums;
+using LibraRestaurant.Application.Queries.Orders.GetOrderByStoreAndReservation;
 
 namespace LibraRestaurant.Application.Services
 {
@@ -45,38 +47,47 @@ namespace LibraRestaurant.Application.Services
             return await _bus.QueryAsync(new GetAllOrdersQuery(query, includeDeleted, searchTerm, sortQuery));
         }
 
-        public async Task<int> CreateOrderAsync(CreateOrderViewModel order)
+        public async Task<Guid> CreateOrderAsync(CreateOrderViewModel order)
         {
-            await _bus.SendCommandAsync(new CreateOrderCommand(
-                Guid.NewGuid(),
-                "00000001",
-                order.StoreId,
-                1,
-                1,
-                Guid.NewGuid(),
-                Guid.NewGuid(),
-                null,
-                1,
-                1000000,
-                null,
-                null,
-                1000000,
-                10,
-                1000010,
-                string.Empty,
-                string.Empty,
-                false,
-                false,
-                null,
-                false,
-                null,
-                null,
-                true,
-                DateTime.Now,
-                false,
-                null));
+            Guid? id = await CheckOrderIsReady(order.StoreId, order.ReservationId);
 
-            return 0;
+            if (id is not null)
+            {
+                return id.Value;
+            }
+
+            id = Guid.NewGuid();
+
+            await _bus.SendCommandAsync(new CreateOrderCommand(
+            id.Value,
+            order.OrderNo,
+            order.StoreId,
+            order.PaymentMethodId,
+            order.PaymentTimeId,
+            order.ServantId,
+            order.CashierId,
+            order.CustomerNotes,
+            order.ReservationId,
+            order.PriceCalculated,
+            order.PriceAdjustment,
+            order.PriceAdjustmentReason,
+            order.Subtotal,
+            order.Tax,
+            order.Total,
+            OrderStatus.Draft,
+            DateTime.Now,
+            order.IsPaid,
+            order.IsPreparationDelayed,
+            order.DelayedTime,
+            order.IsCanceled,
+            order.CaceledTime,
+            order.CanceledReason,
+            order.IsReady,
+            order.ReadyTime,
+            order.IsCompleted,
+            order.CompletedTime));
+
+            return id.Value;
         }
 
         public async Task UpdateOrderAsync(UpdateOrderViewModel order)
@@ -114,6 +125,13 @@ namespace LibraRestaurant.Application.Services
         public async Task DeleteOrderAsync(Guid orderId)
         {
             await _bus.SendCommandAsync(new DeleteOrderCommand(orderId));
+        }
+
+        private async Task<Guid?> CheckOrderIsReady(Guid storeId, int reservationId)
+        {
+            var order = await _bus.QueryAsync(new GetOrderByStoreAndReservationQuery(storeId, reservationId));
+            if (order is not null) return order.OrderId;
+            return null;
         }
     }
 }

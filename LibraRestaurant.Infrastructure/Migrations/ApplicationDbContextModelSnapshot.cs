@@ -150,7 +150,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                             IsActive = true,
                             Name = "Menu nhà hàng Libra chi nhánh 1",
                             NumberId = 1,
-                            StoreId = new Guid("33285ff4-f459-4fff-851a-b21d61e5f3ad")
+                            StoreId = new Guid("547524b4-9098-4df3-b804-fdf32d5cedf1")
                         });
                 });
 
@@ -221,7 +221,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         new
                         {
                             ItemId = 1,
-                            CreatedAt = new DateTime(2024, 8, 11, 20, 28, 11, 89, DateTimeKind.Local).AddTicks(9698),
+                            CreatedAt = new DateTime(2024, 8, 16, 21, 14, 17, 113, DateTimeKind.Local).AddTicks(3541),
                             Deleted = false,
                             Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             Instruction = "Ngon hơn khi dùng nóng",
@@ -248,7 +248,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Property<DateTime?>("CanceledTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("CashierId")
+                    b.Property<Guid?>("CashierId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CompletedTime")
@@ -281,13 +281,11 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Property<bool>("IsReady")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LatestStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("LatestStatus")
+                        .HasColumnType("int");
 
-                    b.Property<string>("LatestStatusUpdate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("LatestStatusUpdate")
+                        .HasColumnType("datetime");
 
                     b.Property<int>("NumberId")
                         .HasColumnType("int");
@@ -296,10 +294,10 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PaymentMethodId")
+                    b.Property<int?>("PaymentMethodId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PaymentTimeId")
+                    b.Property<int?>("PaymentTimeId")
                         .HasColumnType("int");
 
                     b.Property<double?>("PriceAdjustment")
@@ -317,7 +315,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Property<int>("ReservationId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("ServantId")
+                    b.Property<Guid?>("ServantId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("StoreId")
@@ -334,35 +332,110 @@ namespace LibraRestaurant.Infrastructure.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.ToTable("OrderHeaders");
+                    b.HasIndex("ReservationId");
 
-                    b.HasData(
-                        new
-                        {
-                            OrderId = new Guid("a23aa816-d99a-4f80-bc99-3855450fdfe0"),
-                            CashierId = new Guid("2da0f2ad-20a6-4c88-a8ec-b223e731af52"),
-                            Deleted = false,
-                            Id = new Guid("a23aa816-d99a-4f80-bc99-3855450fdfe0"),
-                            IsCanceled = false,
-                            IsCompleted = false,
-                            IsPaid = false,
-                            IsPreparationDelayed = false,
-                            IsReady = true,
-                            LatestStatus = "",
-                            LatestStatusUpdate = "",
-                            NumberId = 0,
-                            OrderNo = "00000001",
-                            PaymentMethodId = 1,
-                            PaymentTimeId = 1,
-                            PriceCalculated = 1000000.0,
-                            ReadyTime = new DateTime(2024, 8, 11, 20, 28, 11, 90, DateTimeKind.Local).AddTicks(4696),
-                            ReservationId = 1,
-                            ServantId = new Guid("983c799b-df0b-42b8-9ed9-9b483d3be7a7"),
-                            StoreId = new Guid("8a0af2be-f3b9-439b-bbfa-71579a3a185b"),
-                            Subtotal = 1000000.0,
-                            Tax = 10.0,
-                            Total = 1100000.0
-                        });
+                    b.ToTable("OrderHeaders");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.OrderLine", b =>
+                {
+                    b.Property<int>("OrderLineId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderLineId"));
+
+                    b.Property<string>("CanceledReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CanceledTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("CustomerLike")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CustomerReview")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsCanceled")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderLineId");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderLines");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Reservation", b =>
+                {
+                    b.Property<int>("ReservationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationId"));
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerPhone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ReservationTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("TableNumber")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReservationId");
+
+                    b.HasIndex("StoreId");
+
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Store", b =>
@@ -440,12 +513,12 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            StoreId = new Guid("a23aa816-d99a-4f80-bc99-3855450fdfe0"),
+                            StoreId = new Guid("81791eab-6b44-4362-9176-4f64d35857cb"),
                             Address = "",
                             CityId = 1,
                             Deleted = false,
                             DistrictId = 1,
-                            Id = new Guid("a23aa816-d99a-4f80-bc99-3855450fdfe0"),
+                            Id = new Guid("81791eab-6b44-4362-9176-4f64d35857cb"),
                             IsActive = true,
                             Name = "Nhà hàng Libra - Chi nhánh 1",
                             NumberId = 0,
@@ -506,7 +579,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a23aa816-d99a-4f80-bc99-3855450fdfe0"),
+                            Id = new Guid("81791eab-6b44-4362-9176-4f64d35857cb"),
                             Deleted = false,
                             Email = "admin@email.com",
                             FirstName = "Admin",
@@ -514,9 +587,74 @@ namespace LibraRestaurant.Infrastructure.Migrations
                             Mobile = "09091234567",
                             NumberId = 0,
                             Password = "$2a$12$Blal/uiFIJdYsCLTMUik/egLbfg3XhbnxBC6Sb5IKz2ZYhiU/MzL2",
-                            RegisteredAt = new DateTime(2024, 8, 11, 20, 28, 11, 89, DateTimeKind.Local).AddTicks(7764),
+                            RegisteredAt = new DateTime(2024, 8, 16, 21, 14, 17, 110, DateTimeKind.Local).AddTicks(5751),
                             Status = 0
                         });
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.OrderHeader", b =>
+                {
+                    b.HasOne("LibraRestaurant.Domain.Entities.Reservation", "Reservation")
+                        .WithMany("OrderHeaders")
+                        .HasForeignKey("ReservationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_OrderHeader_Reservation_ReservationId");
+
+                    b.Navigation("Reservation");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.OrderLine", b =>
+                {
+                    b.HasOne("LibraRestaurant.Domain.Entities.MenuItem", "Item")
+                        .WithMany("OrderLines")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_OrderLine_Item_ItemId");
+
+                    b.HasOne("LibraRestaurant.Domain.Entities.OrderHeader", "OrderHeader")
+                        .WithMany("OrderLines")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_OrderLine_Order_OrderId");
+
+                    b.Navigation("Item");
+
+                    b.Navigation("OrderHeader");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Reservation", b =>
+                {
+                    b.HasOne("LibraRestaurant.Domain.Entities.Store", "Store")
+                        .WithMany("Reservations")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Reservation_Store_StoreId");
+
+                    b.Navigation("Store");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.MenuItem", b =>
+                {
+                    b.Navigation("OrderLines");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.OrderHeader", b =>
+                {
+                    b.Navigation("OrderLines");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Reservation", b =>
+                {
+                    b.Navigation("OrderHeaders");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Store", b =>
+                {
+                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }

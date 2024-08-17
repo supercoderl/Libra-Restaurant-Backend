@@ -1,3 +1,4 @@
+using LibraRestaurant.Domain.Enums;
 using System;
 
 namespace LibraRestaurant.Application.ViewModels.Orders;
@@ -5,10 +6,10 @@ namespace LibraRestaurant.Application.ViewModels.Orders;
 public sealed record CreateOrderViewModel(
         string OrderNo,
         Guid StoreId,
-        int PaymentMethodId,
-        int PaymentTimeId,
-        Guid ServantId,
-        Guid CashierId,
+        int? PaymentMethodId,
+        int? PaymentTimeId,
+        Guid? ServantId,
+        Guid? CashierId,
         string? CustomerNotes,
         int ReservationId,
         double PriceCalculated,
@@ -17,8 +18,8 @@ public sealed record CreateOrderViewModel(
         double Subtotal,
         double Tax,
         double Total,
-        string LatestStatus,
-        string LatestStatusUpdate,
+        OrderStatus LatestStatus,
+        DateTime LatestStatusUpdate,
         bool IsPaid,
         bool IsPreparationDelayed,
         DateTime? DelayedTime,

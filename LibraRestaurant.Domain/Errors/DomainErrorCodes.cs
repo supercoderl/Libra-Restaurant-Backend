@@ -110,4 +110,28 @@ public static class DomainErrorCodes
         // General
         public const string AlreadyExists = "STORE_ALREADY_EXISTS";
     }
+
+    public static class Reservation
+    {
+        // Reservation Validation
+        public const string EmptyId = "RESERVATION_EMPTY_ID";
+        public const string EmptyTableNumber = "RESERVATION_EMPTY_TABLE_NUMBER";
+        public const string EmptyCapacity = "RESERVATION_EMPTY_CAPACITY";
+        public const string EmptyStore = "RESERVATION_EMPTY_STORE_ID";
+
+        // General
+        public const string AlreadyExists = "RESERVATION_ALREADY_EXISTS";
+    }
+
+    public static class OrderLine
+    {
+        // Order Line Validation
+        public const string EmptyId = "ORDERLINE_EMPTY_ID";
+        public const string EmptyOrder = "ORDERLINE_EMPTY_ORDER_ID";
+        public const string EmptyItem = "ORDERLINE_EMPTY_ITEM_ID";
+        public const string EmptyQuantity = "ORDERLINE_EMPTY_QUANTITY";
+
+        // General
+        public const string AlreadyExists = "ORDERLINE_ALREADY_EXISTS";
+    }
 }

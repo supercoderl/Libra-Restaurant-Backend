@@ -14,14 +14,10 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
         public UpdateOrderCommandValidation()
         {
             AddRuleForOrderId();
-            AddRuleForOrderNo();
             AddRuleForStore();
-            AddRuleForServant();
-            AddRuleForCashier();
             AddRuleForReservation();
             AddRuleForPriceCalculated();
             AddRuleForSubtotal();
-            AddRuleForTax();
             AddRuleForTotal();
         }
 
@@ -33,36 +29,12 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
                 .WithMessage("Id may not be empty");
         }
 
-        private void AddRuleForOrderNo()
-        {
-            RuleFor(cmd => cmd.OrderNo)
-                .NotEmpty()
-                .WithErrorCode(DomainErrorCodes.Menu.EmptyName)
-                .WithMessage("Name may not be empty");
-        }
-
         private void AddRuleForStore()
         {
             RuleFor(cmd => cmd.StoreId)
                 .NotEmpty()
                 .WithErrorCode(DomainErrorCodes.Order.EmptyStore)
                 .WithMessage("Store may not be empty");
-        }
-
-        private void AddRuleForServant()
-        {
-            RuleFor(cmd => cmd.ServantId)
-                .NotEmpty()
-                .WithErrorCode(DomainErrorCodes.Order.EmptyServant)
-                .WithMessage("Servant may not be empty");
-        }
-
-        private void AddRuleForCashier()
-        {
-            RuleFor(cmd => cmd.CashierId)
-                .NotEmpty()
-                .WithErrorCode(DomainErrorCodes.Order.EmptyCashier)
-                .WithMessage("Cashier may not be empty");
         }
 
         private void AddRuleForReservation()
@@ -87,14 +59,6 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
                 .NotEmpty()
                 .WithErrorCode(DomainErrorCodes.Order.EmptySubtotal)
                 .WithMessage("Subtotal may not be empty");
-        }
-
-        private void AddRuleForTax()
-        {
-            RuleFor(cmd => cmd.Tax)
-                .NotEmpty()
-                .WithErrorCode(DomainErrorCodes.Order.EmptyTax)
-                .WithMessage("Tax may not be empty");
         }
 
         private void AddRuleForTotal()
