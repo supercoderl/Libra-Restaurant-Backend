@@ -31,6 +31,7 @@ using LibraRestaurant.Application.ViewModels.MenuItems;
 using LibraRestaurant.Application.ViewModels.Menus;
 using LibraRestaurant.Application.ViewModels.OrderLines;
 using LibraRestaurant.Application.ViewModels.Orders;
+using LibraRestaurant.Application.ViewModels.Payments;
 using LibraRestaurant.Application.ViewModels.Reservations;
 using LibraRestaurant.Application.ViewModels.Sorting;
 using LibraRestaurant.Application.ViewModels.Stores;
@@ -66,6 +67,37 @@ public static class ServiceCollectionExtensions
                 configuration["CloudinaryConfiguration:ApiSecret"]
             );
             return new Cloudinary(cloudinaryAccount);
+        });
+
+        services.AddSingleton<PaypalConfig>(pp =>
+        {
+            var configuration = pp.GetRequiredService<IConfiguration>();
+            return new PaypalConfig(
+                configuration["PaypalConfiguration:BaseURL"] == "Live" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com",
+                configuration["PaypalConfiguration:ClientID"]!,
+                configuration["PaypalConfiguration:SecretID"]!
+            );
+        });
+
+        services.AddSingleton<VNPayConfig>(vnp =>
+        {
+            var configuration = vnp.GetRequiredService<IConfiguration>();
+            return new VNPayConfig(
+                configuration["VNPayConfiguration:ReturnURL"]!,
+                configuration["VNPayConfiguration:URL"]!,
+                configuration["VNPayConfiguration:TmnCode"]!,
+                configuration["VNPayConfiguration:HashSecret"]!
+            );
+        });
+
+        services.AddSingleton<StripeConfig>(s =>
+        {
+            var configuration = s.GetRequiredService<IConfiguration>();
+            return new StripeConfig(
+                configuration["StripeConfiguration:ApiKey"]!,
+                configuration["StripeConfiguration:SuccessURL"]!,
+                configuration["StripeConfiguration:CancelURL"]!
+            );
         });
 
         return services;
