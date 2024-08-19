@@ -28,11 +28,6 @@ public sealed class GetOrderByStoreAndReservationQueryHandler :
 
         if (order is null)
         {
-            await _bus.RaiseEventAsync(
-                new DomainNotification(
-                    nameof(GetOrderByStoreAndReservationQuery),
-                    $"Order with store {request.StoreId} and reservation {request.ReservationId} could not be found",
-                    ErrorCodes.ObjectNotFound));
             return null;
         }
 

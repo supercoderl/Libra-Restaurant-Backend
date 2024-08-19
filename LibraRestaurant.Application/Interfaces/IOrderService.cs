@@ -23,5 +23,6 @@ namespace LibraRestaurant.Application.Interfaces
         public Task<Guid> CreateOrderAsync(CreateOrderViewModel order);
         public Task UpdateOrderAsync(UpdateOrderViewModel order);
         public Task DeleteOrderAsync(Guid orderId);
+        public Task UpdatePaymentMethodAsync(Guid orderId, int paymentMethodId);
     }
 }

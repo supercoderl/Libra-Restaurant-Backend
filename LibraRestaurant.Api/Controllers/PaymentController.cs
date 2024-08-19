@@ -6,6 +6,7 @@ using LibraRestaurant.Domain.Notifications;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Net.payOS.Types;
 using Stripe.Checkout;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Threading.Tasks;
@@ -20,27 +21,30 @@ namespace LibraRestaurant.Api.Controllers
         private readonly IPaypalService _paypalService;
         private readonly IVnPayService _vnPayService;
         private readonly IStripeService _stripeService;
+        private readonly IPayOsService _payOsService;
 
         public PaymentController(
             INotificationHandler<DomainNotification> notifications,
             IPaypalService paypalService,
             IVnPayService vnPayService,
-            IStripeService stripeService) : base(notifications)
+            IStripeService stripeService,
+            IPayOsService payOsService) : base(notifications)
         {
             _paypalService = paypalService;
             _vnPayService = vnPayService;
             _stripeService = stripeService;
+            _payOsService = payOsService;
         }
 
-        [HttpPost("/paypal/order")]
+        [HttpPost("Paypal")]
         [SwaggerOperation("Create order")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<CreateOrderResponse>))]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest viewModel)
         {
-            return Ok(await _paypalService.CreateOrder(viewModel));
+            return Response(await _paypalService.CreateOrder(viewModel));
         }
 
-        [HttpGet("/paypal/capture/{id}")]
+        [HttpGet("Paypal/capture/{id}")]
         [SwaggerOperation("Get capture order")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<CaptureOrderResponse>))]
         public async Task<IActionResult> GetPlanDetails([FromRoute] string id)
@@ -48,36 +52,52 @@ namespace LibraRestaurant.Api.Controllers
             return Response(await _paypalService.CaptureOrder(id));
         }
 
-        [HttpGet("/paypal/transactions")]
+        [HttpGet("Paypal/transactions")]
         [SwaggerOperation("Get transactions")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<string>))]
         public async Task<IActionResult> GetTransactions()
         {
-            return Ok(await _paypalService.GetTransactions());
+            return Response(await _paypalService.GetTransactions());
         }
 
-        [HttpPost("/vnpay")]
+        [HttpPost("VNPay")]
         [SwaggerOperation("Pay")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<string>))]
         public async Task<IActionResult> PayVnPay([FromBody] CreateVNPayViewModel viewModel)
         {
-            return Ok(await _vnPayService.Pay(viewModel));
+            return Response(await _vnPayService.Pay(viewModel));
         }
 
-        [HttpPost("/stripe")]
+        [HttpPost("Stripe")]
         [SwaggerOperation("Pay")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<Session>))]
         public async Task<IActionResult> PayStripe(SessionStripe request)
         {
-            return Ok(await _stripeService.CreateOrderStripe(request));
+            return Response(await _stripeService.CreateOrderStripe(request));
         }
 
-        [HttpGet("/stripe/{id}")]
+        [HttpGet("Stripe/{id}")]
         [SwaggerOperation("Retrieve session")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<Session>))]
         public async Task<IActionResult> RetrieveStripe([FromRoute] string id)
         {
-            return Ok(await _stripeService.RetrieveSession(id));
+            return Response(await _stripeService.RetrieveSession(id));
+        }
+
+        [HttpPost("PayOS")]
+        [SwaggerOperation("Pay")]
+        [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<CreatePaymentResult>))]
+        public async Task<IActionResult> PayOs(CreatePayOSViewModel request)
+        {
+            return Response(await _payOsService.CreateOrderPayOS(request));
+        }
+
+        [HttpPost("PayOS/{id}")]
+        [SwaggerOperation("Cancel")]
+        [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<PaymentLinkInformation>))]
+        public async Task<IActionResult> RetrieveStripe([FromRoute] long id)
+        {
+            return Response(await _payOsService.CancelOrder(id));
         }
     }
 }
