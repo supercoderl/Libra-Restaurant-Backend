@@ -134,4 +134,14 @@ public static class DomainErrorCodes
         // General
         public const string AlreadyExists = "ORDERLINE_ALREADY_EXISTS";
     }
+
+    public static class PaymentMethod
+    {
+        // Payment Method Validation
+        public const string EmptyId = "PAYMENT_METHOD_EMPTY_ID";
+        public const string EmptyName = "PAYMENT_METHOD_EMPTY_TITLE";
+
+        // General
+        public const string AlreadyExists = "PAYMENT_METHOD_ALREADY_EXISTS";
+    }
 }

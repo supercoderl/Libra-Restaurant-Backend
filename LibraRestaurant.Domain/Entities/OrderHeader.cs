@@ -45,6 +45,10 @@ namespace LibraRestaurant.Domain.Entities
         [InverseProperty("OrderHeader")]
         public virtual ICollection<OrderLine>? OrderLines { get; set; } = new List<OrderLine>();
 
+        [ForeignKey("PaymentMethodId")]
+        [InverseProperty("OrderHeaders")]
+        public virtual PaymentMethod? PaymentMethod { get; set; }
+
         public OrderHeader(
             Guid orderId,
             string orderNo,

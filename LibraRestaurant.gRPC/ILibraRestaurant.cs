@@ -12,4 +12,5 @@ public interface ILibraRestaurant
     IOrdersContext Orders { get; }
     IReservationsContext Reservations { get; }
     IOrderLinesContext OrderLines { get; }
+    IPaymentMethodsContext PaymentMethods { get; }
 }
