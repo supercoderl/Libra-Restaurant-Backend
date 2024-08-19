@@ -128,6 +128,13 @@ namespace LibraRestaurant.Infrastructure.Configurations
                 .HasForeignKey(o => o.ReservationId)
                 .HasConstraintName("FK_OrderHeader_Reservation_ReservationId")
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .HasOne(p => p.PaymentMethod)
+                .WithMany(o => o.OrderHeaders)
+                .HasForeignKey(p => p.PaymentMethodId)
+                .HasConstraintName("FK_OrderHeader_PaymentMethod_PaymentMethodId")
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

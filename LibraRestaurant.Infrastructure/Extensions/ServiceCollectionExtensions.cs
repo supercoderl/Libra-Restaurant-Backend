@@ -54,6 +54,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IStoreRepository, StoreRepository>();
         services.AddScoped<IReservationRepository, ReservationRepository>();
         services.AddScoped<IOrderLineRepository, OrderLineRepository>();
+        services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
 
         return services;
     }

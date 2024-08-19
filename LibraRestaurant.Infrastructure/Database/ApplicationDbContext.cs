@@ -16,6 +16,7 @@ public partial class ApplicationDbContext : DbContext
     public DbSet<Store> Stores { get; set; } = null!;
     public DbSet<Reservation> Reservations { get; set; } = null!;
     public DbSet<OrderLine> OrderLines { get; set; } = null!;
+    public DbSet<PaymentMethod> PaymentMethods { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -55,5 +56,6 @@ public partial class ApplicationDbContext : DbContext
         builder.ApplyConfiguration(new StoreConfiguration());   
         builder.ApplyConfiguration(new ReservationConfiguration());
         builder.ApplyConfiguration(new OrderLineConfiguration());
+        builder.ApplyConfiguration(new PaymentMethodConfiguration());
     }
 }

@@ -12,6 +12,7 @@ using Grpc.Net.Client;
 using LibraRestaurant.Proto.Orders;
 using LibraRestaurant.Proto.Stores;
 using LibraRestaurant.Proto.Reservations;
+using LibraRestaurant.Proto.PaymentMethods;
 
 namespace LibraRestaurant.gRPC.Extensions;
 
@@ -78,6 +79,9 @@ public static class ServiceCollectionExtensions
         var orderLinesClient = new ReservationsApi.ReservationsApiClient(channel);
         services.AddSingleton(orderLinesClient);
 
+        var paymentMethodsClient = new PaymentMethodsApi.PaymentMethodsApiClient(channel);
+        services.AddSingleton(paymentMethodsClient);
+
         services.AddSingleton<IUsersContext, UsersContext>();
         services.AddSingleton<IMenuItemsContext, MenuItemsContext>();
         services.AddSingleton<IMenusContext, MenusContext>();
@@ -87,6 +91,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IStoresContext, StoresContext>();
         services.AddSingleton<IReservationsContext, ReservationsContext>();
         services.AddSingleton<IOrderLinesContext, OrderLinesContext>();
+        services.AddSingleton<IPaymentMethodsContext, PaymentMethodsContext>();
 
         return services;
     }

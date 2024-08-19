@@ -15,6 +15,8 @@ using LibraRestaurant.Application.Queries.OrderLines.GetOrderLineByOrderAndItem;
 using LibraRestaurant.Application.Queries.Orders.GetAll;
 using LibraRestaurant.Application.Queries.Orders.GetOrderById;
 using LibraRestaurant.Application.Queries.Orders.GetOrderByStoreAndReservation;
+using LibraRestaurant.Application.Queries.PaymentMethods.GetAll;
+using LibraRestaurant.Application.Queries.PaymentMethods.GetPaymentMethodById;
 using LibraRestaurant.Application.Queries.Reservations.GetAll;
 using LibraRestaurant.Application.Queries.Reservations.GetReservationById;
 using LibraRestaurant.Application.Queries.Reservations.GetReservationByTableNumberAndStoreId;
@@ -31,6 +33,7 @@ using LibraRestaurant.Application.ViewModels.MenuItems;
 using LibraRestaurant.Application.ViewModels.Menus;
 using LibraRestaurant.Application.ViewModels.OrderLines;
 using LibraRestaurant.Application.ViewModels.Orders;
+using LibraRestaurant.Application.ViewModels.PaymentMethods;
 using LibraRestaurant.Application.ViewModels.Payments;
 using LibraRestaurant.Application.ViewModels.Reservations;
 using LibraRestaurant.Application.ViewModels.Sorting;
@@ -61,6 +64,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IVnPayService,  VnPayService>();
         services.AddScoped<IStripeService, StripeService>();
         services.AddScoped<IPayOsService, PayOsService>();
+        services.AddScoped<IPaymentMethodService, PaymentMethodService>();
 
         services.AddSingleton<Cloudinary>(sp =>
         {
@@ -161,6 +165,10 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRequestHandler<GetAllOrderLinesQuery, PagedResult<OrderLineViewModel>>, GetAllOrderLinesQueryHandler>();
         services.AddScoped<IRequestHandler<GetOrderLineByOrderAndItemQuery, OrderLineViewModel?>, GetOrderLineByOrderAndItemQueryHandler>();
 
+        // PaymentMethod
+        services.AddScoped<IRequestHandler<GetPaymentMethodByIdQuery, PaymentMethodViewModel?>, GetPaymentMethodByIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetAllPaymentMethodsQuery, PagedResult<PaymentMethodViewModel>>, GetAllPaymentMethodsQueryHandler>();
+
         return services;
     }
 
@@ -175,6 +183,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISortingExpressionProvider<StoreViewModel, Store>, StoreViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<ReservationViewModel, Reservation>, ReservationViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<OrderLineViewModel, OrderLine>, OrderLineViewModelSortProvider>();
+        services.AddScoped<ISortingExpressionProvider<PaymentMethodViewModel, Domain.Entities.PaymentMethod>, PaymentMethodViewModelSortProvider>();
 
         return services;
     }
