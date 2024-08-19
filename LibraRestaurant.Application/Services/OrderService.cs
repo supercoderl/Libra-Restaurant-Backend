@@ -122,6 +122,43 @@ namespace LibraRestaurant.Application.Services
                 order.CompletedTime));
         }
 
+        public async Task UpdatePaymentMethodAsync(Guid orderId, int paymentMethodId)
+        {
+            var order = await _bus.QueryAsync(new GetOrderByIdQuery(orderId));
+
+            if(order is not null)
+            {
+                await _bus.SendCommandAsync(new UpdateOrderCommand(
+                order.OrderId,
+                order.OrderNo,
+                order.StoreId,
+                paymentMethodId,
+                order.PaymentTimeId,
+                order.ServantId,
+                order.CashierId,
+                order.CustomerNotes,
+                order.ReservationId,
+                order.PriceCalculated,
+                order.PriceAdjustment,
+                order.PriceAdjustmentReason,
+                order.Subtotal,
+                order.Tax,
+                order.Total,
+                OrderStatus.Ready,
+                DateTime.Now,
+                order.IsPaid,
+                order.IsPreparationDelayed,
+                order.DelayedTime,
+                order.IsCanceled,
+                order.CanceledTime,
+                order.CanceledReason,
+                true,
+                DateTime.Now,
+                order.IsCompleted,
+                order.CompletedTime));
+            }
+        }
+
         public async Task DeleteOrderAsync(Guid orderId)
         {
             await _bus.SendCommandAsync(new DeleteOrderCommand(orderId));

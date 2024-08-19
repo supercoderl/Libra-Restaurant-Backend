@@ -57,6 +57,10 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IStoreService, StoreService>();
         services.AddScoped<IReservationService, ReservationService>();
         services.AddScoped<IOrderLineService, OrderLineService>();
+        services.AddScoped<IPaypalService, PaypalService>();
+        services.AddScoped<IVnPayService,  VnPayService>();
+        services.AddScoped<IStripeService, StripeService>();
+        services.AddScoped<IPayOsService, PayOsService>();
 
         services.AddSingleton<Cloudinary>(sp =>
         {
@@ -75,7 +79,7 @@ public static class ServiceCollectionExtensions
             return new PaypalConfig(
                 configuration["PaypalConfiguration:BaseURL"] == "Live" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com",
                 configuration["PaypalConfiguration:ClientID"]!,
-                configuration["PaypalConfiguration:SecretID"]!
+                configuration["PaypalConfiguration:ClientSecret"]!
             );
         });
 
@@ -84,7 +88,7 @@ public static class ServiceCollectionExtensions
             var configuration = vnp.GetRequiredService<IConfiguration>();
             return new VNPayConfig(
                 configuration["VNPayConfiguration:ReturnURL"]!,
-                configuration["VNPayConfiguration:URL"]!,
+                configuration["VNPayConfiguration:BaseURL"]!,
                 configuration["VNPayConfiguration:TmnCode"]!,
                 configuration["VNPayConfiguration:HashSecret"]!
             );
@@ -95,8 +99,21 @@ public static class ServiceCollectionExtensions
             var configuration = s.GetRequiredService<IConfiguration>();
             return new StripeConfig(
                 configuration["StripeConfiguration:ApiKey"]!,
+                configuration["StripeConfiguration:SecretKey"]!,
                 configuration["StripeConfiguration:SuccessURL"]!,
                 configuration["StripeConfiguration:CancelURL"]!
+            );
+        });
+
+        services.AddSingleton<PayOSConfig>(p =>
+        {
+            var configuration = p.GetRequiredService<IConfiguration>();
+            return new PayOSConfig(
+                configuration["PayOSConfiguration:ClientID"]!,
+                configuration["PayOSConfiguration:ApiKey"]!,
+                configuration["PayOSConfiguration:ChecksumKey"]!,
+                configuration["PayOSConfiguration:ReturnURL"]!,
+                configuration["PayOSConfiguration:CancelURL"]!
             );
         });
 

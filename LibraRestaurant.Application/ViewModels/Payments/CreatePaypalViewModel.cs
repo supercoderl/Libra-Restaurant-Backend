@@ -43,9 +43,15 @@ namespace LibraRestaurant.Application.ViewModels.Payments
         public string reason { get; set; } = string.Empty;
     }
 
-    public sealed class CreateOrderRequest
+    public class OrderRequest
     {
         public string intent { get; set; } = string.Empty;
         public List<PurchaseUnit> purchase_units { get; set; } = new List<PurchaseUnit>();
     }
+
+    public sealed record CreateOrderRequest(
+        string Reference,
+        string Currency,
+        double Value
+    );
 }

@@ -15,6 +15,9 @@ using System.Net.Http.Json;
 using LibraNovel.Application.Libraries;
 using Stripe.Checkout;
 using Stripe;
+using Net.payOS;
+using Net.payOS.Types;
+using LibraRestaurant.Domain.Enums;
 
 namespace LibraRestaurant.Application.Services
 {
@@ -22,13 +25,15 @@ namespace LibraRestaurant.Application.Services
     {
         private IHttpContextAccessor _httpContextAccessor;
         private readonly PaypalConfig _paypalConfig;
+        private readonly IOrderService _orderService;
         private const string TokenCacheKey = "PaypalToken";
 
 
-        public PaypalService(IHttpContextAccessor httpContextAccessor, PaypalConfig paypalConfig)
+        public PaypalService(IHttpContextAccessor httpContextAccessor, PaypalConfig paypalConfig, IOrderService orderService)
         {
             _httpContextAccessor = httpContextAccessor;
             _paypalConfig = paypalConfig;
+            _orderService = orderService;
         }
 
         private async Task<AuthorizationResponseData?> Authenticate()
@@ -59,26 +64,26 @@ namespace LibraRestaurant.Application.Services
             return response;
         }
 
-        public async Task<CreateOrderResponse?> CreateOrder(CreateOrderRequest request)
+        public async Task<CreateOrderResponse?> CreateOrder(CreateOrderRequest viewModel)
         {
             var auth = await Authenticate();
 
-/*            var request = new CreateOrderRequest
+            var request = new OrderRequest
             {
                 intent = "CAPTURE",
                 purchase_units = new List<PurchaseUnit>
                 {
                     new()
                     {
-                        reference_id = reference,
+                        reference_id = viewModel.Reference,
                         amount = new Amount
                         {
-                            currency_code = currency,
-                            value = value
+                            currency_code = viewModel.Currency,
+                            value = viewModel.Value.ToString()
                         }
                     }
                 }
-            };*/
+            };
 
             var httpClient = new HttpClient();
 
@@ -88,6 +93,8 @@ namespace LibraRestaurant.Application.Services
 
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
             var response = JsonSerializer.Deserialize<CreateOrderResponse>(jsonResponse);
+
+            await _orderService.UpdatePaymentMethodAsync(Guid.Parse(viewModel.Reference), Convert.ToInt32(PaymentID.Paypal));
 
             return response;
         }
@@ -132,10 +139,12 @@ namespace LibraRestaurant.Application.Services
     public class VnPayService : IVnPayService
     {
         private readonly VNPayConfig _vNPayConfig;
+        private readonly IOrderService _orderService;
 
-        public VnPayService(VNPayConfig vNPayConfig)
+        public VnPayService(VNPayConfig vNPayConfig, IOrderService orderService)
         {
             _vNPayConfig = vNPayConfig;
+            _orderService = orderService;
         }
 
         public async Task<string> Pay(CreateVNPayViewModel request)
@@ -186,6 +195,8 @@ namespace LibraRestaurant.Application.Services
             //Billing
 
             string paymentUrl = vnpay.CreateRequestUrl(_vNPayConfig.vnp_Url, _vNPayConfig.vnp_HashSecret);
+            await _orderService.UpdatePaymentMethodAsync(request.OrderID, Convert.ToInt32(PaymentID.VNPay));
+
             return paymentUrl;
         }
 
@@ -250,6 +261,47 @@ namespace LibraRestaurant.Application.Services
             var result = _sessionService.Get(id);
 
             return result;
+        }
+    }
+
+    public class PayOsService : IPayOsService
+    {
+        private readonly PayOS _payOS;
+        private readonly PayOSConfig _payOSConfig;
+        private readonly IOrderService _orderService;
+
+        public PayOsService(PayOSConfig payOSConfig, IOrderService orderService)
+        {
+            _payOSConfig = payOSConfig;
+            _orderService = orderService;
+            _payOS = new PayOS(payOSConfig.ClientID, payOSConfig.ApiKey, payOSConfig.ChecksumKey);
+        }
+
+        public async Task<CreatePaymentResult> CreateOrderPayOS(CreatePayOSViewModel request)
+        {
+            int orderCode = int.Parse(DateTimeOffset.Now.ToString("ffffff"));
+            ItemData item = new ItemData(request.ProductName, 1, request.Price);
+            List<ItemData> items = new List<ItemData>();
+            items.Add(item);
+            PaymentData paymentData = new PaymentData(
+                orderCode,
+                request.Price,
+                request.Description,
+                items,
+                _payOSConfig.CancelURL,
+                _payOSConfig.ReturnURL
+            );
+
+            CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
+            await _orderService.UpdatePaymentMethodAsync(request.OrderId, Convert.ToInt32(PaymentID.PayOS));
+
+            return createPayment;
+        }
+
+        public async Task<PaymentLinkInformation> CancelOrder(long orderID)
+        {
+            PaymentLinkInformation paymentLinkInformation = await _payOS.cancelPaymentLink(orderID);
+            return paymentLinkInformation;
         }
     }
 }

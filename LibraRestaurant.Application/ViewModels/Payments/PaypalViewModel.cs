@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -147,10 +146,10 @@ namespace LibraRestaurant.Application.ViewModels.Payments
     public class ShippingAddress
     {
         public Name name { get; set; } = new Name();
-        public Address address { get; set; } = new Address();
+        public AddressLine address { get; set; } = new AddressLine();
     }
 
-    public class Address
+    public class AddressLine
     {
         public string line1 { get; set; } = string.Empty;
         public string city { get; set; } = string.Empty;
@@ -181,13 +180,13 @@ namespace LibraRestaurant.Application.ViewModels.Payments
     {
         public Amount amount { get; set; } = new Amount();
         public string reference_id { get; set; } = string.Empty;
-        public Shipping shipping { get; set; } = new Shipping();
-        public Payments payments { get; set; } = new Payments();
+        public ShippingMethod? shipping { get; set; }
+        public Payments? payments { get; set; }
     }
 
-    public class Shipping
+    public class ShippingMethod
     {
-        public Address address { get; set; } = new Address();
+        public AddressLine address { get; set; } = new AddressLine();
         public string name { get; set; } = string.Empty;
         public string method { get; set; } = string.Empty;
     }
@@ -212,5 +211,38 @@ namespace LibraRestaurant.Application.ViewModels.Payments
     {
         public string payer_selected { get; set; } = string.Empty;
         public string payee_preferred { get; set; } = string.Empty;
+    }
+
+    public class Capture
+    {
+        public string id { get; set; } = string.Empty;
+        public string status { get; set; } = string.Empty;
+        public Amount amount { get; set; } = new Amount();
+        public SellerProtection seller_protection { get; set; } = new SellerProtection();
+        public bool final_capture { get; set; }
+        public string disbursement_mode { get; set; } = string.Empty;
+        public SellerReceivableBreakdown seller_receivable_breakdown { get; set; } = new SellerReceivableBreakdown();
+        public DateTime create_time { get; set; }
+        public DateTime update_time { get; set; }
+        public List<Link> links { get; set; } = new List<Link>();
+    }
+
+    public class SellerProtection
+    {
+        public string status { get; set; } = string.Empty;
+        public List<string> dispute_categories { get; set; } = new List<string>();
+    }
+
+    public class SellerReceivableBreakdown
+    {
+        public Amount gross_amount { get; set; } = new Amount();
+        public PaypalFee paypal_fee { get; set; } = new PaypalFee();
+        public Amount net_amount { get; set; } = new Amount();
+    }
+
+    public class PaypalFee
+    {
+        public string currency_code { get; set; } = string.Empty;
+        public string value { get; set; } = string.Empty;
     }
 }

@@ -28,11 +28,6 @@ public sealed class GetOrderLineByOrderAndItemQueryHandler :
 
         if (orderLine is null)
         {
-            await _bus.RaiseEventAsync(
-                new DomainNotification(
-                    nameof(GetOrderLineByOrderAndItemQuery),
-                    $"OrderLine with order id {request.OrderId} and item id {request.ItemId} could not be found",
-                    ErrorCodes.ObjectNotFound));
             return null;
         }
 

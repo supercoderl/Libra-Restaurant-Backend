@@ -1,4 +1,5 @@
 ﻿using LibraRestaurant.Application.ViewModels.Payments;
+using Net.payOS.Types;
 using Stripe.Checkout;
 using System;
 using System.Collections.Generic;
@@ -20,11 +21,11 @@ namespace LibraRestaurant.Application.Interfaces
         Task<string> GetTransactions();
     }
 
-/*    public interface IPayOsService
+    public interface IPayOsService
     {
-        Task<Response<CreatePaymentResult>> CreateOrderPayOS(CreatePayOSViewModel request);
-        Task<Response<PaymentLinkInformation>> CancelOrder(long orderID);
-    }*/
+        Task<CreatePaymentResult> CreateOrderPayOS(CreatePayOSViewModel request);
+        Task<PaymentLinkInformation> CancelOrder(long orderID);
+    }
 
     public interface IStripeService
     {
