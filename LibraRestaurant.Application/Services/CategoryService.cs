@@ -51,7 +51,8 @@ namespace LibraRestaurant.Application.Services
                 0,
                 category.Name,
                 category.Description,
-                true));
+                true,
+                category.Picture));
 
             return 0;
         }
@@ -62,7 +63,8 @@ namespace LibraRestaurant.Application.Services
                 category.CategoryId,
                 category.Name,
                 category.Description,
-                category.IsActive));
+                category.IsActive,
+                category.Picture));
         }
 
         public async Task DeleteCategoryAsync(int categoryId)

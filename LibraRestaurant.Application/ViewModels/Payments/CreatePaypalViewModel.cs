@@ -52,6 +52,7 @@ namespace LibraRestaurant.Application.ViewModels.Payments
     public sealed record CreateOrderRequest(
         string Reference,
         string Currency,
-        double Value
+        double Value,
+        int PaymentMethodId
     );
 }

@@ -20,15 +20,15 @@ namespace LibraRestaurant.Application.ViewModels.Payments
         public string PayStatus { get; set; } = string.Empty;
     }
 
-    public class CreateVNPayViewModel
-    {
-        public bool IsQR { get; set; }
-        public bool IsVNBank { get; set; }
-        public bool IsIntCard { get; set; }
-        public string? Locate { get; set; } = "vn";
-        public double Amount {  get; set; }
-        public Guid OrderID { get; set; }
-        public string Status { get; set; } = "0";
-        public DateTime? CreatedDate { get; set; } = DateTime.Now;
-    }
+    public sealed record CreateVNPayViewModel(
+        bool IsQR,
+        bool IsVNBank,
+        bool IsIntCard,
+        string? Locate,
+        double Amount,
+        Guid OrderID,
+        string Status,
+        int PaymentMethodId,
+        DateTime? CreatedDate
+    );
 }

@@ -6,7 +6,8 @@ message GrpcPaymentMethod {
   int32 id = 1;
   string name = 2;
   string description = 3;
-  bool isDeleted = 4;
+  string picture = 4;
+  bool isDeleted = 5;
 }
 
 message GetPaymentMethodsByIdsResult {

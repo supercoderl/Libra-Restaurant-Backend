@@ -11,6 +11,7 @@ public sealed class MenuViewModel
     public Guid StoreId { get; set; } = Guid.NewGuid();
     public string? Description { get; set; }
     public bool IsActive {  get; set; } = true;
+    public string? StoreName { get; set; }
 
     public static MenuViewModel FromMenu(Menu menu)
     {
@@ -21,6 +22,7 @@ public sealed class MenuViewModel
             StoreId = menu.StoreId,
             Description = menu.Description,
             IsActive = menu.IsActive,
+            StoreName = menu?.Store?.Name
         };
     }
 }

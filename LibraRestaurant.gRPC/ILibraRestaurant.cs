@@ -13,4 +13,7 @@ public interface ILibraRestaurant
     IReservationsContext Reservations { get; }
     IOrderLinesContext OrderLines { get; }
     IPaymentMethodsContext PaymentMethods { get; }
+    ICitiesContext Cities { get; }
+    IDistrictsContext IDistricts { get; }
+    IWardsContext Wards { get; }
 }

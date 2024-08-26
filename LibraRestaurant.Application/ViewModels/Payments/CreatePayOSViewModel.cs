@@ -10,6 +10,7 @@ namespace LibraRestaurant.Application.ViewModels.Payments
         string ProductName,
         string Description,
         int Price,
-        Guid OrderId
+        Guid OrderId,
+        int PaymentMethodId
     );
 }

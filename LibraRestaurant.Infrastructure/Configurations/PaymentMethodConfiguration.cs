@@ -18,14 +18,17 @@ namespace LibraRestaurant.Infrastructure.Configurations
                 .HasKey(x => x.PaymentMethodId);
 
             builder
-                .Property(menu => menu.Name)
+                .Property(paymentMethod => paymentMethod.Name)
                 .IsRequired();
 
             builder
-                .Property(menu => menu.Description);
+                .Property(paymentMethod => paymentMethod.Description);
 
             builder
-                .Property(menu => menu.IsActive)
+                .Property(paymentMethod => paymentMethod.Picture);
+
+            builder
+                .Property(paymentMethod => paymentMethod.IsActive)
                 .IsRequired()
                 .HasColumnType("bit");
         }

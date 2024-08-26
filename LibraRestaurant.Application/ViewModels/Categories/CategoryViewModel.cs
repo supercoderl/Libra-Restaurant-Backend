@@ -10,6 +10,7 @@ public sealed class CategoryViewModel
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
     public bool IsActive {  get; set; } = true;
+    public string? Picture {  get; set; }
 
     public static CategoryViewModel FromCategory(Category category)
     {
@@ -19,6 +20,7 @@ public sealed class CategoryViewModel
             Name = category.Name,
             Description = category.Description,
             IsActive = category.IsActive,
+            Picture = category.Picture
         };
     }
 }

@@ -52,6 +52,7 @@ namespace LibraRestaurant.Domain.Commands.Categories.UpdateCategory
             category.SetName(request.Name);
             category.SetDescription(request.Description);
             category.SetActive(request.IsActive);
+            category.SetPicture(request.Picture);
 
             _categoryRepository.Update(category);
 

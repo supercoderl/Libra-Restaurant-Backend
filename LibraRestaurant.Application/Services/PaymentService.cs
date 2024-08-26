@@ -94,7 +94,7 @@ namespace LibraRestaurant.Application.Services
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
             var response = JsonSerializer.Deserialize<CreateOrderResponse>(jsonResponse);
 
-            await _orderService.UpdatePaymentMethodAsync(Guid.Parse(viewModel.Reference), Convert.ToInt32(PaymentID.Paypal));
+            await _orderService.UpdatePaymentMethodAsync(Guid.Parse(viewModel.Reference), viewModel.PaymentMethodId);
 
             return response;
         }
@@ -195,7 +195,7 @@ namespace LibraRestaurant.Application.Services
             //Billing
 
             string paymentUrl = vnpay.CreateRequestUrl(_vNPayConfig.vnp_Url, _vNPayConfig.vnp_HashSecret);
-            await _orderService.UpdatePaymentMethodAsync(request.OrderID, Convert.ToInt32(PaymentID.VNPay));
+            await _orderService.UpdatePaymentMethodAsync(request.OrderID, request.PaymentMethodId);
 
             return paymentUrl;
         }
@@ -293,7 +293,7 @@ namespace LibraRestaurant.Application.Services
             );
 
             CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
-            await _orderService.UpdatePaymentMethodAsync(request.OrderId, Convert.ToInt32(PaymentID.PayOS));
+            await _orderService.UpdatePaymentMethodAsync(request.OrderId, request.PaymentMethodId);
 
             return createPayment;
         }

@@ -52,20 +52,54 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Property<int>("NumberId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Picture")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            CategoryId = 1,
-                            Deleted = false,
-                            Id = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsActive = true,
-                            Name = "Món chính",
-                            NumberId = 1
-                        });
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.City", b =>
+                {
+                    b.Property<int>("CityId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CityId"));
+
+                    b.Property<string>("CodeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Fullname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullnameEn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CityId");
+
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Currency", b =>
@@ -107,6 +141,53 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.District", b =>
+                {
+                    b.Property<int>("DistrictId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DistrictId"));
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CodeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Fullname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullnameEn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DistrictId");
+
+                    b.HasIndex("CityId");
+
+                    b.ToTable("Districts");
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Menu", b =>
                 {
                     b.Property<int>("MenuId")
@@ -139,19 +220,9 @@ namespace LibraRestaurant.Infrastructure.Migrations
 
                     b.HasKey("MenuId");
 
-                    b.ToTable("Menus");
+                    b.HasIndex("StoreId");
 
-                    b.HasData(
-                        new
-                        {
-                            MenuId = 1,
-                            Deleted = false,
-                            Id = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsActive = true,
-                            Name = "Menu nhà hàng Libra chi nhánh 1",
-                            NumberId = 1,
-                            StoreId = new Guid("8e5c1803-231a-4932-9ed8-281daaebe334")
-                        });
+                    b.ToTable("Menus");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.MenuItem", b =>
@@ -221,7 +292,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         new
                         {
                             ItemId = 1,
-                            CreatedAt = new DateTime(2024, 8, 19, 21, 7, 28, 481, DateTimeKind.Local).AddTicks(7916),
+                            CreatedAt = new DateTime(2024, 8, 23, 20, 18, 36, 967, DateTimeKind.Local).AddTicks(6835),
                             Deleted = false,
                             Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             Instruction = "Ngon hơn khi dùng nóng",
@@ -336,6 +407,8 @@ namespace LibraRestaurant.Infrastructure.Migrations
 
                     b.HasIndex("ReservationId");
 
+                    b.HasIndex("StoreId");
+
                     b.ToTable("OrderHeaders");
                 });
 
@@ -415,6 +488,9 @@ namespace LibraRestaurant.Infrastructure.Migrations
 
                     b.Property<int>("NumberId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Picture")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PaymentMethodId");
 
@@ -547,12 +623,12 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            StoreId = new Guid("faac6920-a5ba-431d-a52e-342e31b5a8de"),
+                            StoreId = new Guid("65748e9b-24c9-4bc0-b4f2-ae3842653226"),
                             Address = "",
                             CityId = 1,
                             Deleted = false,
                             DistrictId = 1,
-                            Id = new Guid("faac6920-a5ba-431d-a52e-342e31b5a8de"),
+                            Id = new Guid("65748e9b-24c9-4bc0-b4f2-ae3842653226"),
                             IsActive = true,
                             Name = "Nhà hàng Libra - Chi nhánh 1",
                             NumberId = 0,
@@ -613,7 +689,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("faac6920-a5ba-431d-a52e-342e31b5a8de"),
+                            Id = new Guid("65748e9b-24c9-4bc0-b4f2-ae3842653226"),
                             Deleted = false,
                             Email = "admin@email.com",
                             FirstName = "Admin",
@@ -621,9 +697,80 @@ namespace LibraRestaurant.Infrastructure.Migrations
                             Mobile = "09091234567",
                             NumberId = 0,
                             Password = "$2a$12$Blal/uiFIJdYsCLTMUik/egLbfg3XhbnxBC6Sb5IKz2ZYhiU/MzL2",
-                            RegisteredAt = new DateTime(2024, 8, 19, 21, 7, 28, 481, DateTimeKind.Local).AddTicks(4840),
+                            RegisteredAt = new DateTime(2024, 8, 23, 20, 18, 36, 967, DateTimeKind.Local).AddTicks(3919),
                             Status = 0
                         });
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Ward", b =>
+                {
+                    b.Property<int>("WardId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WardId"));
+
+                    b.Property<string>("CodeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("DistrictId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Fullname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullnameEn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.HasKey("WardId");
+
+                    b.HasIndex("DistrictId");
+
+                    b.ToTable("Wards");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.District", b =>
+                {
+                    b.HasOne("LibraRestaurant.Domain.Entities.City", "City")
+                        .WithMany("Districts")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_District_City_CityId");
+
+                    b.Navigation("City");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Menu", b =>
+                {
+                    b.HasOne("LibraRestaurant.Domain.Entities.Store", "Store")
+                        .WithMany("Menus")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Menu_Store_StoreId");
+
+                    b.Navigation("Store");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.OrderHeader", b =>
@@ -641,9 +788,18 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_OrderHeader_Reservation_ReservationId");
 
+                    b.HasOne("LibraRestaurant.Domain.Entities.Store", "Store")
+                        .WithMany("OrderHeaders")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Order_Store_StoreId");
+
                     b.Navigation("PaymentMethod");
 
                     b.Navigation("Reservation");
+
+                    b.Navigation("Store");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.OrderLine", b =>
@@ -679,6 +835,28 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Navigation("Store");
                 });
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Ward", b =>
+                {
+                    b.HasOne("LibraRestaurant.Domain.Entities.District", "District")
+                        .WithMany("Wards")
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Ward_District_DistrictId");
+
+                    b.Navigation("District");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.City", b =>
+                {
+                    b.Navigation("Districts");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.District", b =>
+                {
+                    b.Navigation("Wards");
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.MenuItem", b =>
                 {
                     b.Navigation("OrderLines");
@@ -701,6 +879,10 @@ namespace LibraRestaurant.Infrastructure.Migrations
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Store", b =>
                 {
+                    b.Navigation("Menus");
+
+                    b.Navigation("OrderHeaders");
+
                     b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
