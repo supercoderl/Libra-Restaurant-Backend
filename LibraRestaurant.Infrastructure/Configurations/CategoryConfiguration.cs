@@ -29,11 +29,8 @@ namespace LibraRestaurant.Infrastructure.Configurations
                 .IsRequired()
                 .HasColumnType("bit");
 
-            builder.HasData(new Category(
-                Ids.Seed.NumberId,
-                "Món chính",
-                null,
-                true));
+            builder
+                .Property(category => category.Picture);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
         }
     }
 }

@@ -40,6 +40,7 @@ namespace LibraRestaurant.Application.gRPC
                     Id = paymentMethod.PaymentMethodId,
                     Name = paymentMethod.Name,
                     Description = paymentMethod.Description,
+                    Picture = paymentMethod.Picture,
                     IsDeleted = paymentMethod.Deleted
                 })
                 .ToListAsync();

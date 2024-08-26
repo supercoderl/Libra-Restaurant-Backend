@@ -7,4 +7,5 @@ public sealed record UpdateCategoryViewModel(
     int CategoryId,
     string Name,
     string? Description,
-    bool IsActive);
+    bool IsActive,
+    string? Picture);

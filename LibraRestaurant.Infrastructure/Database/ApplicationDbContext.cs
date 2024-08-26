@@ -17,6 +17,9 @@ public partial class ApplicationDbContext : DbContext
     public DbSet<Reservation> Reservations { get; set; } = null!;
     public DbSet<OrderLine> OrderLines { get; set; } = null!;
     public DbSet<PaymentMethod> PaymentMethods { get; set; } = null!;
+    public DbSet<City> Cities { get; set; } = null!;
+    public DbSet<District> Districts { get; set; } = null!;
+    public DbSet<Ward> Wards { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -57,5 +60,8 @@ public partial class ApplicationDbContext : DbContext
         builder.ApplyConfiguration(new ReservationConfiguration());
         builder.ApplyConfiguration(new OrderLineConfiguration());
         builder.ApplyConfiguration(new PaymentMethodConfiguration());
+        builder.ApplyConfiguration(new CityConfiguration());
+        builder.ApplyConfiguration(new DistrictConfiguration());
+        builder.ApplyConfiguration(new WardConfiguration());
     }
 }

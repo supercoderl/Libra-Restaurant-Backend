@@ -16,6 +16,7 @@ namespace LibraRestaurant.Application.SortProviders
     {
         { "name", paymentMethod => paymentMethod.Name },
         { "description", paymentMethod => paymentMethod.Description ?? string.Empty },
+        { "picture", paymentMethod => paymentMethod.Picture ?? string.Empty },
         { "isActive", paymentMethod => paymentMethod.IsActive }
     };
 

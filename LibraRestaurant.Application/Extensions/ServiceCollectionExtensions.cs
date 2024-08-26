@@ -3,8 +3,12 @@ using LibraRestaurant.Application.Interfaces;
 using LibraRestaurant.Application.Queries.Categories.GetAll;
 using LibraRestaurant.Application.Queries.Categories.GetCategoryById;
 using LibraRestaurant.Application.Queries.Categories.GetCurrencyById;
+using LibraRestaurant.Application.Queries.Cities.GetAll;
+using LibraRestaurant.Application.Queries.Cities.GetCityById;
 using LibraRestaurant.Application.Queries.Currencies.GetAll;
 using LibraRestaurant.Application.Queries.Currencies.GetCurrencyById;
+using LibraRestaurant.Application.Queries.Districts.GetAll;
+using LibraRestaurant.Application.Queries.Districts.GetDistrictById;
 using LibraRestaurant.Application.Queries.MenuItems.GetAll;
 using LibraRestaurant.Application.Queries.MenuItems.GetById;
 using LibraRestaurant.Application.Queries.Menus.GetAll;
@@ -24,11 +28,15 @@ using LibraRestaurant.Application.Queries.Stores.GetAll;
 using LibraRestaurant.Application.Queries.Stores.GetStoreById;
 using LibraRestaurant.Application.Queries.Users.GetAll;
 using LibraRestaurant.Application.Queries.Users.GetUserById;
+using LibraRestaurant.Application.Queries.Wards.GetAll;
+using LibraRestaurant.Application.Queries.Wards.GetWardById;
 using LibraRestaurant.Application.Services;
 using LibraRestaurant.Application.SortProviders;
 using LibraRestaurant.Application.ViewModels;
 using LibraRestaurant.Application.ViewModels.Categories;
+using LibraRestaurant.Application.ViewModels.Cities;
 using LibraRestaurant.Application.ViewModels.Currencies;
+using LibraRestaurant.Application.ViewModels.Districts;
 using LibraRestaurant.Application.ViewModels.MenuItems;
 using LibraRestaurant.Application.ViewModels.Menus;
 using LibraRestaurant.Application.ViewModels.OrderLines;
@@ -39,6 +47,7 @@ using LibraRestaurant.Application.ViewModels.Reservations;
 using LibraRestaurant.Application.ViewModels.Sorting;
 using LibraRestaurant.Application.ViewModels.Stores;
 using LibraRestaurant.Application.ViewModels.Users;
+using LibraRestaurant.Application.ViewModels.Wards;
 using LibraRestaurant.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -65,6 +74,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IStripeService, StripeService>();
         services.AddScoped<IPayOsService, PayOsService>();
         services.AddScoped<IPaymentMethodService, PaymentMethodService>();
+        services.AddScoped<ICityService, CityService>();
+        services.AddScoped<IDistrictService, DistrictService>();
+        services.AddScoped<IWardService, WardService>();
 
         services.AddSingleton<Cloudinary>(sp =>
         {
@@ -169,6 +181,18 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRequestHandler<GetPaymentMethodByIdQuery, PaymentMethodViewModel?>, GetPaymentMethodByIdQueryHandler>();
         services.AddScoped<IRequestHandler<GetAllPaymentMethodsQuery, PagedResult<PaymentMethodViewModel>>, GetAllPaymentMethodsQueryHandler>();
 
+        // City
+        services.AddScoped<IRequestHandler<GetCityByIdQuery, CityViewModel?>, GetCityByIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetAllCitiesQuery, PagedResult<CityViewModel>>, GetAllCitiesQueryHandler>();
+
+        // District
+        services.AddScoped<IRequestHandler<GetDistrictByIdQuery, DistrictViewModel?>, GetDistrictByIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetAllDistrictsQuery, PagedResult<DistrictViewModel>>, GetAllDistrictsQueryHandler>();
+
+        // Ward
+        services.AddScoped<IRequestHandler<GetWardByIdQuery, WardViewModel?>, GetWardByIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetAllWardsQuery, PagedResult<WardViewModel>>, GetAllWardsQueryHandler>();
+
         return services;
     }
 
@@ -184,6 +208,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISortingExpressionProvider<ReservationViewModel, Reservation>, ReservationViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<OrderLineViewModel, OrderLine>, OrderLineViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<PaymentMethodViewModel, Domain.Entities.PaymentMethod>, PaymentMethodViewModelSortProvider>();
+        services.AddScoped<ISortingExpressionProvider<CityViewModel, City>, CityViewModelSortProvider>();
+        services.AddScoped<ISortingExpressionProvider<DistrictViewModel, District>, DistrictViewModelSortProvider>();
+        services.AddScoped<ISortingExpressionProvider<WardViewModel, Ward>, WardViewModelSortProvider>();
 
         return services;
     }

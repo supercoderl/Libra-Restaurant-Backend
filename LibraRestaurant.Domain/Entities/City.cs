@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,9 @@ namespace LibraRestaurant.Domain.Entities
         public string Fullname { get; private set; }
         public string FullnameEn { get; private set; }
         public string CodeName { get; private set; }
+
+        [InverseProperty("City")]
+        public virtual ICollection<District>? Districts { get; set; } = new List<District>();
 
         public City(
             int cityId,

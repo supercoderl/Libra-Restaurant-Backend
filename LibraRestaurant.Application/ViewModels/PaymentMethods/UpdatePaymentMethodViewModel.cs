@@ -7,4 +7,5 @@ public sealed record UpdatePaymentMethodViewModel(
     int PaymentMethodId,
     string Name,
     string? Description,
+    string? Picture,
     bool IsActive);

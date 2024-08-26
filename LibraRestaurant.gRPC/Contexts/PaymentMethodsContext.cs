@@ -30,6 +30,7 @@ namespace LibraRestaurant.gRPC.Contexts
                 paymentMethod.Id,
                 paymentMethod.Name,
                 paymentMethod.Description,
+                paymentMethod.Picture,
                 paymentMethod.IsDeleted));
         }
     }

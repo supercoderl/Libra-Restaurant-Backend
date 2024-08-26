@@ -13,6 +13,9 @@ using LibraRestaurant.Proto.Orders;
 using LibraRestaurant.Proto.Stores;
 using LibraRestaurant.Proto.Reservations;
 using LibraRestaurant.Proto.PaymentMethods;
+using LibraRestaurant.Proto.Cities;
+using LibraRestaurant.Proto.Districts;
+using LibraRestaurant.Proto.Wards;
 
 namespace LibraRestaurant.gRPC.Extensions;
 
@@ -82,6 +85,15 @@ public static class ServiceCollectionExtensions
         var paymentMethodsClient = new PaymentMethodsApi.PaymentMethodsApiClient(channel);
         services.AddSingleton(paymentMethodsClient);
 
+        var citiesClient = new CitiesApi.CitiesApiClient(channel);
+        services.AddSingleton(citiesClient);
+
+        var districtsClient = new DistrictsApi.DistrictsApiClient(channel);
+        services.AddSingleton(districtsClient);
+
+        var wardsClient = new WardsApi.WardsApiClient(channel);
+        services.AddSingleton(wardsClient);
+
         services.AddSingleton<IUsersContext, UsersContext>();
         services.AddSingleton<IMenuItemsContext, MenuItemsContext>();
         services.AddSingleton<IMenusContext, MenusContext>();
@@ -92,6 +104,9 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IReservationsContext, ReservationsContext>();
         services.AddSingleton<IOrderLinesContext, OrderLinesContext>();
         services.AddSingleton<IPaymentMethodsContext, PaymentMethodsContext>();
+        services.AddSingleton<ICitiesContext, CitiesContext>();
+        services.AddSingleton<IDistrictsContext, DistrictsContext>();
+        services.AddSingleton<IWardsContext, WardsContext>();
 
         return services;
     }

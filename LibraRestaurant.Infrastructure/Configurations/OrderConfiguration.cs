@@ -23,6 +23,7 @@ namespace LibraRestaurant.Infrastructure.Configurations
 
             builder
                 .Property(order => order.StoreId)
+                .HasColumnType("uniqueidentifier")
                 .IsRequired();
 
             builder
@@ -135,6 +136,13 @@ namespace LibraRestaurant.Infrastructure.Configurations
                 .HasForeignKey(p => p.PaymentMethodId)
                 .HasConstraintName("FK_OrderHeader_PaymentMethod_PaymentMethodId")
                 .OnDelete(DeleteBehavior.SetNull);
+
+            builder
+                .HasOne(s => s.Store)
+                .WithMany(o => o.OrderHeaders)
+                .HasForeignKey(s => s.StoreId)
+                .HasConstraintName("FK_Order_Store_StoreId")
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

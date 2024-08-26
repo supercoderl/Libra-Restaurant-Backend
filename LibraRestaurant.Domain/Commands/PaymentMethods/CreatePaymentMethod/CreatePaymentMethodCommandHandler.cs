@@ -36,6 +36,7 @@ namespace LibraRestaurant.Domain.Commands.PaymentMethods.CreatePaymentMethod
                 request.PaymentMethodId,
                 request.Name,
                 request.Description,
+                request.Picture,
                 request.IsActive);
 
             _paymentMethodRepository.Add(paymentMethod);

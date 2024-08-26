@@ -12,18 +12,21 @@ namespace LibraRestaurant.Domain.Entities
         public string Name { get; private set; }
         public string? Description { get; private set; }
         public bool IsActive { get; private set; }
+        public string? Picture {  get; private set; }
 
         public Category(
             int categoryId,
             string name,
             string? description,
-            bool isActive
+            bool isActive,
+            string? picture
         ) : base( categoryId )
         {
             CategoryId = categoryId;
             Name = name;
             Description = description;
             IsActive = isActive;
+            Picture = picture;
         }
 
         public void SetName(string name )
@@ -39,6 +42,11 @@ namespace LibraRestaurant.Domain.Entities
         public void SetActive(bool isActive)
         {
             IsActive = isActive;
+        }
+
+        public void SetPicture(string? picture)
+        {
+            Picture = picture;
         }
     }
 }

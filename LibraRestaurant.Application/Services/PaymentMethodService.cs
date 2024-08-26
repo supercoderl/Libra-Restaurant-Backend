@@ -51,6 +51,7 @@ namespace LibraRestaurant.Application.Services
                 0,
                 paymentMethod.Name,
                 paymentMethod.Description,
+                paymentMethod.Picture,
                 true));
 
             return 0;
@@ -62,6 +63,7 @@ namespace LibraRestaurant.Application.Services
                 paymentMethod.PaymentMethodId,
                 paymentMethod.Name,
                 paymentMethod.Description,
+                paymentMethod.Picture,
                 paymentMethod.IsActive));
         }
 

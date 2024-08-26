@@ -31,6 +31,12 @@ namespace LibraRestaurant.Domain.Entities
         [InverseProperty("Store")]
         public virtual ICollection<Reservation>? Reservations { get; set; } = new List<Reservation>();
 
+        [InverseProperty("Store")]
+        public virtual ICollection<OrderHeader>? OrderHeaders { get; set; } = new List<OrderHeader>();
+
+        [InverseProperty("Store")]
+        public virtual ICollection<Menu>? Menus { get; set; } = new List<Menu>();
+
         public Store(
             Guid storeId,
             string name,

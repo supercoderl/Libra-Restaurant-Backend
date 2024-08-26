@@ -15,18 +15,21 @@ namespace LibraRestaurant.Domain.Commands.Categories.CreateCategory
         public string Name { get; }
         public string? Description { get; }
         public bool IsActive { get; }
+        public string? Picture {  get; }
 
         public CreateCategoryCommand(
             int categoryId,
             string name,
             string? description,
-            bool isActive
+            bool isActive,
+            string? picture
         ) : base(categoryId)
         {
             CategoryId = categoryId;
             Name = name;
             Description = description;
             IsActive = isActive;
+            Picture = picture;
         }
 
         public override bool IsValid()

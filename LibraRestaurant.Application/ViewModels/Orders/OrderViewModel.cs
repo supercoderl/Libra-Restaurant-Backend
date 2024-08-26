@@ -33,6 +33,7 @@ public sealed class OrderViewModel
     public DateTime? ReadyTime { get; set; }
     public bool IsCompleted { get; set; }
     public DateTime? CompletedTime { get; set; }
+    public string? StoreName { get; set; }
 
     public static OrderViewModel FromOrder(OrderHeader order)
     {
@@ -65,6 +66,7 @@ public sealed class OrderViewModel
             ReadyTime = order.ReadyTime,
             IsCompleted = order.IsCompleted,
             CompletedTime = order.CompletedTime,
+            StoreName = order?.Store?.Name
         };
     }
 }

@@ -49,6 +49,10 @@ namespace LibraRestaurant.Domain.Entities
         [InverseProperty("OrderHeaders")]
         public virtual PaymentMethod? PaymentMethod { get; set; }
 
+        [ForeignKey("StoreId")]
+        [InverseProperty("OrderHeaders")]
+        public virtual Store? Store { get; set; }
+
         public OrderHeader(
             Guid orderId,
             string orderNo,

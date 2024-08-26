@@ -34,7 +34,7 @@ public sealed class GetAllPaymentMethodsQueryHandler :
         var paymentMethodsQuery = _paymentMethodRepository
             .GetAllNoTracking()
             .IgnoreQueryFilters()
-            .Where(x => request.IncludeDeleted || !x.Deleted);
+            .Where(x => request.IncludeDeleted || !x.Deleted && x.IsActive);
 
         if (!string.IsNullOrWhiteSpace(request.SearchTerm))
         {
