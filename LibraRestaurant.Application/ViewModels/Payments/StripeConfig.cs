@@ -13,7 +13,7 @@ namespace LibraRestaurant.Application.ViewModels.Payments
         public string SuccessURL { get; set; }
         public string CancelURL { get; set; }
 
-        public StripeConfig(string apiKey, string successURL, string cancelURL, string secretKey)
+        public StripeConfig(string apiKey, string secretKey, string successURL, string cancelURL)
         {
             ApiKey = apiKey;
             SuccessURL = successURL;

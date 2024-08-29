@@ -22,7 +22,10 @@ namespace LibraRestaurant.Domain.Entities
         public virtual City? City { get; set; }
 
         [InverseProperty("District")]
-        public virtual ICollection<Ward>? Wards { get; set; } = new List<Ward>();  
+        public virtual ICollection<Ward>? Wards { get; set; } = new List<Ward>();
+
+        [InverseProperty("District")]
+        public virtual ICollection<Store>? Stores { get; set; } = new List<Store>();
 
         public District(
             int districtId,

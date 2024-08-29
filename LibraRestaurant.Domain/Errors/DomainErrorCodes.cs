@@ -144,4 +144,17 @@ public static class DomainErrorCodes
         // General
         public const string AlreadyExists = "PAYMENT_METHOD_ALREADY_EXISTS";
     }
+
+    public static class PaymentHistory
+    {
+        // Payment History Validation
+        public const string EmptyId = "PAYMENT_HISTORY_EMPTY_ID";
+        public const string EmptyTransaction = "PAYMENT_HISTORY_EMPTY_TRANSACTION";
+        public const string EmptyOrder = "PAYMENT_HISTORY_EMPTY_ORDER";
+        public const string EmptyPaymentMethod = "PAYMENT_HISTORY_EMPTY_PAYMENT_METHOD";
+        public const string EmptyAmount = "PAYMENT_HISTORY_EMPTY_AMOUNT";
+
+        // General
+        public const string AlreadyExists = "PAYMENT_HISTORY_ALREADY_EXISTS";
+    }
 }

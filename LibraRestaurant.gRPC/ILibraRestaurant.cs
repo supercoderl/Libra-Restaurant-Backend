@@ -16,4 +16,5 @@ public interface ILibraRestaurant
     ICitiesContext Cities { get; }
     IDistrictsContext IDistricts { get; }
     IWardsContext Wards { get; }
+    IPaymentHistoriesContext PaymentHistories { get; }
 }

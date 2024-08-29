@@ -50,9 +50,10 @@ namespace LibraRestaurant.Application.ViewModels.Payments
     }
 
     public sealed record CreateOrderRequest(
-        string Reference,
+        Guid Reference,
         string Currency,
         double Value,
-        int PaymentMethodId
+        int PaymentMethodId,
+        Guid OrderId
     );
 }

@@ -9,6 +9,7 @@ namespace LibraRestaurant.Application.Queries.Wards.GetAll;
 public sealed record GetAllWardsQuery(
     PageQuery Query,
     bool IncludeDeleted,
+    bool IsAll,
     string SearchTerm = "",
     SortQuery? SortQuery = null) :
     IRequest<PagedResult<WardViewModel>>;

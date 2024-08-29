@@ -9,6 +9,7 @@ namespace LibraRestaurant.Application.Queries.Districts.GetAll;
 public sealed record GetAllDistrictsQuery(
     PageQuery Query,
     bool IncludeDeleted,
+    bool IsAll,
     string SearchTerm = "",
     SortQuery? SortQuery = null) :
     IRequest<PagedResult<DistrictViewModel>>;

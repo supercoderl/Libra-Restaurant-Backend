@@ -47,9 +47,14 @@ public sealed class GetAllWardsQueryHandler :
 
         wardsQuery = wardsQuery.GetOrderedQueryable(request.SortQuery, _sortingExpressionProvider);
 
+        if(!request.IsAll)
+        {
+            wardsQuery = wardsQuery
+                .Skip((request.Query.Page - 1) * request.Query.PageSize)
+                .Take(request.Query.PageSize);
+        }
+
         var wards = await wardsQuery
-            .Skip((request.Query.Page - 1) * request.Query.PageSize)
-            .Take(request.Query.PageSize)
             .Select(ward => WardViewModel.FromWard(ward))
             .ToListAsync(cancellationToken);
 

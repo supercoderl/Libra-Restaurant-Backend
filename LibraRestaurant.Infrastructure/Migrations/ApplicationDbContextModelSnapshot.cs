@@ -292,7 +292,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         new
                         {
                             ItemId = 1,
-                            CreatedAt = new DateTime(2024, 8, 23, 20, 18, 36, 967, DateTimeKind.Local).AddTicks(6835),
+                            CreatedAt = new DateTime(2024, 8, 27, 15, 54, 38, 334, DateTimeKind.Local).AddTicks(2742),
                             Deleted = false,
                             Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             Instruction = "Ngon hơn khi dùng nóng",
@@ -462,6 +462,60 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.ToTable("OrderLines");
                 });
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.PaymentHistory", b =>
+                {
+                    b.Property<int>("PaymentHistoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentHistoryId"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("money");
+
+                    b.Property<string>("CallbackURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<int?>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("PaymentMethodId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ResponseJSON")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TransactionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PaymentHistoryId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("PaymentMethodId");
+
+                    b.ToTable("PaymentHistories");
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.PaymentMethod", b =>
                 {
                     b.Property<int>("PaymentMethodId")
@@ -618,22 +672,13 @@ namespace LibraRestaurant.Infrastructure.Migrations
 
                     b.HasKey("StoreId");
 
-                    b.ToTable("Stores");
+                    b.HasIndex("CityId");
 
-                    b.HasData(
-                        new
-                        {
-                            StoreId = new Guid("65748e9b-24c9-4bc0-b4f2-ae3842653226"),
-                            Address = "",
-                            CityId = 1,
-                            Deleted = false,
-                            DistrictId = 1,
-                            Id = new Guid("65748e9b-24c9-4bc0-b4f2-ae3842653226"),
-                            IsActive = true,
-                            Name = "Nhà hàng Libra - Chi nhánh 1",
-                            NumberId = 0,
-                            WardId = 1
-                        });
+                    b.HasIndex("DistrictId");
+
+                    b.HasIndex("WardId");
+
+                    b.ToTable("Stores");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.User", b =>
@@ -689,7 +734,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("65748e9b-24c9-4bc0-b4f2-ae3842653226"),
+                            Id = new Guid("8955d909-32c6-44fd-9391-0aab25dc165f"),
                             Deleted = false,
                             Email = "admin@email.com",
                             FirstName = "Admin",
@@ -697,7 +742,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                             Mobile = "09091234567",
                             NumberId = 0,
                             Password = "$2a$12$Blal/uiFIJdYsCLTMUik/egLbfg3XhbnxBC6Sb5IKz2ZYhiU/MzL2",
-                            RegisteredAt = new DateTime(2024, 8, 23, 20, 18, 36, 967, DateTimeKind.Local).AddTicks(3919),
+                            RegisteredAt = new DateTime(2024, 8, 27, 15, 54, 38, 333, DateTimeKind.Local).AddTicks(8456),
                             Status = 0
                         });
                 });
@@ -823,6 +868,27 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Navigation("OrderHeader");
                 });
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.PaymentHistory", b =>
+                {
+                    b.HasOne("LibraRestaurant.Domain.Entities.OrderHeader", "OrderHeader")
+                        .WithMany("PaymentHistories")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_PaymentHistory_Order_OrderId");
+
+                    b.HasOne("LibraRestaurant.Domain.Entities.PaymentMethod", "PaymentMethod")
+                        .WithMany("PaymentHistories")
+                        .HasForeignKey("PaymentMethodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_PaymentHistory_PaymentMethod_PaymentMethodId");
+
+                    b.Navigation("OrderHeader");
+
+                    b.Navigation("PaymentMethod");
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Reservation", b =>
                 {
                     b.HasOne("LibraRestaurant.Domain.Entities.Store", "Store")
@@ -833,6 +899,36 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         .HasConstraintName("FK_Reservation_Store_StoreId");
 
                     b.Navigation("Store");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Store", b =>
+                {
+                    b.HasOne("LibraRestaurant.Domain.Entities.City", "City")
+                        .WithMany("Stores")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Store_City_CityId");
+
+                    b.HasOne("LibraRestaurant.Domain.Entities.District", "District")
+                        .WithMany("Stores")
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Store_District_DistrictId");
+
+                    b.HasOne("LibraRestaurant.Domain.Entities.Ward", "Ward")
+                        .WithMany("Stores")
+                        .HasForeignKey("WardId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Store_Ward_WardId");
+
+                    b.Navigation("City");
+
+                    b.Navigation("District");
+
+                    b.Navigation("Ward");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Ward", b =>
@@ -850,10 +946,14 @@ namespace LibraRestaurant.Infrastructure.Migrations
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.City", b =>
                 {
                     b.Navigation("Districts");
+
+                    b.Navigation("Stores");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.District", b =>
                 {
+                    b.Navigation("Stores");
+
                     b.Navigation("Wards");
                 });
 
@@ -865,11 +965,15 @@ namespace LibraRestaurant.Infrastructure.Migrations
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.OrderHeader", b =>
                 {
                     b.Navigation("OrderLines");
+
+                    b.Navigation("PaymentHistories");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.PaymentMethod", b =>
                 {
                     b.Navigation("OrderHeaders");
+
+                    b.Navigation("PaymentHistories");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Reservation", b =>
@@ -884,6 +988,11 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Navigation("OrderHeaders");
 
                     b.Navigation("Reservations");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Ward", b =>
+                {
+                    b.Navigation("Stores");
                 });
 #pragma warning restore 612, 618
         }

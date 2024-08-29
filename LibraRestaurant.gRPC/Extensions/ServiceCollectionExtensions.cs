@@ -16,6 +16,7 @@ using LibraRestaurant.Proto.PaymentMethods;
 using LibraRestaurant.Proto.Cities;
 using LibraRestaurant.Proto.Districts;
 using LibraRestaurant.Proto.Wards;
+using LibraRestaurant.Proto.PaymentHistories;
 
 namespace LibraRestaurant.gRPC.Extensions;
 
@@ -94,6 +95,9 @@ public static class ServiceCollectionExtensions
         var wardsClient = new WardsApi.WardsApiClient(channel);
         services.AddSingleton(wardsClient);
 
+        var paymentHistoriesClient = new PaymentHistoriesApi.PaymentHistoriesApiClient(channel);
+        services.AddSingleton(paymentHistoriesClient);
+
         services.AddSingleton<IUsersContext, UsersContext>();
         services.AddSingleton<IMenuItemsContext, MenuItemsContext>();
         services.AddSingleton<IMenusContext, MenusContext>();
@@ -107,6 +111,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ICitiesContext, CitiesContext>();
         services.AddSingleton<IDistrictsContext, DistrictsContext>();
         services.AddSingleton<IWardsContext, WardsContext>();
+        services.AddSingleton<IPaymentHistoriesContext, PaymentHistoriesContext>();
 
         return services;
     }

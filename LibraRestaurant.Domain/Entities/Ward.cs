@@ -21,6 +21,9 @@ namespace LibraRestaurant.Domain.Entities
         [InverseProperty("Wards")]
         public virtual District? District { get; set; }
 
+        [InverseProperty("Ward")]
+        public virtual ICollection<Store>? Stores { get; set; } = new List<Store>();
+
         public Ward(
             int wardId,
             string name,

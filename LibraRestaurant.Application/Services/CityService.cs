@@ -32,10 +32,11 @@ namespace LibraRestaurant.Application.Services
         public async Task<PagedResult<CityViewModel>> GetAllCitiesAsync(
             PageQuery query,
             bool includeDeleted,
+            bool isAll,
             string searchTerm = "",
             SortQuery? sortQuery = null)
         {
-            return await _bus.QueryAsync(new GetAllCitiesQuery(query, includeDeleted, searchTerm, sortQuery));
+            return await _bus.QueryAsync(new GetAllCitiesQuery(query, includeDeleted, isAll, searchTerm, sortQuery));
         }
     }
 }

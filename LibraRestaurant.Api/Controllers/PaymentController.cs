@@ -70,7 +70,7 @@ namespace LibraRestaurant.Api.Controllers
 
         [HttpPost("Stripe")]
         [SwaggerOperation("Pay")]
-        [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<Session>))]
+        [SwaggerResponse(200, "Request successful")]
         public async Task<IActionResult> PayStripe(SessionStripe request)
         {
             return Response(await _stripeService.CreateOrderStripe(request));

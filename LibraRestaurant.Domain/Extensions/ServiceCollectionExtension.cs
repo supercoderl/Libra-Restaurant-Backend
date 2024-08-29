@@ -17,6 +17,8 @@ using LibraRestaurant.Domain.Commands.OrderLines.UpdateOrderLine;
 using LibraRestaurant.Domain.Commands.Orders.CreateOrder;
 using LibraRestaurant.Domain.Commands.Orders.DeleteOrder;
 using LibraRestaurant.Domain.Commands.Orders.UpdateOrder;
+using LibraRestaurant.Domain.Commands.PaymentHistories.CreatePaymentHistory;
+using LibraRestaurant.Domain.Commands.PaymentHistories.DeletePaymentHistory;
 using LibraRestaurant.Domain.Commands.PaymentMethods.CreatePaymentMethod;
 using LibraRestaurant.Domain.Commands.PaymentMethods.DeletePaymentMethod;
 using LibraRestaurant.Domain.Commands.PaymentMethods.UpdatePaymentMethod;
@@ -41,6 +43,7 @@ using LibraRestaurant.Shared.Events.Menu;
 using LibraRestaurant.Shared.Events.MenuItem;
 using LibraRestaurant.Shared.Events.OrderHead;
 using LibraRestaurant.Shared.Events.OrderLine;
+using LibraRestaurant.Shared.Events.PaymentHistory;
 using LibraRestaurant.Shared.Events.PaymentMethod;
 using LibraRestaurant.Shared.Events.Reservation;
 using LibraRestaurant.Shared.Events.Store;
@@ -106,6 +109,10 @@ public static class ServiceCollectionExtension
         services.AddScoped<IRequestHandler<UpdatePaymentMethodCommand>, UpdatePaymentMethodCommandHandler>();
         services.AddScoped<IRequestHandler<DeletePaymentMethodCommand>, DeletePaymentMethodCommandHandler>();
 
+        //PaymentHistory
+        services.AddScoped<IRequestHandler<CreatePaymentHistoryCommand>, CreatePaymentHistoryCommandHandler>();
+        services.AddScoped<IRequestHandler<DeletePaymentHistoryCommand>, DeletePaymentHistoryCommandHandler>();
+
         return services;
     }
 
@@ -164,6 +171,10 @@ public static class ServiceCollectionExtension
         services.AddScoped<INotificationHandler<PaymentMethodCreatedEvent>, PaymentMethodEventHandler>();
         services.AddScoped<INotificationHandler<PaymentMethodUpdatedEvent>, PaymentMethodEventHandler>();
         services.AddScoped<INotificationHandler<PaymentMethodDeletedEvent>, PaymentMethodEventHandler>();
+
+        //PaymentHistory
+        services.AddScoped<INotificationHandler<PaymentHistoryCreatedEvent>, PaymentHistoryEventHandler>();
+        services.AddScoped<INotificationHandler<PaymentHistoryDeletedEvent>, PaymentHistoryEventHandler>();
 
         return services;
     }

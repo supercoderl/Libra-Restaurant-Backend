@@ -30,5 +30,10 @@ namespace LibraRestaurant.Infrastructure.Repositories
         {
             return await DbSet.SingleOrDefaultAsync(item => item.StoreId == storeId);
         }
+
+        public async Task<int> CountOrderAsync()
+        {
+            return await DbSet.CountAsync();
+        }
     }
 }

@@ -8,13 +8,13 @@ namespace LibraRestaurant.Application.ViewModels.Payments
 {
     public class PaypalConfig
     {
-        public string BaseURL { get; set; }
+        public string Mode { get; set; }
         public string ClientID { get; set; }
         public string Secret { get; set; }
 
-        public PaypalConfig(string baseURL, string clientID, string secret)
+        public PaypalConfig(string mode, string clientID, string secret)
         {
-            BaseURL = baseURL;
+            Mode = mode;
             ClientID = clientID;
             Secret = secret;
         }

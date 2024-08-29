@@ -20,6 +20,8 @@
         <Protobuf Include="OrderLines\Models.proto" GrpcServices="Both" />
         <Protobuf Include="Orders\OrdersApi.proto" GrpcServices="Both" />
         <Protobuf Include="Orders\Models.proto" GrpcServices="Both" />
+        <Protobuf Include="PaymentHistories\Models.proto" GrpcServices="Both" />
+        <Protobuf Include="PaymentHistories\PaymentHistoriesApi.proto" GrpcServices="Both" />
         <Protobuf Include="PaymentMethods\PaymentMethodsApi.proto" GrpcServices="Both" />
         <Protobuf Include="PaymentMethods\Models.proto" GrpcServices="Both" />
         <Protobuf Include="Reservations\ReservationsApi.proto" GrpcServices="Both" />
