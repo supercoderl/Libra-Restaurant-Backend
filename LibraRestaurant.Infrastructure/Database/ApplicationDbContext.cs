@@ -20,6 +20,7 @@ public partial class ApplicationDbContext : DbContext
     public DbSet<City> Cities { get; set; } = null!;
     public DbSet<District> Districts { get; set; } = null!;
     public DbSet<Ward> Wards { get; set; } = null!;
+    public DbSet<PaymentHistory> PaymentHistories { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -63,5 +64,6 @@ public partial class ApplicationDbContext : DbContext
         builder.ApplyConfiguration(new CityConfiguration());
         builder.ApplyConfiguration(new DistrictConfiguration());
         builder.ApplyConfiguration(new WardConfiguration());
+        builder.ApplyConfiguration(new PaymentHistoryConfiguration());
     }
 }

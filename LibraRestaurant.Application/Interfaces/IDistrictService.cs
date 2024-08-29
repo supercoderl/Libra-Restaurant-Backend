@@ -16,6 +16,7 @@ namespace LibraRestaurant.Application.Interfaces
         public Task<PagedResult<DistrictViewModel>> GetAllDistrictsAsync(
             PageQuery query,
             bool includeDeleted,
+            bool isAll,
             string searchTerm = "",
             SortQuery? sortQuery = null);
     }

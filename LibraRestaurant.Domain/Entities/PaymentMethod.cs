@@ -18,6 +18,9 @@ namespace LibraRestaurant.Domain.Entities
         [InverseProperty("PaymentMethod")]
         public virtual ICollection<OrderHeader>? OrderHeaders { get; set; } = new List<OrderHeader>();
 
+        [InverseProperty("PaymentMethod")]
+        public virtual ICollection<PaymentHistory>? PaymentHistories { get; set; } = new List<PaymentHistory>();
+
         public PaymentMethod(
             int paymentMethodId,
             string name,

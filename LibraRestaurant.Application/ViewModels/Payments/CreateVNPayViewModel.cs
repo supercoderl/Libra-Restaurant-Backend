@@ -24,9 +24,10 @@ namespace LibraRestaurant.Application.ViewModels.Payments
         bool IsQR,
         bool IsVNBank,
         bool IsIntCard,
-        string? Locate,
+        string? Locale,
         double Amount,
-        Guid OrderID,
+        Guid OrderId,
+        Guid TransactionId,
         string Status,
         int PaymentMethodId,
         DateTime? CreatedDate

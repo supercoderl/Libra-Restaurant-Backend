@@ -9,6 +9,7 @@ namespace LibraRestaurant.Application.Queries.Cities.GetAll;
 public sealed record GetAllCitiesQuery(
     PageQuery Query,
     bool IncludeDeleted,
+    bool IsAll,
     string SearchTerm = "",
     SortQuery? SortQuery = null) :
     IRequest<PagedResult<CityViewModel>>;

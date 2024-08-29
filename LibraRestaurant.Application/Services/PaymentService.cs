@@ -18,6 +18,7 @@ using Stripe;
 using Net.payOS;
 using Net.payOS.Types;
 using LibraRestaurant.Domain.Enums;
+using Stripe.Climate;
 
 namespace LibraRestaurant.Application.Services
 {
@@ -26,7 +27,10 @@ namespace LibraRestaurant.Application.Services
         private IHttpContextAccessor _httpContextAccessor;
         private readonly PaypalConfig _paypalConfig;
         private readonly IOrderService _orderService;
-        private const string TokenCacheKey = "PaypalToken";
+        public string BaseURL => _paypalConfig.Mode == "Live"
+            ? "https://api-m.paypal.com"
+            : "https://api-m.sandbox.paypal.com";
+
 
 
         public PaypalService(IHttpContextAccessor httpContextAccessor, PaypalConfig paypalConfig, IOrderService orderService)
@@ -47,7 +51,7 @@ namespace LibraRestaurant.Application.Services
 
             var request = new HttpRequestMessage
             {
-                RequestUri = new Uri($"{_paypalConfig.BaseURL}/v1/oauth2/token"),
+                RequestUri = new Uri($"{BaseURL}/v1/oauth2/token"),
                 Method = HttpMethod.Post,
                 Headers =
                 {
@@ -75,7 +79,7 @@ namespace LibraRestaurant.Application.Services
                 {
                     new()
                     {
-                        reference_id = viewModel.Reference,
+                        reference_id = viewModel.Reference.ToString(),
                         amount = new Amount
                         {
                             currency_code = viewModel.Currency,
@@ -89,12 +93,12 @@ namespace LibraRestaurant.Application.Services
 
             httpClient.DefaultRequestHeaders.Authorization = AuthenticationHeaderValue.Parse($"Bearer {auth?.access_token}");
 
-            var httpResponse = await httpClient.PostAsJsonAsync($"{_paypalConfig.BaseURL}/v2/checkout/orders", request);
+            var httpResponse = await httpClient.PostAsJsonAsync($"{BaseURL}/v2/checkout/orders", request);
 
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
             var response = JsonSerializer.Deserialize<CreateOrderResponse>(jsonResponse);
 
-            await _orderService.UpdatePaymentMethodAsync(Guid.Parse(viewModel.Reference), viewModel.PaymentMethodId);
+            await _orderService.UpdatePaymentMethodAsync(viewModel.OrderId, viewModel.PaymentMethodId);
 
             return response;
         }
@@ -109,7 +113,7 @@ namespace LibraRestaurant.Application.Services
 
             var httpContent = new StringContent("", Encoding.Default, "application/json");
 
-            var httpResponse = await httpClient.PostAsync($"{_paypalConfig.BaseURL}/v2/checkout/orders/{orderId}/capture", httpContent);
+            var httpResponse = await httpClient.PostAsync($"{BaseURL}/v2/checkout/orders/{orderId}/capture", httpContent);
 
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
             var response = JsonSerializer.Deserialize<CaptureOrderResponse>(jsonResponse);
@@ -127,7 +131,7 @@ namespace LibraRestaurant.Application.Services
 
             var httpContent = new StringContent("", Encoding.Default, "application/json");
 
-            var httpResponse = await httpClient.GetAsync($"{_paypalConfig.BaseURL}/v1/reporting/transactions?fields=transaction_info,payer_info,shipping_info,auction_info,cart_info,incentive_info,store_info&start_date=2024-06-20T23:59:59.999Z&end_date=2024-07-20T00:00:00.000Z");
+            var httpResponse = await httpClient.GetAsync($"{BaseURL}/v1/reporting/transactions?fields=transaction_info,payer_info,shipping_info,auction_info,cart_info,incentive_info,store_info&start_date=2024-06-20T23:59:59.999Z&end_date=2024-07-20T00:00:00.000Z");
 
             var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
             var response = JsonSerializer.Deserialize<CaptureOrderResponse>(jsonResponse);
@@ -153,8 +157,8 @@ namespace LibraRestaurant.Application.Services
 
             //Get payment input
             OrderInfo order = new OrderInfo();
-            order.OrderId = ConvertGuidToLong(request.OrderID);
-            order.Amount = long.Parse(request.Amount.ToString());
+            order.OrderId = ConvertGuidToLong(request.TransactionId);
+            order.Amount = long.Parse((request.Amount * 100).ToString());
             order.Status = request.Status;
             order.CreatedDate = request.CreatedDate ?? DateTime.Now;
             //Save order to db
@@ -183,9 +187,9 @@ namespace LibraRestaurant.Application.Services
             vnpay.AddRequestData("vnp_CurrCode", "VND");
             vnpay.AddRequestData("vnp_IpAddr", Utils.GetIpAddress());
 
-            vnpay.AddRequestData("vnp_Locale", request.Locate);
+            vnpay.AddRequestData("vnp_Locale", request.Locale);
 
-            vnpay.AddRequestData("vnp_OrderInfo", "Thanh toan don hang:" + order.OrderId);
+            vnpay.AddRequestData("vnp_OrderInfo", "Hoa don so:" + request.OrderId);
             vnpay.AddRequestData("vnp_OrderType", "other"); //default value: other
 
             vnpay.AddRequestData("vnp_ReturnUrl", _vNPayConfig.vnp_Returnurl);
@@ -195,7 +199,7 @@ namespace LibraRestaurant.Application.Services
             //Billing
 
             string paymentUrl = vnpay.CreateRequestUrl(_vNPayConfig.vnp_Url, _vNPayConfig.vnp_HashSecret);
-            await _orderService.UpdatePaymentMethodAsync(request.OrderID, request.PaymentMethodId);
+            await _orderService.UpdatePaymentMethodAsync(request.OrderId, request.PaymentMethodId);
 
             return paymentUrl;
         }
@@ -212,21 +216,24 @@ namespace LibraRestaurant.Application.Services
     {
         private readonly SessionService _sessionService;
         private readonly StripeConfig _stripeConfig;
+        private readonly IOrderService _orderService;
 
-        public StripeService(StripeConfig stripeConfig)
+        public StripeService(StripeConfig stripeConfig, IOrderService orderService)
         {
-            StripeConfiguration.ApiKey = _stripeConfig?.ApiKey;
+            StripeConfiguration.ApiKey = stripeConfig.SecretKey;
             _sessionService = new SessionService();
             _stripeConfig = stripeConfig;
+            _orderService = orderService;
         }
 
         public async Task<Session> CreateOrderStripe(SessionStripe request)
         {
             await Task.CompletedTask;
+            string param = $"?stripe_order={request.OrderId}&stripe_amount={request.Amount}&stripe_status=00&stripe_transaction={request.TransactionId}&stripe_date={DateTime.Now.ToString("yyyyMMddHHmmss")}";
 
             var options = new SessionCreateOptions
             {
-                SuccessUrl = _stripeConfig.SuccessURL,
+                SuccessUrl = string.Concat(_stripeConfig.SuccessURL, param),
                 CancelUrl = _stripeConfig.CancelURL,
                 LineItems = new List<SessionLineItemOptions>
                 {
@@ -234,7 +241,7 @@ namespace LibraRestaurant.Application.Services
                     {
                         PriceData = new SessionLineItemPriceDataOptions
                         {
-                            UnitAmount = request.Amount,
+                            UnitAmount = request.Amount / 10,
                             Currency = request.Currency,
                             ProductData = new SessionLineItemPriceDataProductDataOptions
                             {
@@ -250,6 +257,7 @@ namespace LibraRestaurant.Application.Services
             };
 
             var session = _sessionService.Create(options);
+            await _orderService.UpdatePaymentMethodAsync(request.OrderId, request.PaymentMethodId);
 
             return session;
         }

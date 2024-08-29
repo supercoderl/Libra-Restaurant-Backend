@@ -37,6 +37,18 @@ namespace LibraRestaurant.Domain.Entities
         [InverseProperty("Store")]
         public virtual ICollection<Menu>? Menus { get; set; } = new List<Menu>();
 
+        [ForeignKey("CityId")]
+        [InverseProperty("Stores")]
+        public virtual City? City { get; set; }
+
+        [ForeignKey("DistrictId")]
+        [InverseProperty("Stores")]
+        public virtual District? District { get; set; }
+
+        [ForeignKey("WardId")]
+        [InverseProperty("Stores")]
+        public virtual Ward? Ward { get; set; }
+
         public Store(
             Guid storeId,
             string name,

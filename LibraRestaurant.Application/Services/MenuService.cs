@@ -16,7 +16,7 @@ namespace LibraRestaurant.Application.Services
     {
         private readonly IMediatorHandler _bus;
 
-        public MenuService(IMediatorHandler bus, IUser user)
+        public MenuService(IMediatorHandler bus)
         {
             _bus = bus;
         }

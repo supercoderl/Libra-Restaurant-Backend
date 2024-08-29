@@ -47,9 +47,14 @@ public sealed class GetAllCitiesQueryHandler :
 
         citiesQuery = citiesQuery.GetOrderedQueryable(request.SortQuery, _sortingExpressionProvider);
 
+        if(!request.IsAll)
+        {
+            citiesQuery = citiesQuery
+                .Skip((request.Query.Page - 1) * request.Query.PageSize)
+                .Take(request.Query.PageSize);
+        }
+
         var cities = await citiesQuery
-            .Skip((request.Query.Page - 1) * request.Query.PageSize)
-            .Take(request.Query.PageSize)
             .Select(city => CityViewModel.FromCity(city))
             .ToListAsync(cancellationToken);
 

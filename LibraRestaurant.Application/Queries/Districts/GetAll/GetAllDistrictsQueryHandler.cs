@@ -47,9 +47,14 @@ public sealed class GetAllDistrictsQueryHandler :
 
         districtsQuery = districtsQuery.GetOrderedQueryable(request.SortQuery, _sortingExpressionProvider);
 
+        if(!request.IsAll)
+        {
+            districtsQuery = districtsQuery
+                .Skip((request.Query.Page - 1) * request.Query.PageSize)
+                .Take(request.Query.PageSize);
+        }
+
         var districts = await districtsQuery
-            .Skip((request.Query.Page - 1) * request.Query.PageSize)
-            .Take(request.Query.PageSize)
             .Select(district => DistrictViewModel.FromDistrict(district))
             .ToListAsync(cancellationToken);
 

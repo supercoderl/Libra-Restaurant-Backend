@@ -16,9 +16,14 @@ using LibraRestaurant.Application.Queries.Menus.GetUserById;
 using LibraRestaurant.Application.Queries.OrderLines.GetAll;
 using LibraRestaurant.Application.Queries.OrderLines.GetOrderLineById;
 using LibraRestaurant.Application.Queries.OrderLines.GetOrderLineByOrderAndItem;
+using LibraRestaurant.Application.Queries.Orders.CountOrder;
 using LibraRestaurant.Application.Queries.Orders.GetAll;
 using LibraRestaurant.Application.Queries.Orders.GetOrderById;
 using LibraRestaurant.Application.Queries.Orders.GetOrderByStoreAndReservation;
+using LibraRestaurant.Application.Queries.PaymentHistories.GetAll;
+using LibraRestaurant.Application.Queries.PaymentHistories.GetPaymentAmount;
+using LibraRestaurant.Application.Queries.PaymentHistories.GetPaymentHistoryById;
+using LibraRestaurant.Application.Queries.PaymentHistories.GetPaymentHistoryByOrder;
 using LibraRestaurant.Application.Queries.PaymentMethods.GetAll;
 using LibraRestaurant.Application.Queries.PaymentMethods.GetPaymentMethodById;
 using LibraRestaurant.Application.Queries.Reservations.GetAll;
@@ -41,6 +46,7 @@ using LibraRestaurant.Application.ViewModels.MenuItems;
 using LibraRestaurant.Application.ViewModels.Menus;
 using LibraRestaurant.Application.ViewModels.OrderLines;
 using LibraRestaurant.Application.ViewModels.Orders;
+using LibraRestaurant.Application.ViewModels.PaymentHistories;
 using LibraRestaurant.Application.ViewModels.PaymentMethods;
 using LibraRestaurant.Application.ViewModels.Payments;
 using LibraRestaurant.Application.ViewModels.Reservations;
@@ -77,6 +83,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICityService, CityService>();
         services.AddScoped<IDistrictService, DistrictService>();
         services.AddScoped<IWardService, WardService>();
+        services.AddScoped<IPaymentHistoryService, PaymentHistoryService>();
+        services.AddScoped<IDashboardService, DashboardService>();
 
         services.AddSingleton<Cloudinary>(sp =>
         {
@@ -93,7 +101,7 @@ public static class ServiceCollectionExtensions
         {
             var configuration = pp.GetRequiredService<IConfiguration>();
             return new PaypalConfig(
-                configuration["PaypalConfiguration:BaseURL"] == "Live" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com",
+                configuration["PaypalConfiguration:Mode"]!,
                 configuration["PaypalConfiguration:ClientID"]!,
                 configuration["PaypalConfiguration:ClientSecret"]!
             );
@@ -116,7 +124,7 @@ public static class ServiceCollectionExtensions
             return new StripeConfig(
                 configuration["StripeConfiguration:ApiKey"]!,
                 configuration["StripeConfiguration:SecretKey"]!,
-                configuration["StripeConfiguration:SuccessURL"]!,
+                configuration["StripeConfiguration:ReturnURL"]!,
                 configuration["StripeConfiguration:CancelURL"]!
             );
         });
@@ -162,6 +170,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRequestHandler<GetOrderByIdQuery, OrderViewModel?>, GetOrderByIdQueryHandler>();
         services.AddScoped<IRequestHandler<GetAllOrdersQuery, PagedResult<OrderViewModel>>, GetAllOrdersQueryHandler>();
         services.AddScoped<IRequestHandler<GetOrderByStoreAndReservationQuery, OrderViewModel?>, GetOrderByStoreAndReservationQueryHandler>();
+        services.AddScoped<IRequestHandler<CountOrderQuery, int>, CountOrderQueryHandler>();
 
         // Store
         services.AddScoped<IRequestHandler<GetStoreByIdQuery, StoreViewModel?>, GetStoreByIdQueryHandler>();
@@ -193,6 +202,12 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRequestHandler<GetWardByIdQuery, WardViewModel?>, GetWardByIdQueryHandler>();
         services.AddScoped<IRequestHandler<GetAllWardsQuery, PagedResult<WardViewModel>>, GetAllWardsQueryHandler>();
 
+        // Payment History
+        services.AddScoped<IRequestHandler<GetPaymentHistoryByIdQuery, PaymentHistoryViewModel?>, GetPaymentHistoryByIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetAllPaymentHistoriesQuery, PagedResult<PaymentHistoryViewModel>>, GetAllPaymentHistoriesQueryHandler>();
+        services.AddScoped<IRequestHandler<GetPaymentHistoryByOrderQuery, PaymentHistoryViewModel?>, GetPaymentHistoryByOrderQueryHandler>();
+        services.AddScoped<IRequestHandler<GetPaymentAmountQuery, double>, GetPaymentAmountQueryHandler>();
+
         return services;
     }
 
@@ -211,6 +226,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISortingExpressionProvider<CityViewModel, City>, CityViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<DistrictViewModel, District>, DistrictViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<WardViewModel, Ward>, WardViewModelSortProvider>();
+        services.AddScoped<ISortingExpressionProvider<PaymentHistoryViewModel, PaymentHistory>, PaymentHistoryViewModelSortProvider>();
 
         return services;
     }

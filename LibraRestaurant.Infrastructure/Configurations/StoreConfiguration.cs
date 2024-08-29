@@ -83,25 +83,26 @@ namespace LibraRestaurant.Infrastructure.Configurations
                 .IsRequired()
                 .HasColumnType("bit");
 
-            builder.HasData(new Store(
-                Ids.Seed.UserId,
-                "Nhà hàng Libra - Chi nhánh 1",
-                1,
-                1,
-                1,
-                true,
-                null,
-                string.Empty,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null));
+            builder
+                .HasOne(c => c.City)
+                .WithMany(s => s.Stores)
+                .HasForeignKey(c => c.CityId)
+                .HasConstraintName("FK_Store_City_CityId")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .HasOne(d => d.District)
+                .WithMany(s => s.Stores)
+                .HasForeignKey(d => d.DistrictId)
+                .HasConstraintName("FK_Store_District_DistrictId")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .HasOne(w => w.Ward)
+                .WithMany(s => s.Stores)
+                .HasForeignKey(w => w.WardId)
+                .HasConstraintName("FK_Store_Ward_WardId")
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

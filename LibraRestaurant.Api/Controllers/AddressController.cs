@@ -44,6 +44,7 @@ namespace LibraRestaurant.Api.Controllers
         public async Task<IActionResult> GetAllCitiesAsync(
             [FromQuery] PageQuery query,
             [FromQuery] string searchTerm = "",
+            [FromQuery] bool isAll = false,
             [FromQuery] bool includeDeleted = false,
             [FromQuery] [SortableFieldsAttribute<CityViewModelSortProvider, CityViewModel, City>]
         SortQuery? sortQuery = null)
@@ -51,6 +52,7 @@ namespace LibraRestaurant.Api.Controllers
             var cities = await _cityService.GetAllCitiesAsync(
                 query,
                 includeDeleted,
+                isAll,
                 searchTerm,
                 sortQuery);
             return Response(cities);
@@ -72,12 +74,14 @@ namespace LibraRestaurant.Api.Controllers
             [FromQuery] PageQuery query,
             [FromQuery] string searchTerm = "",
             [FromQuery] bool includeDeleted = false,
+            [FromQuery] bool isAll = false,
             [FromQuery] [SortableFieldsAttribute<DistrictViewModelSortProvider, DistrictViewModel, District>]
         SortQuery? sortQuery = null)
         {
             var districts = await _districtService.GetAllDistrictsAsync(
                 query,
                 includeDeleted,
+                isAll,
                 searchTerm,
                 sortQuery);
             return Response(districts);
@@ -99,12 +103,14 @@ namespace LibraRestaurant.Api.Controllers
             [FromQuery] PageQuery query,
             [FromQuery] string searchTerm = "",
             [FromQuery] bool includeDeleted = false,
+            [FromQuery] bool isAll = false,
             [FromQuery] [SortableFieldsAttribute<WardViewModelSortProvider, WardViewModel, Ward>]
         SortQuery? sortQuery = null)
         {
             var wards = await _wardService.GetAllWardsAsync(
                 query,
                 includeDeleted,
+                isAll,
                 searchTerm,
                 sortQuery);
             return Response(wards);
