@@ -28,8 +28,8 @@
         <Protobuf Include="Reservations\Models.proto" GrpcServices="Both" />
         <Protobuf Include="Stores\StoresApi.proto" GrpcServices="Both" />
         <Protobuf Include="Stores\Models.proto" GrpcServices="Both" />
-        <Protobuf Include="Users\Models.proto" GrpcServices="Both" />
-        <Protobuf Include="Users\UsersApi.proto" GrpcServices="Both" />
+        <Protobuf Include="Employees\Models.proto" GrpcServices="Both" />
+        <Protobuf Include="Employees\EmployeesApi.proto" GrpcServices="Both" />
         <Protobuf Include="MenuItems\Models.proto" GrpcServices="Both" />
         <Protobuf Include="MenuItems\ItemsApi.proto" GrpcServices="Both" />
         <Protobuf Include="Wards\WardsApi.proto" GrpcServices="Both" />

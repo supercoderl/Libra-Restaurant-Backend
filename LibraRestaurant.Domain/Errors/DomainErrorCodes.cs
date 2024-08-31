@@ -4,31 +4,31 @@ namespace LibraRestaurant.Domain.Errors;
 
 public static class DomainErrorCodes
 {
-    public static class User
+    public static class Employee
     {
-        // User Validation
-        public const string EmptyId = "USER_EMPTY_ID";
-        public const string EmptyFirstName = "USER_EMPTY_FIRST_NAME";
-        public const string EmptyLastName = "USER_EMPTY_LAST_NAME";
-        public const string EmptyMobile = "USER_EMPTY_MOBILE";
-        public const string EmailExceedsMaxLength = "USER_EMAIL_EXCEEDS_MAX_LENGTH";
-        public const string FirstNameExceedsMaxLength = "USER_FIRST_NAME_EXCEEDS_MAX_LENGTH";
-        public const string LastNameExceedsMaxLength = "USER_LAST_NAME_EXCEEDS_MAX_LENGTH";
-        public const string MobileExceedsMaxLength = "USER_MOBILE_EXCEEDS_MAX_LENGTH";
-        public const string InvalidEmail = "USER_INVALID_EMAIL";
+        // Employee Validation
+        public const string EmptyId = "EMPLOYEE_EMPTY_ID";
+        public const string EmptyFirstName = "EMPLOYEE_EMPTY_FIRST_NAME";
+        public const string EmptyLastName = "EMPLOYEE_EMPTY_LAST_NAME";
+        public const string EmptyMobile = "EMPLOYEE_EMPTY_MOBILE";
+        public const string EmailExceedsMaxLength = "EMPLOYEE_EMAIL_EXCEEDS_MAX_LENGTH";
+        public const string FirstNameExceedsMaxLength = "EMPLOYEE_FIRST_NAME_EXCEEDS_MAX_LENGTH";
+        public const string LastNameExceedsMaxLength = "EMPLOYEE_LAST_NAME_EXCEEDS_MAX_LENGTH";
+        public const string MobileExceedsMaxLength = "EMPLOYEE_MOBILE_EXCEEDS_MAX_LENGTH";
+        public const string InvalidEmail = "EMPLOYEE_INVALID_EMAIL";
 
-        // User Password Validation
-        public const string EmptyPassword = "USER_PASSWORD_MAY_NOT_BE_EMPTY";
-        public const string ShortPassword = "USER_PASSWORD_MAY_NOT_BE_SHORTER_THAN_6_CHARACTERS";
-        public const string LongPassword = "USER_PASSWORD_MAY_NOT_BE_LONGER_THAN_50_CHARACTERS";
-        public const string UppercaseLetterPassword = "USER_PASSWORD_MUST_CONTAIN_A_UPPERCASE_LETTER";
-        public const string LowercaseLetterPassword = "USER_PASSWORD_MUST_CONTAIN_A_LOWERCASE_LETTER";
-        public const string NumberPassword = "USER_PASSWORD_MUST_CONTAIN_A_NUMBER";
-        public const string SpecialCharPassword = "USER_PASSWORD_MUST_CONTAIN_A_SPECIAL_CHARACTER";
+        // Employee Password Validation
+        public const string EmptyPassword = "EMPLOYEE_PASSWORD_MAY_NOT_BE_EMPTY";
+        public const string ShortPassword = "EMPLOYEE_PASSWORD_MAY_NOT_BE_SHORTER_THAN_6_CHARACTERS";
+        public const string LongPassword = "EMPLOYEE_PASSWORD_MAY_NOT_BE_LONGER_THAN_50_CHARACTERS";
+        public const string UppercaseLetterPassword = "EMPLOYEE_PASSWORD_MUST_CONTAIN_A_UPPERCASE_LETTER";
+        public const string LowercaseLetterPassword = "EMPLOYEE_PASSWORD_MUST_CONTAIN_A_LOWERCASE_LETTER";
+        public const string NumberPassword = "EMPLOYEE_PASSWORD_MUST_CONTAIN_A_NUMBER";
+        public const string SpecialCharPassword = "EMPLOYEE_PASSWORD_MUST_CONTAIN_A_SPECIAL_CHARACTER";
 
         // General
-        public const string AlreadyExists = "USER_ALREADY_EXISTS";
-        public const string PasswordIncorrect = "USER_PASSWORD_INCORRECT";
+        public const string AlreadyExists = "EMPLOYEE_ALREADY_EXISTS";
+        public const string PasswordIncorrect = "EMPLOYEE_PASSWORD_INCORRECT";
     }
 
     public static class MenuItem

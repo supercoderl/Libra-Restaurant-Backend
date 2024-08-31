@@ -3,7 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using LibraRestaurant.Domain.Commands.Users.LoginUser;
+using LibraRestaurant.Domain.Commands.Employees.LoginEmployee;
 using LibraRestaurant.Domain.Errors;
 using FluentAssertions;
 using Xunit;
@@ -19,7 +19,7 @@ public sealed class LoginUserCommandHandlerTests
     {
         var user = _fixture.SetupUser();
 
-        var command = new LoginUserCommand(user.Email, "z8]tnayvd5FNLU9:]AQm");
+        var command = new LoginEmployeeCommand(user.Email, "z8]tnayvd5FNLU9:]AQm");
 
         var token = await _fixture.CommandHandler.Handle(command, default);
 
@@ -49,7 +49,7 @@ public sealed class LoginUserCommandHandlerTests
     [Fact]
     public async Task Should_Not_Login_User_No_User()
     {
-        var command = new LoginUserCommand("test@email.com", "z8]tnayvd5FNLU9:]AQm");
+        var command = new LoginEmployeeCommand("test@email.com", "z8]tnayvd5FNLU9:]AQm");
 
         var token = await _fixture.CommandHandler.Handle(command, default);
 
@@ -67,14 +67,14 @@ public sealed class LoginUserCommandHandlerTests
     {
         var user = _fixture.SetupUser();
 
-        var command = new LoginUserCommand(user.Email, "z8]tnayvd5FNLU9:]AQw");
+        var command = new LoginEmployeeCommand(user.Email, "z8]tnayvd5FNLU9:]AQw");
 
         var token = await _fixture.CommandHandler.Handle(command, default);
 
         _fixture
             .VerifyAnyDomainNotification()
             .VerifyExistingNotification(
-                DomainErrorCodes.User.PasswordIncorrect,
+                DomainErrorCodes.Employee.PasswordIncorrect,
                 "The password is incorrect");
 
         token.Should().BeEmpty();

@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
-using LibraRestaurant.Domain.Commands.Users.CreateUser;
+using LibraRestaurant.Domain.Commands.Employees.CreateEmployee;
 using LibraRestaurant.Domain.Enums;
 using LibraRestaurant.Domain.Errors;
-using LibraRestaurant.Shared.Events.User;
+using LibraRestaurant.Shared.Events.Employee;
 using NSubstitute;
 using Xunit;
 
@@ -20,8 +20,9 @@ public sealed class CreateItemCommandHandlerTests
 
         var user = _fixture.SetupUser();
 
-        var command = new CreateUserCommand(
+        var command = new CreateEmployeeCommand(
             Guid.NewGuid(),
+            null,
             "test@email.com",
             "Test",
             "Email",
@@ -33,7 +34,7 @@ public sealed class CreateItemCommandHandlerTests
         _fixture
             .VerifyNoDomainNotification()
             .VerifyCommit()
-            .VerifyRaisedEvent<UserCreatedEvent>(x => x.AggregateId == command.UserId);
+            .VerifyRaisedEvent<EmployeeCreatedEvent>(x => x.AggregateId == command.EmployeeId);
     }
 
     [Fact]
@@ -43,8 +44,9 @@ public sealed class CreateItemCommandHandlerTests
 
         var user = _fixture.SetupUser();
 
-        var command = new CreateUserCommand(
+        var command = new CreateEmployeeCommand(
             user.Id,
+            null,
             "test@email.com",
             "Test",
             "Email",
@@ -55,11 +57,11 @@ public sealed class CreateItemCommandHandlerTests
 
         _fixture
             .VerifyNoCommit()
-            .VerifyNoRaisedEvent<UserCreatedEvent>()
+            .VerifyNoRaisedEvent<EmployeeCreatedEvent>()
             .VerifyAnyDomainNotification()
             .VerifyExistingNotification(
-                DomainErrorCodes.User.AlreadyExists,
-                $"There is already a user with Id {command.UserId}");
+                DomainErrorCodes.Employee.AlreadyExists,
+                $"There is already a user with Id {command.EmployeeId}");
     }
 
     [Fact]
@@ -69,8 +71,9 @@ public sealed class CreateItemCommandHandlerTests
 
         _fixture.UserRepository
             .GetByEmailAsync(Arg.Is<string>(y => y == "test@email.com"))
-            .Returns(new Entities.User(
+            .Returns(new Entities.Employee(
                 Guid.NewGuid(),
+                null,
                 "max@mustermann.com",
                 "Max",
                 "Mustermann",
@@ -78,8 +81,9 @@ public sealed class CreateItemCommandHandlerTests
                 "Password",
                 DateTime.Now));
 
-        var command = new CreateUserCommand(
+        var command = new CreateEmployeeCommand(
             Guid.NewGuid(),
+            null,
             "test@email.com",
             "Test",
             "Email",
@@ -90,10 +94,10 @@ public sealed class CreateItemCommandHandlerTests
 
         _fixture
             .VerifyNoCommit()
-            .VerifyNoRaisedEvent<UserCreatedEvent>()
+            .VerifyNoRaisedEvent<EmployeeCreatedEvent>()
             .VerifyAnyDomainNotification()
             .VerifyExistingNotification(
-                DomainErrorCodes.User.AlreadyExists,
+                DomainErrorCodes.Employee.AlreadyExists,
                 $"There is already a user with email {command.Email}");
     }
 
@@ -102,8 +106,9 @@ public sealed class CreateItemCommandHandlerTests
     {
         _fixture.SetupUser();
 
-        var command = new CreateUserCommand(
+        var command = new CreateEmployeeCommand(
             Guid.NewGuid(),
+            null,
             "test@email.com",
             "Test",
             "Email",
@@ -114,7 +119,7 @@ public sealed class CreateItemCommandHandlerTests
 
         _fixture
             .VerifyNoCommit()
-            .VerifyNoRaisedEvent<UserCreatedEvent>()
+            .VerifyNoRaisedEvent<EmployeeCreatedEvent>()
             .VerifyAnyDomainNotification()
             .VerifyExistingNotification(
                 ErrorCodes.InsufficientPermissions,

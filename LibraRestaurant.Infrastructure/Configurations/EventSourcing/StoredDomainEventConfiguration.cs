@@ -18,7 +18,7 @@ public sealed class StoredDomainEventConfiguration : IEntityTypeConfiguration<St
         builder.Property(c => c.CorrelationId)
             .HasMaxLength(100);
 
-        builder.Property(c => c.User)
+        builder.Property(c => c.Employee)
             .HasMaxLength(100)
             .HasColumnType("nvarchar(100)");
     }

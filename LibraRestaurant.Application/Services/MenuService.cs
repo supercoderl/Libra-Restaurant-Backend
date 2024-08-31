@@ -5,10 +5,10 @@ using LibraRestaurant.Application.ViewModels.Sorting;
 using LibraRestaurant.Application.ViewModels;
 using LibraRestaurant.Domain.Interfaces;
 using System.Threading.Tasks;
-using LibraRestaurant.Application.Queries.Menus.GetUserById;
 using LibraRestaurant.Domain.Commands.Menus.CreateMenu;
 using LibraRestaurant.Domain.Commands.Menus.UpdateMenu;
 using LibraRestaurant.Domain.Commands.Menus.DeleteMenu;
+using LibraRestaurant.Application.Queries.Menus.GetMenuById;
 
 namespace LibraRestaurant.Application.Services
 {

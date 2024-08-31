@@ -43,6 +43,11 @@ namespace LibraRestaurant.Infrastructure.Migrations.EventStoreDb
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Employee")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("MessageType")
                         .IsRequired()
                         .HasColumnType("varchar(100)")
@@ -51,11 +56,6 @@ namespace LibraRestaurant.Infrastructure.Migrations.EventStoreDb
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2")
                         .HasColumnName("CreationDate");
-
-                    b.Property<string>("User")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 

@@ -28,7 +28,7 @@ public static class ServiceCollectionExtension
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Description = "JWT Authorization header using the Bearer scheme. " +
-                              "Use the /api/v1/user/login endpoint to generate a token",
+                              "Use the /api/v1/employee/login endpoint to generate a token",
                 Name = "Authorization",
                 In = ParameterLocation.Header,
                 Type = SecuritySchemeType.Http,

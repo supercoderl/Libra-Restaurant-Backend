@@ -1,6 +1,4 @@
 ﻿using LibraRestaurant.Application.Interfaces;
-using LibraRestaurant.Application.Queries.Menus.GetAll;
-using LibraRestaurant.Application.Queries.Menus.GetUserById;
 using LibraRestaurant.Application.ViewModels.Menus;
 using LibraRestaurant.Application.ViewModels.Sorting;
 using LibraRestaurant.Application.ViewModels;
@@ -169,6 +167,41 @@ namespace LibraRestaurant.Application.Services
             var order = await _bus.QueryAsync(new GetOrderByStoreAndReservationQuery(storeId, reservationId));
             if (order is not null) return order.OrderId;
             return null;
+        }
+
+        public async Task UpdateOrderStatusAsync(Guid orderId, OrderStatus status)
+        {
+            var order = await _bus.QueryAsync(new GetOrderByIdQuery(orderId));
+            if (order is null) return;
+            await _bus.SendCommandAsync(new UpdateOrderCommand(
+                    orderId,
+                    order.OrderNo,
+                    order.StoreId,
+                    order.PaymentMethodId,
+                    order.PaymentTimeId,
+                    order.ServantId,
+                    order.CashierId,
+                    order.CustomerNotes,
+                    order.ReservationId,
+                    order.PriceCalculated,
+                    order.PriceAdjustment,
+                    order.PriceAdjustmentReason,
+                    order.Subtotal,
+                    order.Tax,
+                    order.Total,
+                    status,
+                    DateTime.Now,
+                    order.IsPaid,
+                    order.IsPreparationDelayed,
+                    order.DelayedTime,
+                    order.IsCanceled,
+                    order.CanceledTime,
+                    order.CanceledReason,
+                    order.IsReady,
+                    order.ReadyTime,
+                    order.IsCompleted,
+                    order.CompletedTime
+            ));
         }
     }
 }

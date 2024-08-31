@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using LibraRestaurant.Application.Queries.Users.GetUserById;
+using LibraRestaurant.Application.Queries.Employees.GetEmployeeById;
 using LibraRestaurant.Domain.Entities;
 using LibraRestaurant.Domain.Enums;
 using LibraRestaurant.Domain.Interfaces.Repositories;
@@ -11,21 +11,22 @@ namespace LibraRestaurant.Application.Tests.Fixtures.Queries.Users;
 
 public sealed class GetUserByIdTestFixture : QueryHandlerBaseFixture
 {
-    private IUserRepository UserRepository { get; }
-    public GetUserByIdQueryHandler Handler { get; }
+    private IEmployeeRepository UserRepository { get; }
+    public GetEmployeeByIdQueryHandler Handler { get; }
     public Guid ExistingUserId { get; } = Guid.NewGuid();
 
     public GetUserByIdTestFixture()
     {
-        UserRepository = Substitute.For<IUserRepository>();
+        UserRepository = Substitute.For<IEmployeeRepository>();
 
-        Handler = new GetUserByIdQueryHandler(UserRepository, Bus);
+        Handler = new GetEmployeeByIdQueryHandler(UserRepository, Bus);
     }
 
     public void SetupUserAsync()
     {
-        var user = new User(
+        var user = new Employee(
             ExistingUserId,
+            null,
             "max@mustermann.com",
             "Max",
             "Mustermann",
@@ -38,8 +39,9 @@ public sealed class GetUserByIdTestFixture : QueryHandlerBaseFixture
 
     public void SetupDeletedUserAsync()
     {
-        var user = new User(
+        var user = new Employee(
             ExistingUserId,
+            null,
             "max@mustermann.com",
             "Max",
             "Mustermann",

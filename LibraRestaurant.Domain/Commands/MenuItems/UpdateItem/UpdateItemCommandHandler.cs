@@ -1,9 +1,8 @@
-﻿using LibraRestaurant.Domain.Commands.Users.UpdateUser;
+﻿
 using LibraRestaurant.Domain.Errors;
 using LibraRestaurant.Domain.Interfaces.Repositories;
 using LibraRestaurant.Domain.Interfaces;
 using LibraRestaurant.Domain.Notifications;
-using LibraRestaurant.Shared.Events.User;
 using MediatR;
 using System;
 using System.Collections.Generic;

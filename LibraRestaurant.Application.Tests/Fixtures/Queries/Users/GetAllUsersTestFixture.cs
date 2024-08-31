@@ -1,5 +1,5 @@
 using System;
-using LibraRestaurant.Application.Queries.Users.GetAll;
+using LibraRestaurant.Application.Queries.Employees.GetAll;
 using LibraRestaurant.Application.SortProviders;
 using LibraRestaurant.Domain.Entities;
 using LibraRestaurant.Domain.Enums;
@@ -11,22 +11,23 @@ namespace LibraRestaurant.Application.Tests.Fixtures.Queries.Users;
 
 public sealed class GetAllUsersTestFixture : QueryHandlerBaseFixture
 {
-    private IUserRepository UserRepository { get; }
-    public GetAllUsersQueryHandler Handler { get; }
+    private IEmployeeRepository UserRepository { get; }
+    public GetAllEmployeesQueryHandler Handler { get; }
     public Guid ExistingUserId { get; } = Guid.NewGuid();
 
     public GetAllUsersTestFixture()
     {
-        UserRepository = Substitute.For<IUserRepository>();
-        var sortingProvider = new UserViewModelSortProvider();
+        UserRepository = Substitute.For<IEmployeeRepository>();
+        var sortingProvider = new EmployeeViewModelSortProvider();
 
-        Handler = new GetAllUsersQueryHandler(UserRepository, sortingProvider);
+        Handler = new GetAllEmployeesQueryHandler(UserRepository, sortingProvider);
     }
 
-    public User SetupUserAsync()
+    public Employee SetupUserAsync()
     {
-        var user = new User(
+        var user = new Employee(
             ExistingUserId,
+            null,
             "max@mustermann.com",
             "Max",
             "Mustermann",
@@ -43,8 +44,9 @@ public sealed class GetAllUsersTestFixture : QueryHandlerBaseFixture
 
     public void SetupDeletedUserAsync()
     {
-        var user = new User(
+        var user = new Employee(
             ExistingUserId,
+            null,
             "max@mustermann.com",
             "Max",
             "Mustermann",

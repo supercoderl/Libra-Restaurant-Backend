@@ -1,5 +1,4 @@
 ﻿using LibraRestaurant.Application.ViewModels.Sorting;
-using LibraRestaurant.Application.ViewModels.Users;
 using LibraRestaurant.Application.ViewModels;
 using System;
 using System.Collections.Generic;

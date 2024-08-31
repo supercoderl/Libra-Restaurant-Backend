@@ -7,11 +7,11 @@ namespace LibraRestaurant.Infrastructure.EventSourcing;
 public sealed class EventStoreContext : IEventStoreContext
 {
     private readonly string _correlationId;
-    private readonly IUser? _user;
+    private readonly IEmployee? _employee;
 
-    public EventStoreContext(IUser? user, IHttpContextAccessor? httpContextAccessor)
+    public EventStoreContext(IEmployee? employee, IHttpContextAccessor? httpContextAccessor)
     {
-        _user = user;
+        _employee = employee;
 
         if (httpContextAccessor?.HttpContext is null ||
             !httpContextAccessor.HttpContext.Request.Headers.TryGetValue("X-CLEAN-ARCHITECTURE-CORRELATION-ID",
@@ -30,8 +30,8 @@ public sealed class EventStoreContext : IEventStoreContext
         return _correlationId;
     }
 
-    public string GetUserEmail()
+    public string GetEmployeeEmail()
     {
-        return _user?.GetUserEmail() ?? string.Empty;
+        return _employee?.GetEmployeeEmail() ?? string.Empty;
     }
 }

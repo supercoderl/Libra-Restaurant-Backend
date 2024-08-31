@@ -5,4 +5,4 @@ using MediatR;
 
 namespace LibraRestaurant.Application.Queries.Orders.CountOrder;
 
-public sealed record CountOrderQuery() : IRequest<int>;
+public sealed record CountOrderQuery(int? Month, int? Year) : IRequest<int>;

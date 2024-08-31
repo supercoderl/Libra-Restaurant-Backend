@@ -26,14 +26,15 @@ public sealed class GetUsersByIdsTestFixture : TestFixtureBase
 
         var user = CreateUser();
 
-        context.Users.Add(user);
+        context.Employees.Add(user);
         context.SaveChanges();
     }
 
-    public User CreateUser()
+    public Employee CreateUser()
     {
-        return new User(
+        return new Employee(
             CreatedUserId,
+            null,
             "user@user.de",
             "User First Name",
             "User Last Name",

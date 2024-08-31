@@ -1,5 +1,5 @@
 ﻿using LibraRestaurant.IntegrationTests.Fixtures.gRPC;
-using LibraRestaurant.Proto.Users;
+using LibraRestaurant.Proto.Employees;
 using System;
 using System.Collections.Generic;
 using System.Linq;

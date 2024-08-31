@@ -55,7 +55,7 @@ namespace LibraRestaurant.Infrastructure.Migrations.EventStoreDb
                         .HasColumnType("datetime2")
                         .HasColumnName("CreationDate");
 
-                    b.Property<string>("User")
+                    b.Property<string>("Employee")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");

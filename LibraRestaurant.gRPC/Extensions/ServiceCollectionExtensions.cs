@@ -3,7 +3,7 @@ using LibraRestaurant.gRPC.Interfaces;
 using LibraRestaurant.gRPC.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using LibraRestaurant.Proto.Users;
+using LibraRestaurant.Proto.Employees;
 using LibraRestaurant.Proto.MenuItems;
 using LibraRestaurant.Proto.Menus;
 using LibraRestaurant.Proto.Categories;
@@ -56,8 +56,8 @@ public static class ServiceCollectionExtensions
 
         var channel = GrpcChannel.ForAddress(gRPCUrl);
 
-        var usersClient = new UsersApi.UsersApiClient(channel);
-        services.AddSingleton(usersClient);
+        var employeesClient = new EmployeesApi.EmployeesApiClient(channel);
+        services.AddSingleton(employeesClient);
 
         var itemsClient = new ItemsApi.ItemsApiClient(channel);
         services.AddSingleton(itemsClient);
@@ -98,7 +98,7 @@ public static class ServiceCollectionExtensions
         var paymentHistoriesClient = new PaymentHistoriesApi.PaymentHistoriesApiClient(channel);
         services.AddSingleton(paymentHistoriesClient);
 
-        services.AddSingleton<IUsersContext, UsersContext>();
+        services.AddSingleton<IEmployeesContext, EmployeesContext>();
         services.AddSingleton<IMenuItemsContext, MenuItemsContext>();
         services.AddSingleton<IMenusContext, MenusContext>();
         services.AddSingleton<ICategoriesContext, CategoriesContext>();

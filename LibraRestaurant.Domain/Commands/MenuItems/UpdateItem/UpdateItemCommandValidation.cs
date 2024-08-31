@@ -1,6 +1,4 @@
 ﻿using FluentValidation;
-using LibraRestaurant.Domain.Commands.MenuItems.CreateItem;
-using LibraRestaurant.Domain.Commands.Users.UpdateUser;
 using LibraRestaurant.Domain.Constants;
 using LibraRestaurant.Domain.Errors;
 using System;

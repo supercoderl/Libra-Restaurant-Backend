@@ -12,7 +12,7 @@ using LibraRestaurant.Application.Queries.Districts.GetDistrictById;
 using LibraRestaurant.Application.Queries.MenuItems.GetAll;
 using LibraRestaurant.Application.Queries.MenuItems.GetById;
 using LibraRestaurant.Application.Queries.Menus.GetAll;
-using LibraRestaurant.Application.Queries.Menus.GetUserById;
+using LibraRestaurant.Application.Queries.Menus.GetMenuById;
 using LibraRestaurant.Application.Queries.OrderLines.GetAll;
 using LibraRestaurant.Application.Queries.OrderLines.GetOrderLineById;
 using LibraRestaurant.Application.Queries.OrderLines.GetOrderLineByOrderAndItem;
@@ -31,8 +31,8 @@ using LibraRestaurant.Application.Queries.Reservations.GetReservationById;
 using LibraRestaurant.Application.Queries.Reservations.GetReservationByTableNumberAndStoreId;
 using LibraRestaurant.Application.Queries.Stores.GetAll;
 using LibraRestaurant.Application.Queries.Stores.GetStoreById;
-using LibraRestaurant.Application.Queries.Users.GetAll;
-using LibraRestaurant.Application.Queries.Users.GetUserById;
+using LibraRestaurant.Application.Queries.Employees.GetAll;
+using LibraRestaurant.Application.Queries.Employees.GetEmployeeById;
 using LibraRestaurant.Application.Queries.Wards.GetAll;
 using LibraRestaurant.Application.Queries.Wards.GetWardById;
 using LibraRestaurant.Application.Services;
@@ -52,7 +52,7 @@ using LibraRestaurant.Application.ViewModels.Payments;
 using LibraRestaurant.Application.ViewModels.Reservations;
 using LibraRestaurant.Application.ViewModels.Sorting;
 using LibraRestaurant.Application.ViewModels.Stores;
-using LibraRestaurant.Application.ViewModels.Users;
+using LibraRestaurant.Application.ViewModels.Employees;
 using LibraRestaurant.Application.ViewModels.Wards;
 using LibraRestaurant.Domain.Entities;
 using MediatR;
@@ -65,7 +65,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IEmployeeService, EmployeeService>();
         services.AddScoped<IMenuItemService, MenuItemService>();
         services.AddScoped<IMenuService, MenuService>();
         services.AddScoped<ICategoryService, CategoryService>();
@@ -147,8 +147,8 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddQueryHandlers(this IServiceCollection services)
     {
         // User
-        services.AddScoped<IRequestHandler<GetUserByIdQuery, UserViewModel?>, GetUserByIdQueryHandler>();
-        services.AddScoped<IRequestHandler<GetAllUsersQuery, PagedResult<UserViewModel>>, GetAllUsersQueryHandler>();
+        services.AddScoped<IRequestHandler<GetEmployeeByIdQuery, EmployeeViewModel?>, GetEmployeeByIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetAllEmployeesQuery, PagedResult<EmployeeViewModel>>, GetAllEmployeesQueryHandler>();
 
         // Item
         services.AddScoped<IRequestHandler<GetItemByIdQuery, ItemViewModel?>, GetItemByIdQueryHandler>();
@@ -213,7 +213,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddSortProviders(this IServiceCollection services)
     {
-        services.AddScoped<ISortingExpressionProvider<UserViewModel, User>, UserViewModelSortProvider>();
+        services.AddScoped<ISortingExpressionProvider<EmployeeViewModel, Employee>, EmployeeViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<ItemViewModel, MenuItem>, ItemViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<MenuViewModel, Menu>, MenuViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<CategoryViewModel, Category>, CategoryViewModelSortProvider>();
