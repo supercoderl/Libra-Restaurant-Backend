@@ -45,7 +45,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IMediatorHandler, InMemoryBus>();
 
         // Repositories
-        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IMenuItemRepository, MenuItemRepository>();
         services.AddScoped<IMenuRepository, MenuRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();

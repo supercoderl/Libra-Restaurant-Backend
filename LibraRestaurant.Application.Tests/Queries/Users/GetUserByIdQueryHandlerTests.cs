@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using LibraRestaurant.Application.Queries.Users.GetUserById;
+using LibraRestaurant.Application.Queries.Employees.GetEmployeeById;
 using LibraRestaurant.Application.Tests.Fixtures.Queries.Users;
 using LibraRestaurant.Domain.Errors;
 using FluentAssertions;
@@ -18,7 +18,7 @@ public sealed class GetUserByIdQueryHandlerTests
         _fixture.SetupUserAsync();
 
         var result = await _fixture.Handler.Handle(
-            new GetUserByIdQuery(_fixture.ExistingUserId),
+            new GetEmployeeByIdQuery(_fixture.ExistingUserId),
             default);
 
         _fixture.VerifyNoDomainNotification();
@@ -32,13 +32,13 @@ public sealed class GetUserByIdQueryHandlerTests
     {
         _fixture.SetupUserAsync();
 
-        var request = new GetUserByIdQuery(Guid.NewGuid());
+        var request = new GetEmployeeByIdQuery(Guid.NewGuid());
         var result = await _fixture.Handler.Handle(
             request,
             default);
 
         _fixture.VerifyExistingNotification(
-            nameof(GetUserByIdQuery),
+            nameof(GetEmployeeByIdQuery),
             ErrorCodes.ObjectNotFound,
             $"User with id {request.Id} could not be found");
 
@@ -51,11 +51,11 @@ public sealed class GetUserByIdQueryHandlerTests
         _fixture.SetupDeletedUserAsync();
 
         var result = await _fixture.Handler.Handle(
-            new GetUserByIdQuery(_fixture.ExistingUserId),
+            new GetEmployeeByIdQuery(_fixture.ExistingUserId),
             default);
 
         _fixture.VerifyExistingNotification(
-            nameof(GetUserByIdQuery),
+            nameof(GetEmployeeByIdQuery),
             ErrorCodes.ObjectNotFound,
             $"User with id {_fixture.ExistingUserId} could not be found");
 

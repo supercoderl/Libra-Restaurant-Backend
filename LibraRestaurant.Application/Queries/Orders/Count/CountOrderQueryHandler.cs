@@ -24,7 +24,7 @@ public sealed class CountOrderQueryHandler :
 
     public async Task<int> Handle(CountOrderQuery request, CancellationToken cancellationToken)
     {
-        var num = await _orderRepository.CountOrderAsync();
+        var num = await _orderRepository.CountOrderAsync(request.Month, request.Year);
 
         return num;
     }

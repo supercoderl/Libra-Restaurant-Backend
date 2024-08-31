@@ -13,14 +13,14 @@ using Microsoft.Extensions.Logging;
 
 namespace LibraRestaurant.Api.BackgroundServices;
 
-public sealed class SetInactiveUsersService : BackgroundService
+public sealed class SetInactiveEmployeesService : BackgroundService
 {
-    private readonly ILogger<SetInactiveUsersService> _logger;
+    private readonly ILogger<SetInactiveEmployeesService> _logger;
     private readonly IServiceProvider _serviceProvider;
 
-    public SetInactiveUsersService(
+    public SetInactiveEmployeesService(
         IServiceProvider serviceProvider,
-        ILogger<SetInactiveUsersService> logger)
+        ILogger<SetInactiveEmployeesService> logger)
     {
         _serviceProvider = serviceProvider;
         _logger = logger;
@@ -33,27 +33,27 @@ public sealed class SetInactiveUsersService : BackgroundService
             var scope = _serviceProvider.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-            IList<User> inactiveUsers = Array.Empty<User>();
+            IList<Employee> inactiveEmployees = Array.Empty<Employee>();
 
             try
             {
                 var cutoffDate = DateTimeOffset.UtcNow.AddDays(-30);
 
-                inactiveUsers = await context.Users
-                    .Where(user =>
-                        user.LastLoggedinDate < cutoffDate &&
-                        user.Status == UserStatus.Active)
+                inactiveEmployees = await context.Employees
+                    .Where(employee =>
+                        employee.LastLoggedinDate < cutoffDate &&
+                        employee.Status == UserStatus.Active)
                     .Take(250)
                     .ToListAsync(stoppingToken);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while retrieving users to set inactive");
+                _logger.LogError(ex, "Error while retrieving employees to set inactive");
             }
 
-            foreach (var user in inactiveUsers)
+            foreach (var employee in inactiveEmployees)
             {
-                user.SetInactive();
+                employee.SetInactive();
             }
 
             try
@@ -62,7 +62,7 @@ public sealed class SetInactiveUsersService : BackgroundService
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while setting users to inactive");
+                _logger.LogError(ex, "Error while setting employees to inactive");
             }
 
             await Task.Delay(TimeSpan.FromDays(1), stoppingToken);

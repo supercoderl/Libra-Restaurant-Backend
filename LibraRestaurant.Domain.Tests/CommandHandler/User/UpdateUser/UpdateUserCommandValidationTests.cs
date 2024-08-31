@@ -1,5 +1,5 @@
 using System;
-using LibraRestaurant.Domain.Commands.Users.UpdateUser;
+using LibraRestaurant.Domain.Commands.Employees.UpdateEmployee;
 using LibraRestaurant.Domain.Constants;
 using LibraRestaurant.Domain.Enums;
 using LibraRestaurant.Domain.Errors;
@@ -8,9 +8,9 @@ using Xunit;
 namespace LibraRestaurant.Domain.Tests.CommandHandler.User.UpdateUser;
 
 public sealed class UpdateItemCommandValidationTests :
-    ValidationTestBase<UpdateUserCommand, UpdateUserCommandValidation>
+    ValidationTestBase<UpdateEmployeeCommand, UpdateEmployeeCommandValidation>
 {
-    public UpdateItemCommandValidationTests() : base(new UpdateUserCommandValidation())
+    public UpdateItemCommandValidationTests() : base(new UpdateEmployeeCommandValidation())
     {
     }
 
@@ -29,7 +29,7 @@ public sealed class UpdateItemCommandValidationTests :
 
         ShouldHaveSingleError(
             command,
-            DomainErrorCodes.User.EmptyId,
+            DomainErrorCodes.Employee.EmptyId,
             "User id may not be empty");
     }
 
@@ -40,7 +40,7 @@ public sealed class UpdateItemCommandValidationTests :
 
         ShouldHaveSingleError(
             command,
-            DomainErrorCodes.User.InvalidEmail,
+            DomainErrorCodes.Employee.InvalidEmail,
             "Email is not a valid email address");
     }
 
@@ -51,19 +51,19 @@ public sealed class UpdateItemCommandValidationTests :
 
         ShouldHaveSingleError(
             command,
-            DomainErrorCodes.User.InvalidEmail,
+            DomainErrorCodes.Employee.InvalidEmail,
             "Email is not a valid email address");
     }
 
     [Fact]
     public void Should_Be_Invalid_For_Email_Exceeds_Max_Length()
     {
-        var command = CreateTestCommand(email: new string('a', MaxLengths.User.Email) + "@test.com");
+        var command = CreateTestCommand(email: new string('a', MaxLengths.Employee.Email) + "@test.com");
 
         ShouldHaveSingleError(
             command,
-            DomainErrorCodes.User.EmailExceedsMaxLength,
-            $"Email may not be longer than {MaxLengths.User.Email} characters");
+            DomainErrorCodes.Employee.EmailExceedsMaxLength,
+            $"Email may not be longer than {MaxLengths.Employee.Email} characters");
     }
 
     [Fact]
@@ -73,19 +73,19 @@ public sealed class UpdateItemCommandValidationTests :
 
         ShouldHaveSingleError(
             command,
-            DomainErrorCodes.User.EmptyFirstName,
+            DomainErrorCodes.Employee.EmptyFirstName,
             "FirstName may not be empty");
     }
 
     [Fact]
     public void Should_Be_Invalid_For_First_Name_Exceeds_Max_Length()
     {
-        var command = CreateTestCommand(firstName: new string('a', MaxLengths.User.FirstName + 1));
+        var command = CreateTestCommand(firstName: new string('a', MaxLengths.Employee.FirstName + 1));
 
         ShouldHaveSingleError(
             command,
-            DomainErrorCodes.User.FirstNameExceedsMaxLength,
-            $"FirstName may not be longer than {MaxLengths.User.FirstName} characters");
+            DomainErrorCodes.Employee.FirstNameExceedsMaxLength,
+            $"FirstName may not be longer than {MaxLengths.Employee.FirstName} characters");
     }
 
     [Fact]
@@ -95,30 +95,32 @@ public sealed class UpdateItemCommandValidationTests :
 
         ShouldHaveSingleError(
             command,
-            DomainErrorCodes.User.EmptyLastName,
+            DomainErrorCodes.Employee.EmptyLastName,
             "LastName may not be empty");
     }
 
     [Fact]
     public void Should_Be_Invalid_For_Last_Name_Exceeds_Max_Length()
     {
-        var command = CreateTestCommand(lastName: new string('a', MaxLengths.User.LastName + 1));
+        var command = CreateTestCommand(lastName: new string('a', MaxLengths.Employee.LastName + 1));
 
         ShouldHaveSingleError(
             command,
-            DomainErrorCodes.User.LastNameExceedsMaxLength,
-            $"LastName may not be longer than {MaxLengths.User.LastName} characters");
+            DomainErrorCodes.Employee.LastNameExceedsMaxLength,
+            $"LastName may not be longer than {MaxLengths.Employee.LastName} characters");
     }
 
-    private static UpdateUserCommand CreateTestCommand(
+    private static UpdateEmployeeCommand CreateTestCommand(
         Guid? userId = null,
+        Guid? storeId = null,
         string? email = null,
         string? firstName = null,
         string? lastName = null,
         string? mobile = null)
     {
-        return new UpdateUserCommand(
+        return new UpdateEmployeeCommand(
             userId ?? Guid.NewGuid(),
+            storeId ?? Guid.NewGuid(),
             email ?? "test@email.com",
             firstName ?? "test",
             lastName ?? "email",

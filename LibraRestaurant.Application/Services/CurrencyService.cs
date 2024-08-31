@@ -1,6 +1,5 @@
 ﻿using LibraRestaurant.Application.Interfaces;
 using LibraRestaurant.Application.Queries.Menus.GetAll;
-using LibraRestaurant.Application.Queries.Menus.GetUserById;
 using LibraRestaurant.Application.ViewModels.Menus;
 using LibraRestaurant.Application.ViewModels.Sorting;
 using LibraRestaurant.Application.ViewModels;

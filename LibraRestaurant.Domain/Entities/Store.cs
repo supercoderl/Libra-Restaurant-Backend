@@ -49,6 +49,9 @@ namespace LibraRestaurant.Domain.Entities
         [InverseProperty("Stores")]
         public virtual Ward? Ward { get; set; }
 
+        [InverseProperty("Store")]
+        public virtual ICollection<Employee>? Employees { get; set; } = new List<Employee>();
+
         public Store(
             Guid storeId,
             string name,

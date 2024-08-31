@@ -12,6 +12,6 @@ namespace LibraRestaurant.Domain.Interfaces.Repositories
         Task<OrderHeader?> GetByStoreAsync(Guid storeId);
         Task<OrderHeader?> GetByOrderNoAsync(string orderNo);
         Task<OrderHeader?> GetByStoreAndReservationAsync(Guid storeId, int reservationId);
-        Task<int> CountOrderAsync();
+        Task<int> CountOrderAsync(int? month, int? year);
     }
 }

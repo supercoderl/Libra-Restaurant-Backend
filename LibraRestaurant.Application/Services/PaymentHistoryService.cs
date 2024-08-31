@@ -1,6 +1,4 @@
 ﻿using LibraRestaurant.Application.Interfaces;
-using LibraRestaurant.Application.Queries.Menus.GetAll;
-using LibraRestaurant.Application.Queries.Menus.GetUserById;
 using LibraRestaurant.Application.ViewModels.Menus;
 using LibraRestaurant.Application.ViewModels.Sorting;
 using LibraRestaurant.Application.ViewModels;
@@ -27,10 +25,12 @@ namespace LibraRestaurant.Application.Services
     public sealed class PaymentHistoryService : IPaymentHistoryService
     {
         private readonly IMediatorHandler _bus;
+        private readonly IOrderService _orderService;
 
-        public PaymentHistoryService(IMediatorHandler bus)
+        public PaymentHistoryService(IMediatorHandler bus, IOrderService orderService)
         {
             _bus = bus;
+            _orderService = orderService;
         }
 
         public async Task<PaymentHistoryViewModel?> GetPaymentHistoryByIdAsync(int paymentHistoryId)
@@ -49,6 +49,11 @@ namespace LibraRestaurant.Application.Services
 
         public async Task<int> CreatePaymentHistoryAsync(CreatePaymentHistoryViewModel paymentHistory)
         {
+            if(paymentHistory.Status == PaymentStatus.Success)
+            {
+                await _orderService.UpdateOrderStatusAsync(paymentHistory.OrderId, OrderStatus.Paid);
+            }
+
             var paymentExist = await _bus.QueryAsync(new GetPaymentHistoryByOrderQuery(paymentHistory.OrderId));
 
             if (paymentExist is not null) return 0;

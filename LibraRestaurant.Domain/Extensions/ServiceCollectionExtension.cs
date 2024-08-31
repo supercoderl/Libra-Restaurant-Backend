@@ -29,11 +29,11 @@ using LibraRestaurant.Domain.Commands.Reservations.UpdateReservation;
 using LibraRestaurant.Domain.Commands.Stores.CreateStore;
 using LibraRestaurant.Domain.Commands.Stores.DeleteStore;
 using LibraRestaurant.Domain.Commands.Stores.UpdateStore;
-using LibraRestaurant.Domain.Commands.Users.ChangePassword;
-using LibraRestaurant.Domain.Commands.Users.CreateUser;
-using LibraRestaurant.Domain.Commands.Users.DeleteUser;
-using LibraRestaurant.Domain.Commands.Users.LoginUser;
-using LibraRestaurant.Domain.Commands.Users.UpdateUser;
+using LibraRestaurant.Domain.Commands.Employees.ChangePassword;
+using LibraRestaurant.Domain.Commands.Employees.CreateEmployee;
+using LibraRestaurant.Domain.Commands.Employees.DeleteEmployee;
+using LibraRestaurant.Domain.Commands.Employees.LoginEmployee;
+using LibraRestaurant.Domain.Commands.Employees.UpdateEmployee;
 using LibraRestaurant.Domain.EventHandler;
 using LibraRestaurant.Domain.EventHandler.Fanout;
 using LibraRestaurant.Domain.Interfaces;
@@ -47,7 +47,7 @@ using LibraRestaurant.Shared.Events.PaymentHistory;
 using LibraRestaurant.Shared.Events.PaymentMethod;
 using LibraRestaurant.Shared.Events.Reservation;
 using LibraRestaurant.Shared.Events.Store;
-using LibraRestaurant.Shared.Events.User;
+using LibraRestaurant.Shared.Events.Employee;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -58,11 +58,11 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddCommandHandlers(this IServiceCollection services)
     {
         // User
-        services.AddScoped<IRequestHandler<CreateUserCommand>, CreateUserCommandHandler>();
-        services.AddScoped<IRequestHandler<UpdateUserCommand>, UpdateUserCommandHandler>();
-        services.AddScoped<IRequestHandler<DeleteUserCommand>, DeleteUserCommandHandler>();
+        services.AddScoped<IRequestHandler<CreateEmployeeCommand>, CreateEmployeeCommandHandler>();
+        services.AddScoped<IRequestHandler<UpdateEmployeeCommand>, UpdateEmployeeCommandHandler>();
+        services.AddScoped<IRequestHandler<DeleteEmployeeCommand>, DeleteEmployeeCommandHandler>();
         services.AddScoped<IRequestHandler<ChangePasswordCommand>, ChangePasswordCommandHandler>();
-        services.AddScoped<IRequestHandler<LoginUserCommand, string>, LoginUserCommandHandler>();
+        services.AddScoped<IRequestHandler<LoginEmployeeCommand, string>, LoginEmployeeCommandHandler>();
 
         // Item
         services.AddScoped<IRequestHandler<CreateItemCommand>, CreateItemCommandHandler>();
@@ -122,10 +122,10 @@ public static class ServiceCollectionExtension
         services.AddScoped<IFanoutEventHandler, FanoutEventHandler>();
 
         // User
-        services.AddScoped<INotificationHandler<UserCreatedEvent>, UserEventHandler>();
-        services.AddScoped<INotificationHandler<UserUpdatedEvent>, UserEventHandler>();
-        services.AddScoped<INotificationHandler<UserDeletedEvent>, UserEventHandler>();
-        services.AddScoped<INotificationHandler<PasswordChangedEvent>, UserEventHandler>();
+        services.AddScoped<INotificationHandler<EmployeeCreatedEvent>, EmployeeEventHandler>();
+        services.AddScoped<INotificationHandler<EmployeeUpdatedEvent>, EmployeeEventHandler>();
+        services.AddScoped<INotificationHandler<EmployeeDeletedEvent>, EmployeeEventHandler>();
+        services.AddScoped<INotificationHandler<PasswordChangedEvent>, EmployeeEventHandler>();
 
         // Item
         services.AddScoped<INotificationHandler<ItemCreatedEvent>, ItemEventHandler>();
@@ -179,10 +179,10 @@ public static class ServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection AddApiUser(this IServiceCollection services)
+    public static IServiceCollection AddApiEmployee(this IServiceCollection services)
     {
         // User
-        services.AddScoped<IUser, ApiUser>();
+        services.AddScoped<IEmployee, ApiEmployee>();
 
         return services;
     }

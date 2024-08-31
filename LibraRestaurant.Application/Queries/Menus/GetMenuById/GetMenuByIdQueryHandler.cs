@@ -7,7 +7,7 @@ using LibraRestaurant.Domain.Interfaces.Repositories;
 using LibraRestaurant.Domain.Notifications;
 using MediatR;
 
-namespace LibraRestaurant.Application.Queries.Menus.GetUserById;
+namespace LibraRestaurant.Application.Queries.Menus.GetMenuById;
 
 public sealed class GetMenuByIdQueryHandler :
     IRequestHandler<GetMenuByIdQuery, MenuViewModel?>

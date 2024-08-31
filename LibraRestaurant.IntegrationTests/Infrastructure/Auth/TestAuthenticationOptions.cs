@@ -7,6 +7,7 @@ namespace LibraRestaurant.IntegrationTests.Infrastructure.Auth;
 
 public sealed class TestAuthenticationOptions : AuthenticationSchemeOptions
 {
+    public static Guid StoreId = new("561e4300-94d6-4c3f-adf5-31c1bdbc64df");
     public const string Email = "integration@tests.com";
     public const string FirstName = "Integration";
     public const string LastName = "Tests";

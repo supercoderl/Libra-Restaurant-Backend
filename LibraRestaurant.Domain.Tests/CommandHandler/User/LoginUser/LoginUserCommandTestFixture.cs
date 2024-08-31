@@ -1,5 +1,5 @@
 ﻿using System;
-using LibraRestaurant.Domain.Commands.Users.LoginUser;
+using LibraRestaurant.Domain.Commands.Employees.LoginEmployee;
 using LibraRestaurant.Domain.Enums;
 using LibraRestaurant.Domain.Interfaces.Repositories;
 using LibraRestaurant.Domain.Settings;
@@ -11,13 +11,13 @@ namespace LibraRestaurant.Domain.Tests.CommandHandler.User.LoginUser;
 
 public sealed class LoginUserCommandTestFixture : CommandHandlerFixtureBase
 {
-    public LoginUserCommandHandler CommandHandler { get; set; }
-    public IUserRepository UserRepository { get; set; }
+    public LoginEmployeeCommandHandler CommandHandler { get; set; }
+    public IEmployeeRepository UserRepository { get; set; }
     public IOptions<TokenSettings> TokenSettings { get; set; }
 
     public LoginUserCommandTestFixture()
     {
-        UserRepository = Substitute.For<IUserRepository>();
+        UserRepository = Substitute.For<IEmployeeRepository>();
 
         TokenSettings = Options.Create(new TokenSettings
         {
@@ -26,7 +26,7 @@ public sealed class LoginUserCommandTestFixture : CommandHandlerFixtureBase
             Secret = "asjdlkasjd87439284)@#(*asjdlkasjd87439284)@#(*"
         });
 
-        CommandHandler = new LoginUserCommandHandler(
+        CommandHandler = new LoginEmployeeCommandHandler(
             Bus,
             UnitOfWork,
             NotificationHandler,
@@ -34,10 +34,11 @@ public sealed class LoginUserCommandTestFixture : CommandHandlerFixtureBase
             TokenSettings);
     }
 
-    public Entities.User SetupUser()
+    public Entities.Employee SetupUser()
     {
-        var user = new Entities.User(
+        var user = new Entities.Employee(
             Guid.NewGuid(),
+            null,
             "max@mustermann.com",
             "Max",
             "Mustermann",
@@ -45,7 +46,7 @@ public sealed class LoginUserCommandTestFixture : CommandHandlerFixtureBase
             BC.HashPassword("z8]tnayvd5FNLU9:]AQm"),
             DateTime.Now);
 
-        User.GetUserId().Returns(user.Id);
+        Employee.GetEmployeeId().Returns(user.Id);
 
         UserRepository
             .GetByEmailAsync(Arg.Is<string>(y => y == user.Email))

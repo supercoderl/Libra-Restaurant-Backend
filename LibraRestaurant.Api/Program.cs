@@ -63,11 +63,11 @@ builder.Services.AddServices();
 builder.Services.AddSortProviders();
 builder.Services.AddCommandHandlers();
 builder.Services.AddNotificationHandlers();
-builder.Services.AddApiUser();
+builder.Services.AddApiEmployee();
 
 builder.Services.AddRabbitMqHandler(builder.Configuration, "RabbitMQ");
 
-builder.Services.AddHostedService<SetInactiveUsersService>();
+builder.Services.AddHostedService<SetInactiveEmployeesService>();
 
 builder.Services.AddMediatR(cfg => { cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly); });
 
@@ -121,7 +121,7 @@ app.MapHealthChecks("/healthz", new HealthCheckOptions
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 app.MapControllers();
-app.MapGrpcService<UsersApiImplementation>();
+app.MapGrpcService<EmployeesApiImplementation>();
 
 app.Run();
 

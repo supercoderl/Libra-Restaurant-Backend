@@ -1,14 +1,14 @@
 using System;
-using LibraRestaurant.Domain.Commands.Users.DeleteUser;
+using LibraRestaurant.Domain.Commands.Employees.DeleteEmployee;
 using LibraRestaurant.Domain.Errors;
 using Xunit;
 
 namespace LibraRestaurant.Domain.Tests.CommandHandler.User.DeleteUser;
 
 public sealed class DeleteItemCommandValidationTests :
-    ValidationTestBase<DeleteUserCommand, DeleteUserCommandValidation>
+    ValidationTestBase<DeleteEmployeeCommand, DeleteEmployeeCommandValidation>
 {
-    public DeleteItemCommandValidationTests() : base(new DeleteUserCommandValidation())
+    public DeleteItemCommandValidationTests() : base(new DeleteEmployeeCommandValidation())
     {
     }
 
@@ -27,12 +27,12 @@ public sealed class DeleteItemCommandValidationTests :
 
         ShouldHaveSingleError(
             command,
-            DomainErrorCodes.User.EmptyId,
+            DomainErrorCodes.Employee.EmptyId,
             "User id may not be empty");
     }
 
-    private static DeleteUserCommand CreateTestCommand(Guid? userId = null)
+    private static DeleteEmployeeCommand CreateTestCommand(Guid? userId = null)
     {
-        return new DeleteUserCommand(userId ?? Guid.NewGuid());
+        return new DeleteEmployeeCommand(userId ?? Guid.NewGuid());
     }
 }

@@ -1,5 +1,5 @@
 ﻿using LibraRestaurant.Application.Queries.MenuItems.GetAll;
-using LibraRestaurant.Application.Queries.Users.GetAll;
+using LibraRestaurant.Application.Queries.Employees.GetAll;
 using LibraRestaurant.Application.SortProviders;
 using LibraRestaurant.Domain.Entities;
 using LibraRestaurant.Domain.Interfaces.Repositories;

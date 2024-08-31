@@ -1,5 +1,4 @@
 ﻿using LibraRestaurant.Application.Queries.MenuItems.GetById;
-using LibraRestaurant.Application.Queries.Users.GetUserById;
 using LibraRestaurant.Domain.Entities;
 using LibraRestaurant.Domain.Interfaces.Repositories;
 using MockQueryable.NSubstitute;

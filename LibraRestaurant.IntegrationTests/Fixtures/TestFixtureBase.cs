@@ -39,8 +39,9 @@ public class TestFixtureBase : IAsyncLifetime
         using var scope = Factory.Services.CreateScope();
         await using var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-        dbContext.Users.Add(new User(
-            Ids.Seed.UserId,
+        dbContext.Employees.Add(new Employee(
+            Ids.Seed.EmployeeId,
+            null,
             "admin@email.com",
             "Admin",
             "User",
@@ -48,8 +49,9 @@ public class TestFixtureBase : IAsyncLifetime
             "$2a$12$Blal/uiFIJdYsCLTMUik/egLbfg3XhbnxBC6Sb5IKz2ZYhiU/MzL2",
             DateTime.Now));
 
-        dbContext.Users.Add(new User(
+        dbContext.Employees.Add(new Employee(
             TestAuthenticationOptions.TestUserId,
+            TestAuthenticationOptions.StoreId,
             TestAuthenticationOptions.Email,
             TestAuthenticationOptions.FirstName,
             TestAuthenticationOptions.LastName,

@@ -1,12 +1,6 @@
 ﻿using LibraRestaurant.Application.Interfaces;
-using LibraRestaurant.Application.Queries.Menus.GetAll;
-using LibraRestaurant.Application.Queries.Menus.GetUserById;
-using LibraRestaurant.Application.ViewModels.Menus;
 using LibraRestaurant.Application.ViewModels.Sorting;
 using LibraRestaurant.Application.ViewModels;
-using LibraRestaurant.Domain.Commands.Menus.CreateMenu;
-using LibraRestaurant.Domain.Commands.Menus.DeleteMenu;
-using LibraRestaurant.Domain.Commands.Menus.UpdateMenu;
 using LibraRestaurant.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -26,7 +20,7 @@ namespace LibraRestaurant.Application.Services
     {
         private readonly IMediatorHandler _bus;
 
-        public PaymentMethodService(IMediatorHandler bus, IUser user)
+        public PaymentMethodService(IMediatorHandler bus)
         {
             _bus = bus;
         }

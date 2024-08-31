@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LibraRestaurant.Application.ViewModels.Orders;
+using LibraRestaurant.Domain.Enums;
 
 namespace LibraRestaurant.Application.Interfaces
 {
@@ -24,5 +25,6 @@ namespace LibraRestaurant.Application.Interfaces
         public Task UpdateOrderAsync(UpdateOrderViewModel order);
         public Task DeleteOrderAsync(Guid orderId);
         public Task UpdatePaymentMethodAsync(Guid orderId, int paymentMethodId);
+        public Task UpdateOrderStatusAsync(Guid orderId, OrderStatus status);
     }
 }
