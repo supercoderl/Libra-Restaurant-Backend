@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using LibraRestaurant.Domain.Enums;
@@ -38,18 +39,35 @@ public sealed class ApiEmployee : IEmployee
         throw new ArgumentException("Could not parse employee id to guid");
     }
 
-/*    public UserRole GetUserRole()
+    public List<UserRole> GetUserRoles()
     {
-        var claim = _httpContextAccessor.HttpContext?.User.Claims
-            .FirstOrDefault(x => string.Equals(x.Type, ClaimTypes.Role));
+        var claims = _httpContextAccessor.HttpContext?.User.Claims
+        .Where(x => string.Equals(x.Type, ClaimTypes.Role))
+        .Select(x => x.Value)
+        .ToList();
 
-        if (Enum.TryParse(claim?.Value, out UserRole userRole))
+
+        if (claims == null || !claims.Any())
         {
-            return userRole;
+            throw new ArgumentException("No roles found for the user");
         }
 
-        throw new ArgumentException("Could not parse user role");
-    }*/
+        var userRoles = new List<UserRole>();
+
+        foreach (var claim in claims)
+        {
+            if (Enum.TryParse(claim, out UserRole userRole))
+            {
+                userRoles.Add(userRole);
+            }
+            else
+            {
+                throw new ArgumentException($"Could not parse role {claim}");
+            }
+        }
+
+        return userRoles;
+    }
 
     public string Name
     {

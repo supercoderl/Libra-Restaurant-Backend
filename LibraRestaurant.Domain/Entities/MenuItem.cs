@@ -25,6 +25,9 @@ namespace LibraRestaurant.Domain.Entities
         [InverseProperty("Item")]
         public virtual ICollection<OrderLine>? OrderLines { get; set; } = new List<OrderLine>();
 
+        [InverseProperty("Item")]
+        public virtual ICollection<CategoryItem>? CategoryItems { get; set; } = new List<CategoryItem>();
+
         public MenuItem(
             int itemId,
             string title,

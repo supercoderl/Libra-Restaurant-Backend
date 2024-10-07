@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using LibraRestaurant.Domain.Entities;
 using LibraRestaurant.Domain.Enums;
 
@@ -13,6 +15,9 @@ public sealed class EmployeeViewModel
     public string LastName { get; set; } = string.Empty;
     public string Mobile {  get; set; } = string.Empty;
     public UserStatus Status { get; set; }
+    public string FullName {  get; set; } = string.Empty;
+    public string? StoreName { get; set; }
+    public List<int>? RoleIds { get; set; }
 
     public static EmployeeViewModel FromEmployee(Employee employee)
     {
@@ -24,7 +29,10 @@ public sealed class EmployeeViewModel
             FirstName = employee.FirstName,
             LastName = employee.LastName,
             Mobile = employee.Mobile,
-            Status = employee.Status
+            Status = employee.Status,
+            FullName = string.Concat(employee.LastName, " ", employee.FirstName),
+            StoreName = employee.Store?.Name,
+            RoleIds = employee.EmployeeRoles?.Select(x => x.RoleId).ToList()
         };
     }
 }

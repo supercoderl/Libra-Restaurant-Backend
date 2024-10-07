@@ -21,6 +21,7 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.UpdateItem
         public string? Recipe { get; }
         public string? Picture { get; }
         public string? Instruction { get; }
+        public List<int> CategoryIds { get; }
 
         public UpdateItemCommand(
             int itemId,
@@ -32,7 +33,8 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.UpdateItem
             int quantity,
             string? recipe,
             string? picture,
-            string? instruction) : base(itemId)
+            string? instruction,
+            List<int> categoryIds) : base(itemId)
         {
             ItemId = itemId;
             Title = title;
@@ -44,6 +46,7 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.UpdateItem
             Recipe = recipe;
             Picture = picture;
             Instruction = instruction;
+            CategoryIds = categoryIds;
         }
 
         public override bool IsValid()

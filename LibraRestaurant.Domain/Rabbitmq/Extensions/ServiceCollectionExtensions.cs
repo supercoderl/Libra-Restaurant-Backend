@@ -14,8 +14,8 @@ public static class ServiceCollectionExtensions
         configuration.Bind(rabbitMqConfigSection, rabbitMq);
         services.AddSingleton(rabbitMq);
 
-        services.AddSingleton<RabbitMqHandler>();
-        services.AddHostedService(serviceProvider => serviceProvider.GetService<RabbitMqHandler>()!);
+/*        services.AddSingleton<RabbitMqHandler>();
+        services.AddHostedService(serviceProvider => serviceProvider.GetService<RabbitMqHandler>()!);*/
 
         return services;
     }

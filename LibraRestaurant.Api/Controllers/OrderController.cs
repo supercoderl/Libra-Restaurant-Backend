@@ -14,11 +14,11 @@ using System.Threading.Tasks;
 using LibraRestaurant.Application.ViewModels.Orders;
 using LibraRestaurant.Domain.Entities;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraRestaurant.Api.Controllers
 {
     [ApiController]
-    /*    [Authorize]*/
     [Route("/api/v1/[controller]")]
     public sealed class OrderController : ApiController
     {
@@ -32,6 +32,7 @@ namespace LibraRestaurant.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [SwaggerOperation("Get a list of all orders")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<PagedResult<OrderViewModel>>))]
         public async Task<IActionResult> GetAllOrdersAsync(
@@ -68,6 +69,7 @@ namespace LibraRestaurant.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         [SwaggerOperation("Delete a order")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<Guid>))]
         public async Task<IActionResult> DeleteOrderAsync([FromRoute] Guid id)

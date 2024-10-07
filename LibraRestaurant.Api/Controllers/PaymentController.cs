@@ -76,13 +76,13 @@ namespace LibraRestaurant.Api.Controllers
             return Response(await _stripeService.CreateOrderStripe(request));
         }
 
-        [HttpGet("Stripe/{id}")]
+/*        [HttpGet("Stripe/{id}")]
         [SwaggerOperation("Retrieve session")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<Session>))]
         public async Task<IActionResult> RetrieveStripe([FromRoute] string id)
         {
             return Response(await _stripeService.RetrieveSession(id));
-        }
+        }*/
 
         [HttpPost("PayOS")]
         [SwaggerOperation("Pay")]

@@ -12,12 +12,14 @@ namespace LibraRestaurant.Application.Interfaces
     public interface IMenuItemService
     {
         public Task<ItemViewModel?> GetItemByIdAsync(int itemId);
+        public Task<ItemViewModel?> GetItemBySlugAsync(string slug);
 
         public Task<PagedResult<ItemViewModel>> GetAllItemsAsync(
             PageQuery query,
             bool includeDeleted,
             string searchTerm = "",
-            SortQuery? sortQuery = null);
+            SortQuery? sortQuery = null,
+            int categoryId = -1);
 
         public Task<int> CreateItemAsync(CreateItemViewModel item);
         public Task UpdateItemAsync(UpdateItemViewModel item);

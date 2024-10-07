@@ -8,4 +8,5 @@ public sealed record UpdateCategoryViewModel(
     string Name,
     string? Description,
     bool IsActive,
-    string? Picture);
+    string? Picture,
+    string? Base64);

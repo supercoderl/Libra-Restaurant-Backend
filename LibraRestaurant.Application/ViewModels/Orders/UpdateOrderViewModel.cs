@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using LibraRestaurant.Application.ViewModels.OrderLines;
 using LibraRestaurant.Domain.Enums;
 
 namespace LibraRestaurant.Application.ViewModels.Menus;
@@ -30,4 +32,5 @@ public sealed record UpdateOrderViewModel(
     bool IsReady,
     DateTime? ReadyTime,
     bool IsCompleted,
-    DateTime? CompletedTime);
+    DateTime? CompletedTime,
+    List<CreateOrderLineViewModel> OrderLines);

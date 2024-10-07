@@ -4,7 +4,7 @@ using MediatR;
 namespace LibraRestaurant.Domain.Commands.Employees.LoginEmployee;
 
 public sealed class LoginEmployeeCommand : CommandBase,
-    IRequest<string>
+    IRequest<Object>
 {
     private static readonly LoginEmployeeCommandValidation s_validation = new();
 

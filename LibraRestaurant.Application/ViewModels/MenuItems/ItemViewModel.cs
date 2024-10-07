@@ -22,6 +22,8 @@ namespace LibraRestaurant.Application.ViewModels.MenuItems
         public DateTime CreatedAt { get; set; }
         public DateTime? LastUpdatedAt { get; set; }
 
+        public List<int>? CategoryIds { get; set; }
+
         public static ItemViewModel FromItem(MenuItem item)
         {
             return new ItemViewModel
@@ -38,7 +40,17 @@ namespace LibraRestaurant.Application.ViewModels.MenuItems
                 Instruction = item.Instruction,
                 CreatedAt = item.CreatedAt,
                 LastUpdatedAt = item.LastUpdatedAt,
+                CategoryIds = item.CategoryItems?.Select(ci => ci.CategoryId).ToList()
             };
         }
+    }
+
+    public class MenuItemSplitted
+    {
+        public int Id { get; set; }
+        public string Picture { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
+        public int Quantity { get; set; }
+        public double Price { get; set; }
     }
 }

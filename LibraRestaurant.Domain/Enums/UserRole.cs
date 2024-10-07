@@ -2,7 +2,7 @@
 
 public enum UserRole
 {
-    Admin,
-    Manager,
-    Employee
+    Admin = 100,
+    Manager = 200,
+    Employee = 300
 }

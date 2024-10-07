@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using LibraRestaurant.Shared.Events.MenuItem;
+using LibraRestaurant.Domain.Commands.CategoryItems.UpsertCategoryItem;
 
 namespace LibraRestaurant.Domain.Commands.MenuItems.UpdateItem
 {
@@ -63,6 +64,7 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.UpdateItem
             if (await CommitAsync())
             {
                 await Bus.RaiseEventAsync(new ItemUpdatedEvent(item.ItemId));
+                await Bus.SendCommandAsync(new UpsertCategoryItemCommand(0, request.CategoryIds, item.ItemId, null));
             }
         }
     }

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using LibraRestaurant.Application.ViewModels.OrderLines;
 using LibraRestaurant.Domain.Entities;
 using LibraRestaurant.Domain.Enums;
 
@@ -35,6 +38,8 @@ public sealed class OrderViewModel
     public DateTime? CompletedTime { get; set; }
     public string? StoreName { get; set; }
 
+    public List<OrderLineFromOrderViewModel>? OrderLines { get; set; }
+
     public static OrderViewModel FromOrder(OrderHeader order)
     {
         return new OrderViewModel
@@ -66,7 +71,19 @@ public sealed class OrderViewModel
             ReadyTime = order.ReadyTime,
             IsCompleted = order.IsCompleted,
             CompletedTime = order.CompletedTime,
-            StoreName = order?.Store?.Name
+            StoreName = order?.Store?.Name,
+            OrderLines = order?.OrderLines is not null ? order?.OrderLines.Select(item => new OrderLineFromOrderViewModel
+            {
+                OrderLineId = item.OrderLineId,
+                OrderId = item.OrderId,
+                ItemId = item.ItemId,
+                Quantity = item.Quantity,
+                IsCanceled = item.IsCanceled,
+                CanceledTime = item.CanceledTime,
+                CanceledReason = item.CanceledReason,
+                CustomerReview = item.CustomerReview,
+                CustomerLike = item.CustomerLike,
+            }).ToList() : null
         };
     }
 }

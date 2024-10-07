@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using LibraRestaurant.Domain.Commands.Employees.DeleteEmployee;
 using LibraRestaurant.Domain.Commands.MenuItems.DeleteItem;
 using LibraRestaurant.Domain.DomainEvents;
-using LibraRestaurant.Domain.EventHandler.Fanout;
 using LibraRestaurant.Domain.Notifications;
 using LibraRestaurant.Shared.Events.Employee;
 using LibraRestaurant.Shared.Events.MenuItem;
@@ -20,9 +19,9 @@ public sealed class InMemoryBusTests
     {
         var mediator = Substitute.For<IMediator>();
         var domainEventStore = Substitute.For<IDomainEventStore>();
-        var fanoutEventHandler = Substitute.For<IFanoutEventHandler>();
+/*        var fanoutEventHandler = Substitute.For<IFanoutEventHandler>();*/
 
-        var inMemoryBus = new InMemoryBus(mediator, domainEventStore, fanoutEventHandler);
+        var inMemoryBus = new InMemoryBus(mediator, domainEventStore);
 
         const string key = "Key";
         const string value = "Value";
@@ -40,9 +39,9 @@ public sealed class InMemoryBusTests
     {
         var mediator = Substitute.For<IMediator>();
         var domainEventStore = Substitute.For<IDomainEventStore>();
-        var fanoutEventHandler = Substitute.For<IFanoutEventHandler>();
+/*        var fanoutEventHandler = Substitute.For<IFanoutEventHandler>();*/
 
-        var inMemoryBus = new InMemoryBus(mediator, domainEventStore, fanoutEventHandler);
+        var inMemoryBus = new InMemoryBus(mediator, domainEventStore);
 
         var userDeletedEvent = new EmployeeDeletedEvent(Guid.NewGuid());
 
@@ -62,9 +61,9 @@ public sealed class InMemoryBusTests
     {
         var mediator = Substitute.For<IMediator>();
         var domainEventStore = Substitute.For<IDomainEventStore>();
-        var fanoutEventHandler = Substitute.For<IFanoutEventHandler>();
+/*        var fanoutEventHandler = Substitute.For<IFanoutEventHandler>();*/
 
-        var inMemoryBus = new InMemoryBus(mediator, domainEventStore, fanoutEventHandler);
+        var inMemoryBus = new InMemoryBus(mediator, domainEventStore); //remember add fanoutEventHandler
 
         var deleteUserCommand = new DeleteEmployeeCommand(Guid.NewGuid());
 

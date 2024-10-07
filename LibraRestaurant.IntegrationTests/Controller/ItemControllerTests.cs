@@ -72,6 +72,7 @@ namespace LibraRestaurant.IntegrationTests.Controller
                 0,
                 "Test",
                 "Test",
+                null,
                 null);
 
             var response = await _fixture.ServerClient.PostAsJsonAsync("/api/v1/item", item);
@@ -95,6 +96,8 @@ namespace LibraRestaurant.IntegrationTests.Controller
                 0,
                 "Test",
                 "Test",
+                null,
+                null,
                 null);
 
             var response = await _fixture.ServerClient.PutAsJsonAsync("/api/v1/item", item);

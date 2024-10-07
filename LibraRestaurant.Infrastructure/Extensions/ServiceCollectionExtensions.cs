@@ -59,6 +59,10 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IDistrictRepository, DistrictRepository>();
         services.AddScoped<IWardRepository, WardRepository>();
         services.AddScoped<IPaymentHistoryRepository, PaymentHistoryRepository>();
+        services.AddScoped<ICategoryItemRepository, CategoryItemRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IEmployeeRoleRepository, EmployeeRoleRepository>();
+        services.AddScoped<ITokenRepository, TokenRepository>();
 
         return services;
     }

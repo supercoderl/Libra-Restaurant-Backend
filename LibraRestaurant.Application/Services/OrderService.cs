@@ -2,14 +2,8 @@
 using LibraRestaurant.Application.ViewModels.Menus;
 using LibraRestaurant.Application.ViewModels.Sorting;
 using LibraRestaurant.Application.ViewModels;
-using LibraRestaurant.Domain.Commands.Menus.CreateMenu;
-using LibraRestaurant.Domain.Commands.Menus.DeleteMenu;
-using LibraRestaurant.Domain.Commands.Menus.UpdateMenu;
 using LibraRestaurant.Domain.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using LibraRestaurant.Application.ViewModels.Orders;
 using LibraRestaurant.Domain.Commands.Orders.CreateOrder;
@@ -19,6 +13,8 @@ using LibraRestaurant.Application.Queries.Orders.GetOrderById;
 using LibraRestaurant.Application.Queries.Orders.GetAll;
 using LibraRestaurant.Domain.Enums;
 using LibraRestaurant.Application.Queries.Orders.GetOrderByStoreAndReservation;
+using LibraRestaurant.Domain.Commands.OrderLines.CreateOrderLine;
+using System.Linq;
 
 namespace LibraRestaurant.Application.Services
 {
@@ -83,7 +79,18 @@ namespace LibraRestaurant.Application.Services
             order.IsReady,
             order.ReadyTime,
             order.IsCompleted,
-            order.CompletedTime));
+            order.CompletedTime,
+            order.OrderLines.Select(item => new CreateOrderLineCommand(
+                0,
+                (Guid)id,
+                item.ItemId,
+                item.Quantity,
+                item.IsCanceled,
+                item.CanceledTime,
+                item.CanceledReason,
+                item.CustomerReview,
+                item.CustomerLike
+            )).ToList()));
 
             return id.Value;
         }
@@ -117,14 +124,25 @@ namespace LibraRestaurant.Application.Services
                 order.IsReady,
                 order.ReadyTime,
                 order.IsCompleted,
-                order.CompletedTime));
+                order.CompletedTime,
+                order.OrderLines.Select(item => new CreateOrderLineCommand(
+                    0,
+                    order.OrderId,
+                    item.ItemId,
+                    item.Quantity,
+                    item.IsCanceled,
+                    item.CanceledTime,
+                    item.CanceledReason,
+                    item.CustomerReview,
+                    item.CustomerLike
+                )).ToList()));
         }
 
         public async Task UpdatePaymentMethodAsync(Guid orderId, int paymentMethodId)
         {
             var order = await _bus.QueryAsync(new GetOrderByIdQuery(orderId));
 
-            if(order is not null)
+            if (order is not null)
             {
                 await _bus.SendCommandAsync(new UpdateOrderCommand(
                 order.OrderId,
@@ -153,7 +171,18 @@ namespace LibraRestaurant.Application.Services
                 true,
                 DateTime.Now,
                 order.IsCompleted,
-                order.CompletedTime));
+                order.CompletedTime,
+                order.OrderLines is not null ? order.OrderLines.Select(item => new CreateOrderLineCommand(
+                    0,
+                    order.OrderId,
+                    item.ItemId,
+                    item.Quantity,
+                    item.IsCanceled,
+                    item.CanceledTime,
+                    item.CanceledReason,
+                    item.CustomerReview,
+                    item.CustomerLike
+                )).ToList() : new System.Collections.Generic.List<CreateOrderLineCommand>()));
             }
         }
 
@@ -200,7 +229,18 @@ namespace LibraRestaurant.Application.Services
                     order.IsReady,
                     order.ReadyTime,
                     order.IsCompleted,
-                    order.CompletedTime
+                    order.CompletedTime,
+                    order.OrderLines is not null ? order.OrderLines.Select(item => new CreateOrderLineCommand(
+                        0,
+                        order.OrderId,
+                        item.ItemId,
+                        item.Quantity,
+                        item.IsCanceled,
+                        item.CanceledTime,
+                        item.CanceledReason,
+                        item.CustomerReview,
+                        item.CustomerLike
+                    )).ToList() : new System.Collections.Generic.List<CreateOrderLineCommand>()
             ));
         }
     }

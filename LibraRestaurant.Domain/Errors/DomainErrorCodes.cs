@@ -157,4 +157,35 @@ public static class DomainErrorCodes
         // General
         public const string AlreadyExists = "PAYMENT_HISTORY_ALREADY_EXISTS";
     }
+
+    public static class CategoryItem
+    {
+        // Category Item Validation
+        public const string EmptyId = "CATEGORY_ITEM_EMPTY_ID";
+
+        // General
+        public const string AlreadyExists = "CATEGORY_ITEM_ALREADY_EXISTS";
+    }
+
+    public static class Role
+    {
+        // Role Validation
+        public const string EmptyId = "ROLE_EMPTY_ID";
+        public const string EmptyName = "ROLE_EMPTY_NAME";
+        public const string EmptyEmployee = "ROLE_EMPTY_EMPLOYEE";
+
+        // General
+        public const string AlreadyExists = "ROLE_ALREADY_EXISTS";
+    }
+
+    public static class Token
+    {
+        // Token Validation
+        public const string EmptyId = "TOKEN_EMPTY_ID";
+        public const string EmptyOldToken = "TOKEN_EMPTY_OLD_TOKEN";
+        public const string EmptyEmployee = "TOKEN_EMPTY_EMPLOYEE";
+
+        // General
+        public const string AlreadyExists = "TOKEN_ALREADY_EXISTS";
+    }
 }

@@ -15,6 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,19 +30,28 @@ builder.Services
     .AddDbContextCheck<ApplicationDbContext>()
     .AddApplicationStatus();
 
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
+
 if (builder.Environment.IsProduction())
 {
     var rabbitHost = builder.Configuration["RabbitMQ:Host"];
     var rabbitUser = builder.Configuration["RabbitMQ:Username"];
     var rabbitPass = builder.Configuration["RabbitMQ:Password"];
 
+    /*    builder.Services
+            .AddHealthChecks()
+            .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")!)
+            .AddRedis(builder.Configuration["RedisHostName"]!, "Redis")
+            .AddRabbitMQ(
+                $"amqps://gnxqdbrs:mTx3ahYNHIVl-zLGDQDxiAYnqrejSCB3@gerbil.rmq.cloudamqp.com/gnxqdbrs",
+                name: "RabbitMQ");*/
     builder.Services
         .AddHealthChecks()
         .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")!)
-        .AddRedis(builder.Configuration["RedisHostName"]!, "Redis")
-        .AddRabbitMQ(
-            $"amqp://{rabbitUser}:{rabbitPass}@{rabbitHost}",
-            name: "RabbitMQ");
+        .AddRedis(builder.Configuration["RedisHostName"]!, "Redis");
 }
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -52,7 +63,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddCors(builder =>
 {
-    builder.AddPolicy("policy", p => p.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+    builder.AddPolicy("policy", x => 
+        x.AllowAnyOrigin()
+         .AllowAnyHeader()
+         .AllowAnyMethod()
+    );
 });
 
 builder.Services.AddSwagger();
@@ -65,7 +80,7 @@ builder.Services.AddCommandHandlers();
 builder.Services.AddNotificationHandlers();
 builder.Services.AddApiEmployee();
 
-builder.Services.AddRabbitMqHandler(builder.Configuration, "RabbitMQ");
+/*builder.Services.AddRabbitMqHandler(builder.Configuration, "RabbitMQ");*/
 
 builder.Services.AddHostedService<SetInactiveEmployeesService>();
 
@@ -111,8 +126,13 @@ if (app.Environment.IsDevelopment())
     app.MapGrpcReflectionService();
 }
 
-app.UseHttpsRedirection();
+/*app.UseSwagger();
+app.UseSwaggerUI();
+app.MapGrpcReflectionService();*/
+
 app.UseCors("policy");
+app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
