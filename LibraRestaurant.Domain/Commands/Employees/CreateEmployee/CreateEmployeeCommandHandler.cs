@@ -37,8 +37,9 @@ public sealed class CreateEmployeeCommandHandler : CommandHandlerBase,
         }
 
         var currentEmployee = await _employeeRepository.GetByIdAsync(_employee.GetEmployeeId());
+        var userRoles = _employee.GetUserRoles();
 
-        if (currentEmployee is null)
+        if (currentEmployee is null || (!userRoles.Contains(UserRole.Admin) && !userRoles.Contains(UserRole.Manager)))
         {
             await NotifyAsync(
                 new DomainNotification(

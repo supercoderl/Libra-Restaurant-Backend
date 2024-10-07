@@ -58,6 +58,10 @@ using LibraRestaurant.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using LibraRestaurant.Application.ViewModels.Roles;
+using LibraRestaurant.Application.Queries.Roles.GetRoleById;
+using LibraRestaurant.Application.Queries.Roles.GetAll;
+using LibraRestaurant.Application.Queries.MenuItems.GetBySlug;
 
 namespace LibraRestaurant.Application.Extensions;
 
@@ -85,6 +89,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IWardService, WardService>();
         services.AddScoped<IPaymentHistoryService, PaymentHistoryService>();
         services.AddScoped<IDashboardService, DashboardService>();
+        services.AddScoped<ICategoryItemService, CategoryItemService>();
+        services.AddScoped<IRoleService, RoleService>();
 
         services.AddSingleton<Cloudinary>(sp =>
         {
@@ -153,6 +159,7 @@ public static class ServiceCollectionExtensions
         // Item
         services.AddScoped<IRequestHandler<GetItemByIdQuery, ItemViewModel?>, GetItemByIdQueryHandler>();
         services.AddScoped<IRequestHandler<GetAllItemsQuery, PagedResult<ItemViewModel>>, GetAllItemsQueryHandler>();
+        services.AddScoped<IRequestHandler<GetItemBySlugQuery, ItemViewModel?>, GetItemBySlugQueryHandler>();
 
         // Menu
         services.AddScoped<IRequestHandler<GetMenuByIdQuery, MenuViewModel?>, GetMenuByIdQueryHandler>();
@@ -208,6 +215,10 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRequestHandler<GetPaymentHistoryByOrderQuery, PaymentHistoryViewModel?>, GetPaymentHistoryByOrderQueryHandler>();
         services.AddScoped<IRequestHandler<GetPaymentAmountQuery, double>, GetPaymentAmountQueryHandler>();
 
+        // Role
+        services.AddScoped<IRequestHandler<GetRoleByIdQuery, RoleViewModel?>, GetRoleByIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetAllRolesQuery, PagedResult<RoleViewModel>>, GetAllRolesQueryHandler>();
+
         return services;
     }
 
@@ -227,6 +238,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISortingExpressionProvider<DistrictViewModel, District>, DistrictViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<WardViewModel, Ward>, WardViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<PaymentHistoryViewModel, PaymentHistory>, PaymentHistoryViewModelSortProvider>();
+        services.AddScoped<ISortingExpressionProvider<RoleViewModel, Role>, RoleViewModelSortProvider>();
 
         return services;
     }

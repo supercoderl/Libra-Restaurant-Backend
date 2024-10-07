@@ -21,6 +21,10 @@ public partial class ApplicationDbContext : DbContext
     public DbSet<District> Districts { get; set; } = null!;
     public DbSet<Ward> Wards { get; set; } = null!;
     public DbSet<PaymentHistory> PaymentHistories { get; set; } = null!;
+    public DbSet<CategoryItem> CategoryItems { get; set; } = null!;
+    public DbSet<Role> Roles { get; set; } = null!;
+    public DbSet<EmployeeRole> EmployeeRoles { get; set; } = null!;
+    public DbSet<Token> Tokens { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -65,5 +69,9 @@ public partial class ApplicationDbContext : DbContext
         builder.ApplyConfiguration(new DistrictConfiguration());
         builder.ApplyConfiguration(new WardConfiguration());
         builder.ApplyConfiguration(new PaymentHistoryConfiguration());
+        builder.ApplyConfiguration(new CategoryItemConfiguration());
+        builder.ApplyConfiguration(new RoleConfiguration());
+        builder.ApplyConfiguration(new EmployeeRoleConfiguration());
+        builder.ApplyConfiguration(new TokenConfiguration());
     }
 }

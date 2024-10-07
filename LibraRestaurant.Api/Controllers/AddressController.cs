@@ -19,7 +19,6 @@ using LibraRestaurant.Application.ViewModels.Wards;
 namespace LibraRestaurant.Api.Controllers
 {
     [ApiController]
-    /*    [Authorize]*/
     [Route("/api/v1/[controller]")]
     public sealed class AddressController : ApiController
     {

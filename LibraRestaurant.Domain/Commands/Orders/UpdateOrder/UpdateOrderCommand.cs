@@ -1,4 +1,5 @@
 ﻿using LibraRestaurant.Domain.Commands.Menu.UpdateMenu;
+using LibraRestaurant.Domain.Commands.OrderLines.CreateOrderLine;
 using LibraRestaurant.Domain.Enums;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,8 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
         public bool IsCompleted { get; }
         public DateTime? CompletedTime { get; }
 
+        public List<CreateOrderLineCommand> OrderLines { get; }
+
         public UpdateOrderCommand(
             Guid orderId,
             string? orderNo,
@@ -67,7 +70,8 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
             bool isReady,
             DateTime? readyTime,
             bool isCompleted,
-            DateTime? completedTime
+            DateTime? completedTime,
+            List<CreateOrderLineCommand> orderLines
         ) : base(orderId)
         {
             OrderId = orderId;
@@ -97,6 +101,7 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
             ReadyTime = readyTime;
             IsCompleted = isCompleted;
             CompletedTime = completedTime;
+            OrderLines = orderLines;
         }
 
         public override bool IsValid()

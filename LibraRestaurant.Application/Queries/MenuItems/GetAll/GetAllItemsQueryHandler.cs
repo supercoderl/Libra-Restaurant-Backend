@@ -51,6 +51,11 @@ namespace LibraRestaurant.Application.Queries.MenuItems.GetAll
                 );
             }
 
+            if(request.CategoryId != -1)
+            {
+                itemsQuery = itemsQuery.Where(item => item.CategoryItems != null && item.CategoryItems.Where(categoryItem => categoryItem.CategoryId == request.CategoryId).Any());
+            }
+
             var totalCount = await itemsQuery.CountAsync(cancellationToken);
 
             itemsQuery = itemsQuery.GetOrderedQueryable(request.SortQuery, _sortingExpressionProvider);

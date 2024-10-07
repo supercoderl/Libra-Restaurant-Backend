@@ -50,6 +50,22 @@ using LibraRestaurant.Shared.Events.Store;
 using LibraRestaurant.Shared.Events.Employee;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using LibraRestaurant.Domain.Commands.CategoryItems.CreateCategoryItem;
+using LibraRestaurant.Domain.Commands.CategoryItems.UpdateCategoryItem;
+using LibraRestaurant.Domain.Commands.CategoryItems.DeleteCategoryItem;
+using LibraRestaurant.Shared.Events.CategoryItem;
+using LibraRestaurant.Domain.Commands.CategoryItems.UpsertCategoryItem;
+using LibraRestaurant.Shared.Events.Role;
+using LibraRestaurant.Domain.Commands.Roles.CreateRole;
+using LibraRestaurant.Domain.Commands.Roles.UpdateRole;
+using LibraRestaurant.Domain.Commands.Roles.DeleteRole;
+using LibraRestaurant.Domain.Commands.EmployeeRoles.UpsertEmployeeRole;
+using LibraRestaurant.Shared.Events.EmployeeRole;
+using System;
+using LibraRestaurant.Domain.Commands.Tokens.CreateToken;
+using LibraRestaurant.Domain.Commands.Tokens.UpdateToken;
+using LibraRestaurant.Shared.Events.Token;
+using LibraRestaurant.Domain.Commands.Employees.RefreshEmployee;
 
 namespace LibraRestaurant.Domain.Extensions;
 
@@ -57,12 +73,13 @@ public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddCommandHandlers(this IServiceCollection services)
     {
-        // User
+        // Employee
         services.AddScoped<IRequestHandler<CreateEmployeeCommand>, CreateEmployeeCommandHandler>();
         services.AddScoped<IRequestHandler<UpdateEmployeeCommand>, UpdateEmployeeCommandHandler>();
         services.AddScoped<IRequestHandler<DeleteEmployeeCommand>, DeleteEmployeeCommandHandler>();
         services.AddScoped<IRequestHandler<ChangePasswordCommand>, ChangePasswordCommandHandler>();
-        services.AddScoped<IRequestHandler<LoginEmployeeCommand, string>, LoginEmployeeCommandHandler>();
+        services.AddScoped<IRequestHandler<LoginEmployeeCommand, Object>, LoginEmployeeCommandHandler>();
+        services.AddScoped<IRequestHandler<RefreshEmployeeCommand, Object>, RefreshEmployeeCommandHandler>();
 
         // Item
         services.AddScoped<IRequestHandler<CreateItemCommand>, CreateItemCommandHandler>();
@@ -113,13 +130,31 @@ public static class ServiceCollectionExtension
         services.AddScoped<IRequestHandler<CreatePaymentHistoryCommand>, CreatePaymentHistoryCommandHandler>();
         services.AddScoped<IRequestHandler<DeletePaymentHistoryCommand>, DeletePaymentHistoryCommandHandler>();
 
+        //CategoryItem
+        services.AddScoped<IRequestHandler<CreateCategoryItemCommand>, CreateCategoryItemCommandHandler>();
+        services.AddScoped<IRequestHandler<UpdateCategoryItemCommand>, UpdateCategoryItemCommandHandler>();
+        services.AddScoped<IRequestHandler<DeleteCategoryItemCommand>, DeleteCategoryItemCommandHandler>();
+        services.AddScoped<IRequestHandler<UpsertCategoryItemCommand>, UpsertCategoryItemCommandHandler>();
+
+        //Role
+        services.AddScoped<IRequestHandler<CreateRoleCommand>, CreateRoleCommandHandler>();
+        services.AddScoped<IRequestHandler<UpdateRoleCommand>, UpdateRoleCommandHandler>();
+        services.AddScoped<IRequestHandler<DeleteRoleCommand>, DeleteRoleCommandHandler>();
+
+        //EmployeeRole
+        services.AddScoped<IRequestHandler<UpsertEmployeeRoleCommand>, UpsertEmployeeRoleCommandHandler>();
+
+        //Token
+        services.AddScoped<IRequestHandler<CreateTokenCommand>, CreateTokenCommandHandler>();
+        services.AddScoped<IRequestHandler<UpdateTokenCommand>, UpdateTokenCommandHandler>();
+
         return services;
     }
 
     public static IServiceCollection AddNotificationHandlers(this IServiceCollection services)
     {
         // Fanout
-        services.AddScoped<IFanoutEventHandler, FanoutEventHandler>();
+/*        services.AddScoped<IFanoutEventHandler, FanoutEventHandler>();*/
 
         // User
         services.AddScoped<INotificationHandler<EmployeeCreatedEvent>, EmployeeEventHandler>();
@@ -175,6 +210,25 @@ public static class ServiceCollectionExtension
         //PaymentHistory
         services.AddScoped<INotificationHandler<PaymentHistoryCreatedEvent>, PaymentHistoryEventHandler>();
         services.AddScoped<INotificationHandler<PaymentHistoryDeletedEvent>, PaymentHistoryEventHandler>();
+
+        //CategoryItem
+        services.AddScoped<INotificationHandler<CategoryItemCreatedEvent>, CategoryItemEventHandler>();
+        services.AddScoped<INotificationHandler<CategoryItemUpdatedEvent>, CategoryItemEventHandler>();
+        services.AddScoped<INotificationHandler<CategoryItemDeletedEvent>, CategoryItemEventHandler>();
+        services.AddScoped<INotificationHandler<CategoryItemUpsertEvent>, CategoryItemEventHandler>();
+
+        //Role
+        services.AddScoped<INotificationHandler<RoleCreatedEvent>, RoleEventHandler>();
+        services.AddScoped<INotificationHandler<RoleUpdatedEvent>, RoleEventHandler>();
+        services.AddScoped<INotificationHandler<RoleDeletedEvent>, RoleEventHandler>();
+
+        //EmployeeRole
+        services.AddScoped<INotificationHandler<EmployeeRoleUpsertEvent>, EmployeeRoleEventHandler>();
+
+        //Token
+        //Role
+        services.AddScoped<INotificationHandler<TokenCreatedEvent>, TokenEventHandler>();
+        services.AddScoped<INotificationHandler<TokenUpdatedEvent>, TokenEventHandler>();
 
         return services;
     }

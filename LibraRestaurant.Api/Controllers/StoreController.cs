@@ -14,11 +14,11 @@ using System.Threading.Tasks;
 using LibraRestaurant.Application.ViewModels.Stores;
 using LibraRestaurant.Domain.Entities;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraRestaurant.Api.Controllers
 {
     [ApiController]
-    /*    [Authorize]*/
     [Route("/api/v1/[controller]")]
     public sealed class StoreController : ApiController
     {
@@ -59,6 +59,7 @@ namespace LibraRestaurant.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [SwaggerOperation("Create a new store")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<Guid>))]
         public async Task<IActionResult> CreateMenuAsync([FromBody] CreateStoreViewModel viewModel)
@@ -68,6 +69,7 @@ namespace LibraRestaurant.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         [SwaggerOperation("Delete a store")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<Guid>))]
         public async Task<IActionResult> DeleteStoreAsync([FromRoute] Guid id)
@@ -77,6 +79,7 @@ namespace LibraRestaurant.Api.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         [SwaggerOperation("Update a store")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<UpdateStoreViewModel>))]
         public async Task<IActionResult> UpdateStoreAsync([FromBody] UpdateStoreViewModel viewModel)

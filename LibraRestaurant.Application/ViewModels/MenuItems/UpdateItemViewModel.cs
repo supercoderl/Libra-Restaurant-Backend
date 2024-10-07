@@ -16,6 +16,8 @@ namespace LibraRestaurant.Application.ViewModels.MenuItems
         int Quantity,
         string? Recipe,
         string? Instruction,
-        string? Base64
+        string? Base64,
+        string? Picture,
+        List<int> CategoryIds
     );
 }

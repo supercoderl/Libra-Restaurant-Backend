@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+/*using System.Threading.Tasks;
 using LibraRestaurant.Domain.Constants;
 using LibraRestaurant.Domain.Rabbitmq;
 using LibraRestaurant.Shared.Events;
@@ -24,4 +24,4 @@ public sealed class FanoutEventHandler : IFanoutEventHandler
 
         return Task.FromResult(@event);
     }
-}
+}*/

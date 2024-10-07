@@ -36,14 +36,14 @@ public sealed class RabbitmqAccessor
 
     public void RegisterRabbitmq(IServiceCollection serviceCollection, IConfiguration configuration)
     {
-        var rabbitService = serviceCollection.FirstOrDefault(x =>
-            x.ServiceType == typeof(RabbitMqHandler));
+/*        var rabbitService = serviceCollection.FirstOrDefault(x =>
+            x.ServiceType == typeof(RabbitMqHandler));*/
 
-        if (rabbitService != null)
+/*        if (rabbitService != null)
         {
             serviceCollection.Remove(rabbitService);
-        }
-
+        }*/
+/*
         var rabbitConfig = serviceCollection.FirstOrDefault(x =>
             x.ServiceType == typeof(RabbitMqConfiguration));
 
@@ -54,7 +54,7 @@ public sealed class RabbitmqAccessor
 
         serviceCollection.AddRabbitMqHandler(
             configuration,
-            "RabbitMQ");
+            "RabbitMQ");*/
     }
 
     public static RabbitmqAccessor GetOrCreateAsync()

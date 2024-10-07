@@ -12,6 +12,7 @@ using LibraRestaurant.Domain.Commands.Employees.DeleteEmployee;
 using LibraRestaurant.Domain.Commands.Employees.LoginEmployee;
 using LibraRestaurant.Domain.Commands.Employees.UpdateEmployee;
 using LibraRestaurant.Domain.Interfaces;
+using LibraRestaurant.Domain.Commands.Employees.RefreshEmployee;
 
 namespace LibraRestaurant.Application.Services;
 
@@ -82,8 +83,13 @@ public sealed class EmployeeService : IEmployeeService
         await _bus.SendCommandAsync(new ChangePasswordCommand(viewModel.Password, viewModel.NewPassword));
     }
 
-    public async Task<string> LoginEmployeeAsync(LoginEmployeeViewModel viewModel)
+    public async Task<Object> LoginEmployeeAsync(LoginEmployeeViewModel viewModel)
     {
         return await _bus.QueryAsync(new LoginEmployeeCommand(viewModel.Email, viewModel.Password));
+    }
+
+    public async Task<Object> RefreshEmployeeAsync(string refreshToken)
+    {
+        return await _bus.QueryAsync(new RefreshEmployeeCommand(refreshToken));
     }
 }

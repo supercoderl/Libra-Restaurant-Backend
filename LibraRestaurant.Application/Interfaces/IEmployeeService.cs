@@ -21,5 +21,6 @@ public interface IEmployeeService
     public Task UpdateEmployeeAsync(UpdateEmployeeViewModel employee);
     public Task DeleteEmployeeAsync(Guid employeeId);
     public Task ChangePasswordAsync(ChangePasswordViewModel viewModel);
-    public Task<string> LoginEmployeeAsync(LoginEmployeeViewModel viewModel);
+    public Task<Object> LoginEmployeeAsync(LoginEmployeeViewModel viewModel);
+    public Task<Object> RefreshEmployeeAsync(string refreshToken);
 }

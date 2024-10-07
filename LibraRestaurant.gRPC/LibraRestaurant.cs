@@ -5,7 +5,7 @@ namespace LibraRestaurant.gRPC;
 public sealed class LibraRestaurant : ILibraRestaurant
 {
     public LibraRestaurant(
-        IEmployeesContext employees, IMenuItemsContext items, IMenusContext menus, ICategoriesContext categories, ICurrenciesContext currencies, IOrdersContext orders, IReservationsContext reservations, IOrderLinesContext orderLines, IPaymentMethodsContext paymentMethods, ICitiesContext cities, IDistrictsContext districts, IWardsContext wards, IPaymentHistoriesContext paymentHistories)
+        IEmployeesContext employees, IMenuItemsContext items, IMenusContext menus, ICategoriesContext categories, ICurrenciesContext currencies, IOrdersContext orders, IReservationsContext reservations, IOrderLinesContext orderLines, IPaymentMethodsContext paymentMethods, ICitiesContext cities, IDistrictsContext districts, IWardsContext wards, IPaymentHistoriesContext paymentHistories, IRolesContext roles)
     {
         Employees = employees;
         Items = items;
@@ -20,6 +20,7 @@ public sealed class LibraRestaurant : ILibraRestaurant
         IDistricts = districts;
         Wards = wards;
         PaymentHistories = paymentHistories;
+        Roles = roles;
     }
 
     public IEmployeesContext Employees { get; }
@@ -47,4 +48,6 @@ public sealed class LibraRestaurant : ILibraRestaurant
     public IWardsContext Wards { get; }
 
     public IPaymentHistoriesContext PaymentHistories { get; }
+
+    public IRolesContext Roles { get; }
 }

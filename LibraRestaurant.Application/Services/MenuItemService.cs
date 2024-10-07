@@ -1,9 +1,12 @@
 ﻿using LibraRestaurant.Application.Interfaces;
 using LibraRestaurant.Application.Queries.MenuItems.GetAll;
 using LibraRestaurant.Application.Queries.MenuItems.GetById;
+using LibraRestaurant.Application.Queries.MenuItems.GetBySlug;
 using LibraRestaurant.Application.ViewModels;
 using LibraRestaurant.Application.ViewModels.MenuItems;
 using LibraRestaurant.Application.ViewModels.Sorting;
+using LibraRestaurant.Domain.Commands.CategoryItems.UpdateCategoryItem;
+using LibraRestaurant.Domain.Commands.CategoryItems.UpsertCategoryItem;
 using LibraRestaurant.Domain.Commands.MenuItems.CreateItem;
 using LibraRestaurant.Domain.Commands.MenuItems.DeleteItem;
 using LibraRestaurant.Domain.Commands.MenuItems.UpdateItem;
@@ -21,7 +24,7 @@ namespace LibraRestaurant.Application.Services
         private readonly IMediatorHandler _bus;
         private readonly IImageService _imageService;
 
-        public MenuItemService(IMediatorHandler bus, IImageService imageService)
+        public MenuItemService(IMediatorHandler bus, IImageService imageService, ICategoryItemService categoryItemService)
         {
             _bus = bus;
             _imageService = imageService;
@@ -45,7 +48,8 @@ namespace LibraRestaurant.Application.Services
                 item.Quantity,
                 item.Recipe,
                 item.Instruction,
-                path
+                path,
+                item.CategoryIds
             ));
 
             return 0;
@@ -56,14 +60,19 @@ namespace LibraRestaurant.Application.Services
             await _bus.SendCommandAsync(new DeleteItemCommand(itemId));
         }
 
-        public async Task<PagedResult<ItemViewModel>> GetAllItemsAsync(PageQuery query, bool includeDeleted, string searchTerm = "", SortQuery? sortQuery = null)
+        public async Task<PagedResult<ItemViewModel>> GetAllItemsAsync(PageQuery query, bool includeDeleted, string searchTerm = "", SortQuery? sortQuery = null, int categoryId = -1)
         {
-            return await _bus.QueryAsync(new GetAllItemsQuery(query, includeDeleted, searchTerm, sortQuery));
+            return await _bus.QueryAsync(new GetAllItemsQuery(query, includeDeleted, searchTerm, sortQuery, categoryId));
         }
 
         public async Task<ItemViewModel?> GetItemByIdAsync(int itemId)
         {
             return await _bus.QueryAsync(new GetItemByIdQuery(itemId));
+        }
+
+        public async Task<ItemViewModel?> GetItemBySlugAsync(string slug)
+        {
+            return await _bus.QueryAsync(new GetItemBySlugQuery(slug));
         }
 
         public async Task UpdateItemAsync(UpdateItemViewModel item)
@@ -83,9 +92,10 @@ namespace LibraRestaurant.Application.Services
                 item.Price,
                 item.Quantity,
                 item.Recipe,
-                path,
-                item.Instruction
-            ));
+                item.Base64 is not null ? path : item.Picture,
+                item.Instruction,
+                item.CategoryIds
+            )); 
         }
     }
 }

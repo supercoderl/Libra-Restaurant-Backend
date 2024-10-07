@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using LibraRestaurant.Domain.Enums;
 
@@ -19,6 +20,12 @@ public class Employee : Entity
     [ForeignKey("StoreId")]
     [InverseProperty("Employees")]
     public virtual Store? Store { get; set; }
+
+    [InverseProperty("Employee")]
+    public virtual ICollection<EmployeeRole>? EmployeeRoles { get; set; } = new List<EmployeeRole>();
+
+    [InverseProperty("Employee")]
+    public virtual ICollection<Token>? Tokens { get; set; } = new List<Token>();
 
     public string FullName => $"{FirstName}, {LastName}";
 

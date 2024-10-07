@@ -60,6 +60,41 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.CategoryItem", b =>
+                {
+                    b.Property<int>("CategoryItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryItemId"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoryItemId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("CategoryItems");
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.City", b =>
                 {
                     b.Property<int>("CityId")
@@ -244,6 +279,44 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.EmployeeRole", b =>
+                {
+                    b.Property<int>("EmployeeRoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeRoleId"));
+
+                    b.Property<DateTime>("AssignedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("RevokedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeeRoleId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("EmployeeRoles");
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Menu", b =>
                 {
                     b.Property<int>("MenuId")
@@ -348,7 +421,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         new
                         {
                             ItemId = 1,
-                            CreatedAt = new DateTime(2024, 8, 31, 9, 8, 15, 216, DateTimeKind.Local).AddTicks(6417),
+                            CreatedAt = new DateTime(2024, 9, 21, 10, 5, 44, 720, DateTimeKind.Local).AddTicks(4084),
                             Deleted = false,
                             Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             Instruction = "Ngon hơn khi dùng nóng",
@@ -658,6 +731,35 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.ToTable("Reservations");
                 });
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Role", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Store", b =>
                 {
                     b.Property<Guid>("StoreId")
@@ -737,6 +839,48 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.ToTable("Stores");
                 });
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Token", b =>
+                {
+                    b.Property<int>("TokenId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TokenId"));
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ExpireDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValue(new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OldToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RevokedAt")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("TokenId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Tokens");
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Ward", b =>
                 {
                     b.Property<int>("WardId")
@@ -784,6 +928,27 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.ToTable("Wards");
                 });
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.CategoryItem", b =>
+                {
+                    b.HasOne("LibraRestaurant.Domain.Entities.Category", "Category")
+                        .WithMany("CategoryItems")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_CategoryItem_Category_CategoryId");
+
+                    b.HasOne("LibraRestaurant.Domain.Entities.MenuItem", "Item")
+                        .WithMany("CategoryItems")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_CategoryItem_Item_ItemId");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Item");
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.District", b =>
                 {
                     b.HasOne("LibraRestaurant.Domain.Entities.City", "City")
@@ -805,6 +970,27 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         .HasConstraintName("FK_Employee_Store_StoreId");
 
                     b.Navigation("Store");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.EmployeeRole", b =>
+                {
+                    b.HasOne("LibraRestaurant.Domain.Entities.Employee", "Employee")
+                        .WithMany("EmployeeRoles")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_EmployeeRole_Employee_EmployeeId");
+
+                    b.HasOne("LibraRestaurant.Domain.Entities.Role", "Role")
+                        .WithMany("EmployeeRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_EmployeeRole_Role_RoleId");
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Menu", b =>
@@ -932,6 +1118,18 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Navigation("Ward");
                 });
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Token", b =>
+                {
+                    b.HasOne("LibraRestaurant.Domain.Entities.Employee", "Employee")
+                        .WithMany("Tokens")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Token_Employee_EmployeeId");
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Ward", b =>
                 {
                     b.HasOne("LibraRestaurant.Domain.Entities.District", "District")
@@ -942,6 +1140,11 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         .HasConstraintName("FK_Ward_District_DistrictId");
 
                     b.Navigation("District");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Category", b =>
+                {
+                    b.Navigation("CategoryItems");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.City", b =>
@@ -958,8 +1161,17 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Navigation("Wards");
                 });
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Employee", b =>
+                {
+                    b.Navigation("EmployeeRoles");
+
+                    b.Navigation("Tokens");
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.MenuItem", b =>
                 {
+                    b.Navigation("CategoryItems");
+
                     b.Navigation("OrderLines");
                 });
 
@@ -980,6 +1192,11 @@ namespace LibraRestaurant.Infrastructure.Migrations
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Reservation", b =>
                 {
                     b.Navigation("OrderHeaders");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Role", b =>
+                {
+                    b.Navigation("EmployeeRoles");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Store", b =>

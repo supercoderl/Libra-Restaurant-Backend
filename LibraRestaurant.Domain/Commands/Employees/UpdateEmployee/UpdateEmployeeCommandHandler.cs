@@ -75,6 +75,8 @@ public sealed class UpdateEmployeeCommandHandler : CommandHandlerBase,
         employee.SetEmail(request.Email);
         employee.SetFirstName(request.FirstName);
         employee.SetLastName(request.LastName);
+        employee.SetMobile(request.Mobile);
+        employee.SetStore(request.StoreId);
 
         _employeeRepository.Update(employee);
 

@@ -9,6 +9,7 @@ using LibraRestaurant.Domain.Entities;
 using LibraRestaurant.Domain.Enums;
 using LibraRestaurant.Domain.Notifications;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -18,7 +19,6 @@ using System.Threading.Tasks;
 namespace LibraRestaurant.Api.Controllers
 {
     [ApiController]
-    /*    [Authorize]*/
     [Route("/api/v1/[controller]")]
     public sealed class ReservationController : ApiController
     {
@@ -86,6 +86,7 @@ namespace LibraRestaurant.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         [SwaggerOperation("Delete a reservation")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<int>))]
         public async Task<IActionResult> DeleteReservationAsync([FromRoute] int id)

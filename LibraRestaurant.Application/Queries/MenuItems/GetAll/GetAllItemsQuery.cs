@@ -14,6 +14,7 @@ namespace LibraRestaurant.Application.Queries.MenuItems.GetAll
         PageQuery Query,
         bool IncludeDeleted,
         string SearchTerm = "",
-        SortQuery? SortQuery = null) :
+        SortQuery? SortQuery = null,
+        int CategoryId = -1) :
         IRequest<PagedResult<ItemViewModel>>;
 }

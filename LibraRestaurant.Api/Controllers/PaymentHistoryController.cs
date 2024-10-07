@@ -15,11 +15,11 @@ using LibraRestaurant.Application.ViewModels.PaymentHistories;
 using LibraRestaurant.Application.ViewModels.PaymentHistorys;
 using LibraRestaurant.Domain.Entities;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraRestaurant.Api.Controllers
 {
     [ApiController]
-    /*    [Authorize]*/
     [Route("/api/v1/[controller]")]
     public sealed class PaymentHistoryController : ApiController
     {
@@ -33,6 +33,7 @@ namespace LibraRestaurant.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [SwaggerOperation("Get a list of all payment histories")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<PagedResult<PaymentHistoryViewModel>>))]
         public async Task<IActionResult> GetAllMenusAsync(
@@ -76,6 +77,7 @@ namespace LibraRestaurant.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         [SwaggerOperation("Delete a payment history")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<int>))]
         public async Task<IActionResult> DeletePaymentHistoryAsync([FromRoute] int id)

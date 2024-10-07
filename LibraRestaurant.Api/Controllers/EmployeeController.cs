@@ -12,12 +12,13 @@ using LibraRestaurant.Domain.Notifications;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using BC = BCrypt.Net.BCrypt;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace LibraRestaurant.Api.Controllers;
 
 [ApiController]
-[Authorize]
+/*[Authorize]*/
 [Route("/api/v1/[controller]")]
 public sealed class EmployeeController : ApiController
 {
@@ -71,6 +72,7 @@ public sealed class EmployeeController : ApiController
     [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<Guid>))]
     public async Task<IActionResult> CreateEmployeeAsync([FromBody] CreateEmployeeViewModel viewModel)
     {
+/*        var password = BC.HashPassword("Password123!");*/
         var employeeId = await _employeeService.CreateEmployeeAsync(viewModel);
         return Response(employeeId);
     }
@@ -109,6 +111,16 @@ public sealed class EmployeeController : ApiController
     public async Task<IActionResult> LoginEmployeeAsync([FromBody] LoginEmployeeViewModel viewModel)
     {
         var token = await _employeeService.LoginEmployeeAsync(viewModel);
+        return Response(token);
+    }
+
+    [HttpPost("refresh")]
+    [AllowAnonymous]
+    [SwaggerOperation("Use old token to generate new token")]
+    [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<string>))]
+    public async Task<IActionResult> RefreshEmployeeAsync([FromBody] string refreshToken)
+    {
+        var token = await _employeeService.RefreshEmployeeAsync(refreshToken);
         return Response(token);
     }
 }
