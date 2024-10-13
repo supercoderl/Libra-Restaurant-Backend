@@ -135,7 +135,8 @@ namespace LibraRestaurant.Application.Services
                     item.CanceledReason,
                     item.CustomerReview,
                     item.CustomerLike
-                )).ToList()));
+                )).ToList(),
+                order.Action));
         }
 
         public async Task UpdatePaymentMethodAsync(Guid orderId, int paymentMethodId)
@@ -182,7 +183,8 @@ namespace LibraRestaurant.Application.Services
                     item.CanceledReason,
                     item.CustomerReview,
                     item.CustomerLike
-                )).ToList() : new System.Collections.Generic.List<CreateOrderLineCommand>()));
+                )).ToList() : new System.Collections.Generic.List<CreateOrderLineCommand>(),
+                "update"));
             }
         }
 
@@ -240,7 +242,8 @@ namespace LibraRestaurant.Application.Services
                         item.CanceledReason,
                         item.CustomerReview,
                         item.CustomerLike
-                    )).ToList() : new System.Collections.Generic.List<CreateOrderLineCommand>()
+                    )).ToList() : new System.Collections.Generic.List<CreateOrderLineCommand>(),
+                    "update"
             ));
         }
     }

@@ -33,4 +33,5 @@ public sealed record UpdateOrderViewModel(
     DateTime? ReadyTime,
     bool IsCompleted,
     DateTime? CompletedTime,
-    List<CreateOrderLineViewModel> OrderLines);
+    List<CreateOrderLineViewModel> OrderLines,
+    string Action);

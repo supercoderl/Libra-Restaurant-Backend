@@ -17,6 +17,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using LibraRestaurant.Application.Queries.Reservations.GetReservationByTableNumberAndStoreId;
 using System.Text.Json;
+using LibraRestaurant.Application.Queries.Reservations.GetAllTablesRealTime;
+using System.Collections.Generic;
 
 namespace LibraRestaurant.Application.Services
 {
@@ -43,6 +45,11 @@ namespace LibraRestaurant.Application.Services
             return await _bus.QueryAsync(new GetAllReservationsQuery(query, includeDeleted, searchTerm, sortQuery));
         }
 
+        public async Task<List<TableRealTimeViewModel>> GetAllTablesRealTimeAsync(bool includeDeleted)
+        {
+            return await _bus.QueryAsync(new GetAllTablesRealTimeQuery(includeDeleted));
+        }
+
         public async Task<ReservationViewModel?> GetReservationByTableNumberAndStoreIdAsync(int tableNumber, Guid storeId)
         {
             return await _bus.QueryAsync(new GetReservationByTableNumberAndStoreIdQuery(tableNumber, storeId));
@@ -51,7 +58,7 @@ namespace LibraRestaurant.Application.Services
         public async Task<int?> GetReservationStatus(int reservationId)
         {
             var reservation = await _bus.QueryAsync(new GetReservationByIdQuery(reservationId));
-            if(reservation is not null) 
+            if (reservation is not null)
             {
                 return Convert.ToInt32(reservation.Status);
             }

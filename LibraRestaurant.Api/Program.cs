@@ -17,6 +17,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Stripe;
+using LibraRestaurant.Application.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,9 +65,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddCors(builder =>
 {
     builder.AddPolicy("policy", x => 
-        x.AllowAnyOrigin()
+        x.SetIsOriginAllowed(_ => true)
          .AllowAnyHeader()
          .AllowAnyMethod()
+         .AllowCredentials()
     );
 });
 
@@ -79,6 +81,7 @@ builder.Services.AddSortProviders();
 builder.Services.AddCommandHandlers();
 builder.Services.AddNotificationHandlers();
 builder.Services.AddApiEmployee();
+builder.Services.AddSignalR();
 
 /*builder.Services.AddRabbitMqHandler(builder.Configuration, "RabbitMQ");*/
 
@@ -142,6 +145,7 @@ app.MapHealthChecks("/healthz", new HealthCheckOptions
 });
 app.MapControllers();
 app.MapGrpcService<EmployeesApiImplementation>();
+app.MapHub<TrackerHub>("/tracker");
 
 app.Run();
 

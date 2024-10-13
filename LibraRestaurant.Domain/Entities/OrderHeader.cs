@@ -56,6 +56,9 @@ namespace LibraRestaurant.Domain.Entities
         [InverseProperty("OrderHeader")]
         public virtual ICollection<PaymentHistory>? PaymentHistories { get; set; } = new List<PaymentHistory>();
 
+        [InverseProperty("OrderHeader")]
+        public virtual ICollection<OrderLog>? OrderLogs { get; set; } = new List<OrderLog>();
+
         public OrderHeader(
             Guid orderId,
             string orderNo,

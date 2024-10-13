@@ -16,6 +16,8 @@
         <Protobuf Include="Districts\Models.proto" GrpcServices="Both" />
         <Protobuf Include="Menus\MenusApi.proto" GrpcServices="Both" />
         <Protobuf Include="Menus\Models.proto" GrpcServices="Both" />
+        <Protobuf Include="Messages\MessagesApi.proto" GrpcServices="Both" />
+        <Protobuf Include="Messages\Models.proto" GrpcServices="Both" />
         <Protobuf Include="OrderLines\OrderLinesApi.proto" GrpcServices="Both" />
         <Protobuf Include="OrderLines\Models.proto" GrpcServices="Both" />
         <Protobuf Include="Orders\OrdersApi.proto" GrpcServices="Both" />

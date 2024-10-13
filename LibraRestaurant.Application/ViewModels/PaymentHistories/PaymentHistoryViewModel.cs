@@ -17,6 +17,9 @@ public sealed class PaymentHistoryViewModel
     public string? CallbackURL { get; set; }
     public DateTime CreatedAt { get; set; }
 
+    public string? PaymentMethodName { get; set; }
+    public string? CurrencyName { get; set; }
+
     public static PaymentHistoryViewModel FromPaymentHistory(PaymentHistory paymentHistory)
     {
         return new PaymentHistoryViewModel
@@ -31,6 +34,7 @@ public sealed class PaymentHistoryViewModel
             ResponseJSON = paymentHistory.ResponseJSON,
             CallbackURL = paymentHistory.CallbackURL,
             CreatedAt = paymentHistory.CreatedAt,
+            PaymentMethodName = paymentHistory.PaymentMethod?.Name,
         };
     }
 }

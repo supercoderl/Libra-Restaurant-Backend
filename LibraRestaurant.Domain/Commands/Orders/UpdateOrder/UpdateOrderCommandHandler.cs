@@ -21,16 +21,19 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IOrderLineRepository _orderLineRepository;
+        private readonly IReservationRepository _reservationRepository;
 
         public UpdateOrderCommandHandler(
             IMediatorHandler bus,
             IUnitOfWork unitOfWork,
             INotificationHandler<DomainNotification> notifications,
             IOrderRepository orderRepository,
-            IOrderLineRepository orderLineRepository) : base(bus, unitOfWork, notifications)
+            IOrderLineRepository orderLineRepository,
+            IReservationRepository reservationRepository) : base(bus, unitOfWork, notifications)
         {
             _orderRepository = orderRepository;
             _orderLineRepository = orderLineRepository;
+            _reservationRepository = reservationRepository;
         }
 
         public async Task Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
@@ -86,6 +89,11 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
 
             await AddItems(request.OrderLines, order.OrderId);
 
+            if(request.Action == "pay" || request.Action == "cancel")
+            {
+                await UpdateReservation(request.ReservationId, request.Action);
+            }
+
             if (await CommitAsync())
             {
                 await Bus.RaiseEventAsync(new OrderUpdatedEvent(order.OrderId));
@@ -126,6 +134,16 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
 
                     _orderLineRepository.Add(orderItem); // Thêm mới
                 }
+            }
+        }
+
+        private async Task UpdateReservation(int ReservationId, string Action)
+        {
+            var reservation = await _reservationRepository.GetByIdAsync(ReservationId);
+            if (reservation is not null)
+            {
+                reservation.SetStatus(Action == "pay" ? Enums.ReservationStatus.Cleaning : Enums.ReservationStatus.Available);
+                _reservationRepository.Update(reservation);
             }
         }
     }

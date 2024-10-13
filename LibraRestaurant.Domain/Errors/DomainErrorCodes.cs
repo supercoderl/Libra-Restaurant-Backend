@@ -188,4 +188,13 @@ public static class DomainErrorCodes
         // General
         public const string AlreadyExists = "TOKEN_ALREADY_EXISTS";
     }
+
+    public static class Message
+    {
+        //Message Validation
+        public const string EmptyId = "MESSAGE_EMPTY_ID";
+        public const string EmptyContent = "MESSAGE_CONTENT_EMPTY";
+        public const string EmptyTime = "MESSAGE_TIME_EMPTY";
+        public const string EmptyMessageType = "MESSAGE_TYPE_EMPTY";
+    }
 }

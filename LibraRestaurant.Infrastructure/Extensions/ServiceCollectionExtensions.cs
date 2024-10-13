@@ -63,6 +63,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IEmployeeRoleRepository, EmployeeRoleRepository>();
         services.AddScoped<ITokenRepository, TokenRepository>();
+        services.AddScoped<IMessageRepository, MessageRepository>();
 
         return services;
     }
