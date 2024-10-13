@@ -25,6 +25,8 @@ public partial class ApplicationDbContext : DbContext
     public DbSet<Role> Roles { get; set; } = null!;
     public DbSet<EmployeeRole> EmployeeRoles { get; set; } = null!;
     public DbSet<Token> Tokens { get; set; } = null!;
+    public DbSet<Message> Messages { get; set; } = null!;
+    public DbSet<OrderLog> OrderLogs { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -40,6 +42,10 @@ public partial class ApplicationDbContext : DbContext
                     .HasQueryFilter(DbContextUtility.GetIsDeletedRestriction(entity.ClrType));
             }
         }
+        builder.Entity<OrderLine>(entry =>
+        {
+            entry.ToTable("OrderLines", tb => tb.HasTrigger("trg_OrderLines_AfterUpdate"));
+        });
 
         base.OnModelCreating(builder);
 
@@ -73,5 +79,7 @@ public partial class ApplicationDbContext : DbContext
         builder.ApplyConfiguration(new RoleConfiguration());
         builder.ApplyConfiguration(new EmployeeRoleConfiguration());
         builder.ApplyConfiguration(new TokenConfiguration());
+        builder.ApplyConfiguration(new MessageConfiguration());
+        builder.ApplyConfiguration(new OrderLogConfiguration());
     }
 }

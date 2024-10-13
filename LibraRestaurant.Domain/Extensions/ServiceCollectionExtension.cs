@@ -66,6 +66,9 @@ using LibraRestaurant.Domain.Commands.Tokens.CreateToken;
 using LibraRestaurant.Domain.Commands.Tokens.UpdateToken;
 using LibraRestaurant.Shared.Events.Token;
 using LibraRestaurant.Domain.Commands.Employees.RefreshEmployee;
+using LibraRestaurant.Domain.Commands.Messages.SendMessage;
+using LibraRestaurant.Shared.Events.Messages;
+using LibraRestaurant.Domain.Commands.Messages.UpdateMessage;
 
 namespace LibraRestaurant.Domain.Extensions;
 
@@ -148,6 +151,10 @@ public static class ServiceCollectionExtension
         services.AddScoped<IRequestHandler<CreateTokenCommand>, CreateTokenCommandHandler>();
         services.AddScoped<IRequestHandler<UpdateTokenCommand>, UpdateTokenCommandHandler>();
 
+        //Message
+        services.AddScoped<IRequestHandler<SendMessageCommand>, SendMessageCommandHandler>();
+        services.AddScoped<IRequestHandler<UpdateMessageCommand>, UpdateMessageCommandHandler>();
+
         return services;
     }
 
@@ -229,6 +236,10 @@ public static class ServiceCollectionExtension
         //Role
         services.AddScoped<INotificationHandler<TokenCreatedEvent>, TokenEventHandler>();
         services.AddScoped<INotificationHandler<TokenUpdatedEvent>, TokenEventHandler>();
+
+        //Message
+        services.AddScoped<INotificationHandler<MessageSentEvent>, MessageEventHandler>();
+        services.AddScoped<INotificationHandler<MessageUpdatedEvent>, MessageEventHandler>();
 
         return services;
     }

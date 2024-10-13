@@ -20,16 +20,19 @@ namespace LibraRestaurant.Domain.Commands.Orders.CreateOrder
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IOrderLineRepository _orderLineRepository;
+        private readonly IReservationRepository _reservationRepository;
 
         public CreateOrderCommandHandler(
             IMediatorHandler bus,
             IUnitOfWork unitOfWork,
             INotificationHandler<DomainNotification> notifications,
             IOrderRepository orderRepository,
-            IOrderLineRepository orderLineRepository) : base(bus, unitOfWork, notifications)
+            IOrderLineRepository orderLineRepository,
+            IReservationRepository reservationRepository) : base(bus, unitOfWork, notifications)
         {
             _orderRepository = orderRepository;
             _orderLineRepository = orderLineRepository;
+            _reservationRepository = reservationRepository;
         }
 
         public async Task Handle(CreateOrderCommand request, CancellationToken cancellationToken)
@@ -71,6 +74,7 @@ namespace LibraRestaurant.Domain.Commands.Orders.CreateOrder
             _orderRepository.Add(order);
 
             await AddItems(request.OrderLines, request.OrderId);
+            await UpdateReservation(request.ReservationId);
 
             if (await CommitAsync())
             {
@@ -112,6 +116,16 @@ namespace LibraRestaurant.Domain.Commands.Orders.CreateOrder
 
                     _orderLineRepository.Add(orderItem); // Thêm mới
                 }
+            }
+        }
+
+        private async Task UpdateReservation(int ReservationId)
+        {
+            var reservation = await _reservationRepository.GetByIdAsync(ReservationId);
+            if(reservation is not null)
+            {
+                reservation.SetStatus(Enums.ReservationStatus.Occupied);
+                _reservationRepository.Update(reservation);
             }
         }
     }

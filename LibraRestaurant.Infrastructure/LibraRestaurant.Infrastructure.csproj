@@ -28,7 +28,7 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
         <PackageReference Include="System.Formats.Asn1" Version="8.0.1" />
-        <PackageReference Include="System.Text.Json" Version="8.0.4" />
+        <PackageReference Include="System.Text.Json" Version="8.0.5" />
     </ItemGroup>
 
 </Project>

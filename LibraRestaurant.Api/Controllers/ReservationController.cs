@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LibraRestaurant.Api.Controllers
@@ -47,6 +48,17 @@ namespace LibraRestaurant.Api.Controllers
                 searchTerm,
                 sortQuery);
             return Response(reservations);
+        }
+
+        [HttpGet("tables")]
+        [SwaggerOperation("Get a list of tables for realtime")]
+        [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<List<TableRealTimeViewModel>>))]
+        public async Task<IActionResult> GetAllTablesRealTimeAsync(
+            [FromQuery] bool includeDeleted = false
+        )
+        {
+            var tableKeys = await _reservationService.GetAllTablesRealTimeAsync(includeDeleted);
+            return Response(tableKeys);
         }
 
         [HttpGet("{id}")]

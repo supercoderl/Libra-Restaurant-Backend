@@ -25,6 +25,7 @@ namespace LibraRestaurant.Application.Interfaces
             string searchTerm = "",
             SortQuery? sortQuery = null);
 
+        public Task<List<TableRealTimeViewModel>> GetAllTablesRealTimeAsync(bool includeDeleted);
         public Task<int> CreateReservationAsync(CreateReservationViewModel reservation);
         public Task UpdateReservationAsync(UpdateReservationViewModel reservation);
         public Task DeleteReservationAsync(int reservationId);

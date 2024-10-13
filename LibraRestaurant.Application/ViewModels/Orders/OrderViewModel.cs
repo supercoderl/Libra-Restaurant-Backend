@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using LibraRestaurant.Application.ViewModels.OrderLines;
+using LibraRestaurant.Application.ViewModels.Payments;
 using LibraRestaurant.Domain.Entities;
 using LibraRestaurant.Domain.Enums;
 
@@ -12,7 +13,7 @@ public sealed class OrderViewModel
     public Guid OrderId { get; set; }
     public string OrderNo { get; set; } = string.Empty;
     public Guid StoreId { get; set; }
-    public int? PaymentMethodId { get; set; } 
+    public int? PaymentMethodId { get; set; }
     public int? PaymentTimeId { get; set; }
     public Guid? ServantId { get; set; }
     public Guid? CashierId { get; set; }
@@ -37,6 +38,7 @@ public sealed class OrderViewModel
     public bool IsCompleted { get; set; }
     public DateTime? CompletedTime { get; set; }
     public string? StoreName { get; set; }
+    public List<OrderLogFromOrderViewModel>? OrderLogs { get; set; }
 
     public List<OrderLineFromOrderViewModel>? OrderLines { get; set; }
 
@@ -77,13 +79,27 @@ public sealed class OrderViewModel
                 OrderLineId = item.OrderLineId,
                 OrderId = item.OrderId,
                 ItemId = item.ItemId,
+                FoodName = item.Item?.Title,
                 Quantity = item.Quantity,
                 IsCanceled = item.IsCanceled,
                 CanceledTime = item.CanceledTime,
                 CanceledReason = item.CanceledReason,
                 CustomerReview = item.CustomerReview,
                 CustomerLike = item.CustomerLike,
-            }).ToList() : null
+            }).ToList() : null,
+            OrderLogs = 
+                    order?.OrderLogs?
+                    .OrderBy(log => log.Time)
+                    .GroupBy(log => log.ItemId)// Sắp xếp log theo thời gian
+                    .Select(group => new OrderLogFromOrderViewModel
+                    {
+                        ItemId = group.Key,
+                        QuantityChanges = group.Any()
+                            ? string.Join(" → ", group.Select(log => log.NewQuantity))
+                            : string.Empty,
+                        TimeChanges = string.Join(" → ", group.Select(log => log.Time.ToString("HH:mm")))
+                    })
+                .ToList()
         };
     }
 }

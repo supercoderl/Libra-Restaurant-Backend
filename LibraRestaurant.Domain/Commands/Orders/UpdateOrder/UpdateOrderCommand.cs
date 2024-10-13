@@ -40,6 +40,7 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
         public DateTime? ReadyTime { get; }
         public bool IsCompleted { get; }
         public DateTime? CompletedTime { get; }
+        public string Action { get; }
 
         public List<CreateOrderLineCommand> OrderLines { get; }
 
@@ -71,7 +72,8 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
             DateTime? readyTime,
             bool isCompleted,
             DateTime? completedTime,
-            List<CreateOrderLineCommand> orderLines
+            List<CreateOrderLineCommand> orderLines,
+            string action
         ) : base(orderId)
         {
             OrderId = orderId;
@@ -102,6 +104,7 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
             IsCompleted = isCompleted;
             CompletedTime = completedTime;
             OrderLines = orderLines;
+            Action = action;
         }
 
         public override bool IsValid()

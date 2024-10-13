@@ -421,7 +421,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         new
                         {
                             ItemId = 1,
-                            CreatedAt = new DateTime(2024, 9, 21, 10, 5, 44, 720, DateTimeKind.Local).AddTicks(4084),
+                            CreatedAt = new DateTime(2024, 10, 13, 13, 2, 41, 762, DateTimeKind.Local).AddTicks(5561),
                             Deleted = false,
                             Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             Instruction = "Ngon hơn khi dùng nóng",
@@ -434,6 +434,54 @@ namespace LibraRestaurant.Infrastructure.Migrations
                             Summary = "Nem lụi được biết đến là đặc sản của vùng đất kinh kỳ đồng thời là lựa chọn mà mọi tín đồ yêu thích ẩm thực không thể bỏ qua. Món ăn hấp dẫn ngay từ cái nhìn đầu tiên với màu sắc vàng ươm cùng mùi vị thơm lừng sau khi được nướng lên. Thực khách sẽ cảm nhận trọn vẹn vị đậm đà pha chút mềm dai của thịt heo, giò sống hài hòa với các gia vị đặc biệt. Thêm vào đó, Nem lụi TASTY còn ngon hơn khi dùng kèm bánh tráng, bún tươi, rau sống và nước chấm sền sệt, vị bùi ngậy do chính các đầu bếp TASTY sáng tạo.",
                             Title = "Nem lụi nướng mía"
                         });
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Message", b =>
+                {
+                    b.Property<int>("MessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MessageId"));
+
+                    b.Property<string>("AttachmentUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ConversationId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MessageType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReceiverId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("MessageId");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.OrderHeader", b =>
@@ -589,6 +637,51 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderLines");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.OrderLog", b =>
+                {
+                    b.Property<int>("LogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LogId"));
+
+                    b.Property<string>("ChangeType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NewQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("PreviousQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("LogId");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderLogs");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.PaymentHistory", b =>
@@ -1055,6 +1148,27 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Navigation("OrderHeader");
                 });
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.OrderLog", b =>
+                {
+                    b.HasOne("LibraRestaurant.Domain.Entities.MenuItem", "Item")
+                        .WithMany("OrderLogs")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_OrderLog_Item_ItemId");
+
+                    b.HasOne("LibraRestaurant.Domain.Entities.OrderHeader", "OrderHeader")
+                        .WithMany("OrderLogs")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_OrderLog_Order_OrderId");
+
+                    b.Navigation("Item");
+
+                    b.Navigation("OrderHeader");
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.PaymentHistory", b =>
                 {
                     b.HasOne("LibraRestaurant.Domain.Entities.OrderHeader", "OrderHeader")
@@ -1173,11 +1287,15 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Navigation("CategoryItems");
 
                     b.Navigation("OrderLines");
+
+                    b.Navigation("OrderLogs");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.OrderHeader", b =>
                 {
                     b.Navigation("OrderLines");
+
+                    b.Navigation("OrderLogs");
 
                     b.Navigation("PaymentHistories");
                 });

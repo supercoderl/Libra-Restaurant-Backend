@@ -62,6 +62,11 @@ using LibraRestaurant.Application.ViewModels.Roles;
 using LibraRestaurant.Application.Queries.Roles.GetRoleById;
 using LibraRestaurant.Application.Queries.Roles.GetAll;
 using LibraRestaurant.Application.Queries.MenuItems.GetBySlug;
+using LibraRestaurant.Application.ViewModels.Settings;
+using LibraRestaurant.Application.Queries.Reservations.GetAllTablesRealTime;
+using System.Collections.Generic;
+using LibraRestaurant.Application.Queries.Messages.GetAll;
+using LibraRestaurant.Application.ViewModels.Messages;
 
 namespace LibraRestaurant.Application.Extensions;
 
@@ -91,6 +96,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IDashboardService, DashboardService>();
         services.AddScoped<ICategoryItemService, CategoryItemService>();
         services.AddScoped<IRoleService, RoleService>();
+        services.AddScoped<IRealTimeService, RealTimeService>();
+        services.AddScoped<IMessageService, MessageService>();
 
         services.AddSingleton<Cloudinary>(sp =>
         {
@@ -147,6 +154,12 @@ public static class ServiceCollectionExtensions
             );
         });
 
+        services.AddSingleton<CoreSettings>(p =>
+        {
+            var configuration = p.GetRequiredService<IConfiguration>();
+            return new CoreSettings(configuration["Core:ServerURL"]!);
+        });
+
         return services;
     }
 
@@ -187,6 +200,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRequestHandler<GetReservationByIdQuery, ReservationViewModel?>, GetReservationByIdQueryHandler>();
         services.AddScoped<IRequestHandler<GetAllReservationsQuery, PagedResult<ReservationViewModel>>, GetAllReservationsQueryHandler>();
         services.AddScoped<IRequestHandler<GetReservationByTableNumberAndStoreIdQuery, ReservationViewModel?>, GetReservationByTableNumberAndStoreIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetAllTablesRealTimeQuery, List<TableRealTimeViewModel>>, GetAllTablesRealTimeQueryHandler>();
 
         // OrderLine
         services.AddScoped<IRequestHandler<GetOrderLineByIdQuery, OrderLineViewModel?>, GetOrderLineByIdQueryHandler>();
@@ -219,6 +233,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRequestHandler<GetRoleByIdQuery, RoleViewModel?>, GetRoleByIdQueryHandler>();
         services.AddScoped<IRequestHandler<GetAllRolesQuery, PagedResult<RoleViewModel>>, GetAllRolesQueryHandler>();
 
+        //Message
+        services.AddScoped<IRequestHandler<GetAllMessagesQuery, PagedResult<MessageViewModel>>, GetAllMessagesQueryHandler>();
+
         return services;
     }
 
@@ -239,6 +256,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISortingExpressionProvider<WardViewModel, Ward>, WardViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<PaymentHistoryViewModel, PaymentHistory>, PaymentHistoryViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<RoleViewModel, Role>, RoleViewModelSortProvider>();
+        services.AddScoped<ISortingExpressionProvider<MessageViewModel, Message>, MessageViewModelSortProvider>();
 
         return services;
     }

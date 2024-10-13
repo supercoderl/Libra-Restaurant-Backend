@@ -13,6 +13,7 @@ namespace LibraRestaurant.Application.ViewModels.Orders
         public int OrderLineId { get; set; }
         public Guid OrderId { get; set; }
         public int ItemId { get; set; }
+        public string? FoodName { get; set; }
         public int Quantity { get; set; }
         public bool IsCanceled { get; set; }
         public DateTime? CanceledTime { get; set; }
