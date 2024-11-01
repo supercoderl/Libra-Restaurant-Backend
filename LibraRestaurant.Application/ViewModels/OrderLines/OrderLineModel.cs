@@ -10,6 +10,7 @@ public sealed class OrderLineViewModel
     public Guid OrderId { get; set; }
     public int ItemId { get; set; }
     public int Quantity { get; set; }
+    public double FoodPrice { get; set; }
     public bool IsCanceled { get; set; }
     public DateTime? CanceledTime { get; set; }
     public string? CanceledReason { get; set; }

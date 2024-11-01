@@ -27,6 +27,8 @@ public partial class ApplicationDbContext : DbContext
     public DbSet<Token> Tokens { get; set; } = null!;
     public DbSet<Message> Messages { get; set; } = null!;
     public DbSet<OrderLog> OrderLogs { get; set; } = null!;
+    public DbSet<Discount> Discounts { get; set; } = null!;
+    public DbSet<DiscountType> DiscountTypes { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -81,5 +83,7 @@ public partial class ApplicationDbContext : DbContext
         builder.ApplyConfiguration(new TokenConfiguration());
         builder.ApplyConfiguration(new MessageConfiguration());
         builder.ApplyConfiguration(new OrderLogConfiguration());
+        builder.ApplyConfiguration(new DiscountConfiguration());
+        builder.ApplyConfiguration(new DiscountTypeConfiguration());
     }
 }

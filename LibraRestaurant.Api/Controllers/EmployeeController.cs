@@ -118,9 +118,18 @@ public sealed class EmployeeController : ApiController
     [AllowAnonymous]
     [SwaggerOperation("Use old token to generate new token")]
     [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<string>))]
-    public async Task<IActionResult> RefreshEmployeeAsync([FromBody] string refreshToken)
+    public async Task<IActionResult> RefreshEmployeeAsync([FromBody] RefreshTokenViewModel viewModel)
     {
-        var token = await _employeeService.RefreshEmployeeAsync(refreshToken);
+        var token = await _employeeService.RefreshEmployeeAsync(viewModel.RefreshToken);
         return Response(token);
+    }
+
+    [HttpPut("logout")]
+    [SwaggerOperation("Revoke token when user logged out or ...")]
+    [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<string>))]
+    public async Task<IActionResult> LogoutAsync([FromBody] RefreshTokenViewModel viewModel)
+    {
+        string result = await _employeeService.LogoutAsync(viewModel.RefreshToken);
+        return Response(result);
     }
 }

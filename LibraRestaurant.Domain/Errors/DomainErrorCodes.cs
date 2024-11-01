@@ -118,6 +118,8 @@ public static class DomainErrorCodes
         public const string EmptyTableNumber = "RESERVATION_EMPTY_TABLE_NUMBER";
         public const string EmptyCapacity = "RESERVATION_EMPTY_CAPACITY";
         public const string EmptyStore = "RESERVATION_EMPTY_STORE_ID";
+        public const string EmptyCustomerName = "RESERVATION_EMPTY_CUSTOMER_NAME";
+        public const string EmptyCustomerPhone = "RESERVATION_EMPTY_CUSTOMER_PHONE";
 
         // General
         public const string AlreadyExists = "RESERVATION_ALREADY_EXISTS";
@@ -196,5 +198,22 @@ public static class DomainErrorCodes
         public const string EmptyContent = "MESSAGE_CONTENT_EMPTY";
         public const string EmptyTime = "MESSAGE_TIME_EMPTY";
         public const string EmptyMessageType = "MESSAGE_TYPE_EMPTY";
+    }
+
+    public static class Discount
+    {
+        //Discount Validation
+        public const string EmptyId = "DISCOUNT_EMPTY_ID";
+    }
+
+    public static class DiscountType
+    {
+        //DiscountType Validation
+        public const string EmptyId = "DISCOUNT_TYPE_EMPTY_ID";
+        public const string EmptyName = "DISCOUNT_TYPE_EMPTY_NAME";
+        public const string EmptyValue = "DISCOUNT_TYPE_EMPTY_VALUE";
+        public const string EmptyMinOrderValue = "DISCOUNT_TYPE_EMPTY_MIN_ORDER_VALUE";
+        public const string EmptyMinItemQuantity = "DISCOUNT_TYPE_MIN_ITEM_QUANTITY";
+        public const string EmptyMaxDiscountValue = "DISCOUNT_TYPE_MAX_DISCOUNT_VALUE";
     }
 }

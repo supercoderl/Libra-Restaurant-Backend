@@ -46,7 +46,7 @@ namespace LibraRestaurant.Application.Hubs
         /// </summary>
         /// <param name="message"></param>
         /// <param name="tableName"></param>
-        public async Task NotifyOrderPlaced(string tableName, string message)
+        public async Task NotifyOrderPlaced(string tableName, string message, string type)
         {
             // Gửi thông báo đến tất cả thành viên trong nhóm bàn
             await Clients.Group(tableName).SendAsync(nameof(NotifyEvent), message);
@@ -55,7 +55,7 @@ namespace LibraRestaurant.Application.Hubs
                 tableName,
                 message,
                 tableName,
-                "order",
+                type,
                 null
             ));
         }

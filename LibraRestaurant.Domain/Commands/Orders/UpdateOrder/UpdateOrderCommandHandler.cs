@@ -125,6 +125,7 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
                         OrderId,
                         item.ItemId,
                         item.Quantity,
+                        item.FoodPrice,
                         item.IsCanceled,
                         item.CanceledTime,
                         item.CanceledReason,

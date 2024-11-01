@@ -59,6 +59,9 @@ namespace LibraRestaurant.Domain.Entities
         [InverseProperty("OrderHeader")]
         public virtual ICollection<OrderLog>? OrderLogs { get; set; } = new List<OrderLog>();
 
+        [InverseProperty("OrderHeader")]
+        public virtual ICollection<Discount>? Discounts { get; set; } = new List<Discount>();
+
         public OrderHeader(
             Guid orderId,
             string orderNo,

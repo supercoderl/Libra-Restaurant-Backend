@@ -176,6 +176,116 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Discount", b =>
+                {
+                    b.Property<int>("DiscountId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiscountId"));
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Comments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("DiscountTargetType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DiscountTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("DiscountId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("DiscountTypeId");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Discounts");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.DiscountType", b =>
+                {
+                    b.Property<int>("DiscountTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiscountTypeId"));
+
+                    b.Property<string>("CounponCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EndTime")
+                        .IsRequired()
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsPercentage")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("MaxDiscountValue")
+                        .HasColumnType("money");
+
+                    b.Property<int>("MinItemQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("MinOrderValue")
+                        .HasColumnType("money");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("money");
+
+                    b.HasKey("DiscountTypeId");
+
+                    b.ToTable("DiscountTypes");
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.District", b =>
                 {
                     b.Property<int>("DistrictId")
@@ -317,6 +427,54 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.ToTable("EmployeeRoles");
                 });
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Invoice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CanceledReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CanceledTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("InvoiceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InvoiceNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("InvoiceTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsCanceled")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Subtotal")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Tax")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Total")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Invoice");
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Menu", b =>
                 {
                     b.Property<int>("MenuId")
@@ -421,7 +579,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         new
                         {
                             ItemId = 1,
-                            CreatedAt = new DateTime(2024, 10, 13, 13, 2, 41, 762, DateTimeKind.Local).AddTicks(5561),
+                            CreatedAt = new DateTime(2024, 10, 28, 11, 25, 37, 971, DateTimeKind.Local).AddTicks(98),
                             Deleted = false,
                             Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             Instruction = "Ngon hơn khi dùng nóng",
@@ -612,6 +770,9 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
 
+                    b.Property<decimal>("FoodPrice")
+                        .HasColumnType("money");
+
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
@@ -636,7 +797,12 @@ namespace LibraRestaurant.Infrastructure.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderLines");
+                    b.ToTable("OrderLines", null, t =>
+                        {
+                            t.HasTrigger("trg_OrderLines_AfterUpdate");
+                        });
+
+                    b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.OrderLog", b =>
@@ -1042,6 +1208,50 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Navigation("Item");
                 });
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Discount", b =>
+                {
+                    b.HasOne("LibraRestaurant.Domain.Entities.Category", "Category")
+                        .WithMany("Discounts")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("FK_Discount_Category_CategoryId");
+
+                    b.HasOne("LibraRestaurant.Domain.Entities.DiscountType", "DiscountType")
+                        .WithMany("Discounts")
+                        .HasForeignKey("DiscountTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Discount_DiscountType_DiscountTypeId");
+
+                    b.HasOne("LibraRestaurant.Domain.Entities.Invoice", "Invoice")
+                        .WithMany("Discounts")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("FK_Discount_Invoice_InvoiceId");
+
+                    b.HasOne("LibraRestaurant.Domain.Entities.MenuItem", "Item")
+                        .WithMany("Discounts")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("FK_Discount_Item_ItemId");
+
+                    b.HasOne("LibraRestaurant.Domain.Entities.OrderHeader", "OrderHeader")
+                        .WithMany("Discounts")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("FK_Discount_Order_OrderId");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("DiscountType");
+
+                    b.Navigation("Invoice");
+
+                    b.Navigation("Item");
+
+                    b.Navigation("OrderHeader");
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.District", b =>
                 {
                     b.HasOne("LibraRestaurant.Domain.Entities.City", "City")
@@ -1259,6 +1469,8 @@ namespace LibraRestaurant.Infrastructure.Migrations
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Category", b =>
                 {
                     b.Navigation("CategoryItems");
+
+                    b.Navigation("Discounts");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.City", b =>
@@ -1266,6 +1478,11 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Navigation("Districts");
 
                     b.Navigation("Stores");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.DiscountType", b =>
+                {
+                    b.Navigation("Discounts");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.District", b =>
@@ -1282,9 +1499,16 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Navigation("Tokens");
                 });
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Invoice", b =>
+                {
+                    b.Navigation("Discounts");
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.MenuItem", b =>
                 {
                     b.Navigation("CategoryItems");
+
+                    b.Navigation("Discounts");
 
                     b.Navigation("OrderLines");
 
@@ -1293,6 +1517,8 @@ namespace LibraRestaurant.Infrastructure.Migrations
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.OrderHeader", b =>
                 {
+                    b.Navigation("Discounts");
+
                     b.Navigation("OrderLines");
 
                     b.Navigation("OrderLogs");

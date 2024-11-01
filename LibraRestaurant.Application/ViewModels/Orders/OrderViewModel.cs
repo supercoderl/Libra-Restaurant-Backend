@@ -39,6 +39,7 @@ public sealed class OrderViewModel
     public DateTime? CompletedTime { get; set; }
     public string? StoreName { get; set; }
     public List<OrderLogFromOrderViewModel>? OrderLogs { get; set; }
+    public ReservationInfo? ReservationInfo { get; set; }
 
     public List<OrderLineFromOrderViewModel>? OrderLines { get; set; }
 
@@ -74,32 +75,66 @@ public sealed class OrderViewModel
             IsCompleted = order.IsCompleted,
             CompletedTime = order.CompletedTime,
             StoreName = order?.Store?.Name,
-            OrderLines = order?.OrderLines is not null ? order?.OrderLines.Select(item => new OrderLineFromOrderViewModel
-            {
-                OrderLineId = item.OrderLineId,
-                OrderId = item.OrderId,
-                ItemId = item.ItemId,
-                FoodName = item.Item?.Title,
-                Quantity = item.Quantity,
-                IsCanceled = item.IsCanceled,
-                CanceledTime = item.CanceledTime,
-                CanceledReason = item.CanceledReason,
-                CustomerReview = item.CustomerReview,
-                CustomerLike = item.CustomerLike,
-            }).ToList() : null,
-            OrderLogs = 
-                    order?.OrderLogs?
-                    .OrderBy(log => log.Time)
-                    .GroupBy(log => log.ItemId)// Sắp xếp log theo thời gian
-                    .Select(group => new OrderLogFromOrderViewModel
-                    {
-                        ItemId = group.Key,
-                        QuantityChanges = group.Any()
-                            ? string.Join(" → ", group.Select(log => log.NewQuantity))
-                            : string.Empty,
-                        TimeChanges = string.Join(" → ", group.Select(log => log.Time.ToString("HH:mm")))
-                    })
-                .ToList()
+            OrderLines = GenerateOrderLines(order?.OrderLines),
+            OrderLogs = GenerateOrderLogs(order?.OrderLogs),
+            ReservationInfo = GenerateReservationInfo(order?.Reservation)
         };
     }
+
+    private static List<OrderLineFromOrderViewModel>? GenerateOrderLines(IEnumerable<OrderLine>? orderLines)
+    {
+        if (orderLines is null || !orderLines.Any()) return null;
+
+        return orderLines
+            .Select(item =>
+            {
+                return new OrderLineFromOrderViewModel
+                {
+                    OrderLineId = item.OrderLineId,
+                    OrderId = item.OrderId,
+                    ItemId = item.ItemId,
+                    FoodName = item.Item?.Title,
+                    Quantity = item.Quantity,
+                    IsCanceled = item.IsCanceled,
+                    CanceledTime = item.CanceledTime,
+                    CanceledReason = item.CanceledReason,
+                    CustomerReview = item.CustomerReview,
+                    CustomerLike = item.CustomerLike,
+                    FoodPrice = item.FoodPrice
+                };
+            }).ToList();
+    }
+
+    private static List<OrderLogFromOrderViewModel>? GenerateOrderLogs(IEnumerable<OrderLog>? orderLogs)
+    {
+        if (orderLogs == null) return null;
+
+        return orderLogs
+            .OrderBy(log => log.Time)
+            .GroupBy(log => log.ItemId)
+            .Select(group => new OrderLogFromOrderViewModel
+            {
+                ItemId = group.Key,
+                QuantityChanges = string.Join(" → ", group.Select(log => log.NewQuantity)),
+                TimeChanges = string.Join(" → ", group.Select(log => log.Time.ToString("HH:mm")))
+            })
+            .ToList();
+    }
+
+    private static ReservationInfo? GenerateReservationInfo(Reservation? reservation)
+    {
+        if(reservation is null) return null;
+
+        return new ReservationInfo
+        {
+            CustomerName = reservation.CustomerName,
+            CustomerPhone = reservation.CustomerPhone,
+        };
+    }
+}
+
+public class ReservationInfo
+{
+    public string? CustomerName { get; set; }
+    public string? CustomerPhone { get; set; }
 }

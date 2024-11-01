@@ -69,6 +69,17 @@ using LibraRestaurant.Domain.Commands.Employees.RefreshEmployee;
 using LibraRestaurant.Domain.Commands.Messages.SendMessage;
 using LibraRestaurant.Shared.Events.Messages;
 using LibraRestaurant.Domain.Commands.Messages.UpdateMessage;
+using LibraRestaurant.Domain.Commands.Employees.LogoutEmployee;
+using LibraRestaurant.Domain.Commands.Reservations.UpdateReservationCustomer;
+using LibraRestaurant.Domain.Commands.Reservations.GenerateQRCode;
+using LibraRestaurant.Domain.Commands.Discounts.CreateDiscount;
+using LibraRestaurant.Domain.Commands.Discounts.UpdateDiscount;
+using LibraRestaurant.Domain.Commands.Discounts.DeleteDiscount;
+using LibraRestaurant.Domain.Commands.DiscountTypes.CreateDiscountType;
+using LibraRestaurant.Domain.Commands.DiscountTypes.UpdateDiscountType;
+using LibraRestaurant.Domain.Commands.DiscountTypes.DeleteDiscountType;
+using LibraRestaurant.Shared.Events.Discount;
+using LibraRestaurant.Shared.Events.DiscountType;
 
 namespace LibraRestaurant.Domain.Extensions;
 
@@ -83,6 +94,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IRequestHandler<ChangePasswordCommand>, ChangePasswordCommandHandler>();
         services.AddScoped<IRequestHandler<LoginEmployeeCommand, Object>, LoginEmployeeCommandHandler>();
         services.AddScoped<IRequestHandler<RefreshEmployeeCommand, Object>, RefreshEmployeeCommandHandler>();
+        services.AddScoped<IRequestHandler<LogoutEmployeeCommand, string>, LogoutEmployeeCommandHandler>();
 
         // Item
         services.AddScoped<IRequestHandler<CreateItemCommand>, CreateItemCommandHandler>();
@@ -118,6 +130,8 @@ public static class ServiceCollectionExtension
         services.AddScoped<IRequestHandler<CreateReservationCommand>, CreateReservationCommandHandler>();
         services.AddScoped<IRequestHandler<UpdateReservationCommand>, UpdateReservationCommandHandler>();
         services.AddScoped<IRequestHandler<DeleteReservationCommand>, DeleteReservationCommandHandler>();
+        services.AddScoped<IRequestHandler<UpdateReservationCustomerCommand>, UpdateReservationCustomerCommandHandler>();
+        services.AddScoped<IRequestHandler<GenerateQRCodeCommand>,  GenerateQRCodeCommandHandler>();
 
         // OrderLine
         services.AddScoped<IRequestHandler<CreateOrderLineCommand>, CreateOrderLineCommandHandler>();
@@ -154,6 +168,16 @@ public static class ServiceCollectionExtension
         //Message
         services.AddScoped<IRequestHandler<SendMessageCommand>, SendMessageCommandHandler>();
         services.AddScoped<IRequestHandler<UpdateMessageCommand>, UpdateMessageCommandHandler>();
+
+        //Discount
+        services.AddScoped<IRequestHandler<CreateDiscountCommand>, CreateDiscountCommandHandler>();
+        services.AddScoped<IRequestHandler<UpdateDiscountCommand>, UpdateDiscountCommandHandler>();
+        services.AddScoped<IRequestHandler<DeleteDiscountCommand>, DeleteDiscountCommandHandler>();
+
+        //DiscountType
+        services.AddScoped<IRequestHandler<CreateDiscountTypeCommand>, CreateDiscountTypeCommandHandler>();
+        services.AddScoped<IRequestHandler<UpdateDiscountTypeCommand>, UpdateDiscountTypeCommandHandler>();
+        services.AddScoped<IRequestHandler<DeleteDiscountTypeCommand>, DeleteDiscountTypeCommandHandler>();
 
         return services;
     }
@@ -240,6 +264,16 @@ public static class ServiceCollectionExtension
         //Message
         services.AddScoped<INotificationHandler<MessageSentEvent>, MessageEventHandler>();
         services.AddScoped<INotificationHandler<MessageUpdatedEvent>, MessageEventHandler>();
+
+        //Discount
+        services.AddScoped<INotificationHandler<DiscountCreatedEvent>, DiscountEventHandler>();
+        services.AddScoped<INotificationHandler<DiscountUpdatedEvent>, DiscountEventHandler>();
+        services.AddScoped<INotificationHandler<DiscountDeletedEvent>, DiscountEventHandler>();
+
+        //DiscountType
+        services.AddScoped<INotificationHandler<DiscountTypeCreatedEvent>, DiscountTypeEventHandler>();
+        services.AddScoped<INotificationHandler<DiscountTypeUpdatedEvent>, DiscountTypeEventHandler>();
+        services.AddScoped<INotificationHandler<DiscountTypeDeletedEvent>, DiscountTypeEventHandler>();
 
         return services;
     }

@@ -103,6 +103,7 @@ namespace LibraRestaurant.Domain.Commands.PaymentHistories.CreatePaymentHistory
                         order.OrderId,
                         item.ItemId,
                         item.Quantity,
+                        item.FoodPrice,
                         item.IsCanceled,
                         item.CanceledTime,
                         item.CanceledReason,

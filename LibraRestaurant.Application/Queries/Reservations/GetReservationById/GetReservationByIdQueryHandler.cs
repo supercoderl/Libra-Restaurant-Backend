@@ -36,6 +36,6 @@ public sealed class GetReservationByIdQueryHandler :
             return null;
         }
 
-        return ReservationViewModel.FromReservation(reservation);
+        return ReservationViewModel.FromReservation(reservation, null);
     }
 }

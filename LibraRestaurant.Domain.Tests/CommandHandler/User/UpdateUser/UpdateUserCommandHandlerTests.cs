@@ -24,6 +24,7 @@ public sealed class UpdateItemCommandHandlerTests
             "test@email.com",
             "Test",
             "Email",
+            UserStatus.Active,
             "09091234567");
 
         await _fixture.CommandHandler.Handle(command, default);
@@ -45,6 +46,7 @@ public sealed class UpdateItemCommandHandlerTests
             "test@email.com",
             "Test",
             "Email",
+            UserStatus.Active,
             "09091234567");
 
         await _fixture.CommandHandler.Handle(command, default);
@@ -69,6 +71,7 @@ public sealed class UpdateItemCommandHandlerTests
             "test@email.com",
             "Test",
             "Email",
+            UserStatus.Active,
             "09091234567");
 
         _fixture.UserRepository
@@ -106,6 +109,7 @@ public sealed class UpdateItemCommandHandlerTests
             "test@email.com",
             "Test",
             "Email",
+            UserStatus.Active,
             "09091234567");
 
         await _fixture.CommandHandler.Handle(command, default);

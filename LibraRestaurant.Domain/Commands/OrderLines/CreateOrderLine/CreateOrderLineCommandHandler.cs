@@ -37,6 +37,7 @@ namespace LibraRestaurant.Domain.Commands.OrderLines.CreateOrderLine
                 request.OrderId,
                 request.ItemId,
                 request.Quantity,
+                request.FoodPrice,
                 request.IsCanceled,
                 request.CanceledTime,
                 request.CanceledReason,

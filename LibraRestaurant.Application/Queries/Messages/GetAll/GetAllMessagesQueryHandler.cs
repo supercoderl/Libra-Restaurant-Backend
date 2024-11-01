@@ -46,9 +46,9 @@ public sealed class GetAllMessagesQueryHandler :
         messagesQuery = messagesQuery.GetOrderedQueryable(request.SortQuery, _sortingExpressionProvider);
 
         var messages = await messagesQuery
+            .OrderByDescending(message => message.Time)
             .Skip((request.Query.Page - 1) * request.Query.PageSize)
             .Take(request.Query.PageSize)
-            .OrderByDescending(message => message.Time)
             .Select(message => MessageViewModel.FromMessage(message))
             .ToListAsync(cancellationToken);
 

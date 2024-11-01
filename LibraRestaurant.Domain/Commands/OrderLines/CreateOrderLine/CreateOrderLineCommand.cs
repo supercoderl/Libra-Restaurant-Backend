@@ -16,6 +16,7 @@ namespace LibraRestaurant.Domain.Commands.OrderLines.CreateOrderLine
         public Guid OrderId { get; }
         public int ItemId { get; }
         public int Quantity { get; }
+        public double FoodPrice { get; }
         public bool IsCanceled { get; }
         public DateTime? CanceledTime { get; }
         public string? CanceledReason { get; }
@@ -27,6 +28,7 @@ namespace LibraRestaurant.Domain.Commands.OrderLines.CreateOrderLine
             Guid orderId,
             int itemId,
             int quantity,
+            double foodPrice,
             bool isCanceled,
             DateTime? canceledTime,
             string? canceledReason,
@@ -38,6 +40,7 @@ namespace LibraRestaurant.Domain.Commands.OrderLines.CreateOrderLine
             OrderId = orderId;
             ItemId = itemId;
             Quantity = quantity;
+            FoodPrice = foodPrice;
             IsCanceled = isCanceled;
             CanceledTime = canceledTime;
             CustomerLike = customerLike;

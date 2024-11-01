@@ -19,6 +19,8 @@ using LibraRestaurant.Proto.Wards;
 using LibraRestaurant.Proto.PaymentHistories;
 using LibraRestaurant.Proto.Roles;
 using LibraRestaurant.Proto.Messages;
+using LibraRestaurant.Proto.Discounts;
+using LibraRestaurant.Proto.DiscountTypes;
 
 namespace LibraRestaurant.gRPC.Extensions;
 
@@ -106,6 +108,12 @@ public static class ServiceCollectionExtensions
         var messagesClient = new MessagesApi.MessagesApiClient(channel);
         services.AddSingleton(messagesClient);
 
+        var discountsClient = new DiscountsApi.DiscountsApiClient(channel);
+        services.AddSingleton(discountsClient);
+
+        var discountTypesClient = new DiscountTypesApi.DiscountTypesApiClient(channel);
+        services.AddSingleton(discountTypesClient);
+
         services.AddSingleton<IEmployeesContext, EmployeesContext>();
         services.AddSingleton<IMenuItemsContext, MenuItemsContext>();
         services.AddSingleton<IMenusContext, MenusContext>();
@@ -122,6 +130,8 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IPaymentHistoriesContext, PaymentHistoriesContext>();
         services.AddSingleton<IRolesContext, RolesContext>();
         services.AddSingleton<IMessagesContext, MessagesContext>();
+        services.AddSingleton<IDiscountsContext, DiscountsContext>();
+        services.AddSingleton<IDiscountTypesContext, DiscountTypesContext>();
 
         return services;
     }

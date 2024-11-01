@@ -137,6 +137,7 @@ public sealed class UserControllerTests : IClassFixture<UserTestFixture>
             "newtest@email.com",
             "NewTest",
             "NewEmail",
+            UserStatus.Active,
             "09091234567");
 
         var response = await _fixture.ServerClient.PutAsJsonAsync("/api/v1/user", user);

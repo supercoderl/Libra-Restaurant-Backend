@@ -52,6 +52,7 @@ namespace LibraRestaurant.Domain.Commands.OrderLines.UpdateOrderLine
             orderLine.SetOrderId(request.OrderId);
             orderLine.SetItemId(request.ItemId);
             orderLine.SetQuantity(request.Quantity);
+            orderLine.SetFoodPrice(request.FoodPrice);
             orderLine.SetIsCanceled(request.IsCanceled);
             orderLine.SetCanceledTime(request.CanceledTime);
             orderLine.SetCanceledReason(request.CanceledReason);

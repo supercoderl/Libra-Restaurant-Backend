@@ -19,16 +19,20 @@ using LibraRestaurant.Application.Queries.Reservations.GetReservationByTableNumb
 using System.Text.Json;
 using LibraRestaurant.Application.Queries.Reservations.GetAllTablesRealTime;
 using System.Collections.Generic;
+using LibraRestaurant.Domain.Commands.Reservations.UpdateReservationCustomer;
+using LibraRestaurant.Domain.Commands.Reservations.GenerateQRCode;
 
 namespace LibraRestaurant.Application.Services
 {
     public sealed class ReservationService : IReservationService
     {
         private readonly IMediatorHandler _bus;
+        private readonly IImageService _imageService;
 
-        public ReservationService(IMediatorHandler bus)
+        public ReservationService(IMediatorHandler bus, IImageService imageService)
         {
             _bus = bus;
+            _imageService = imageService;
         }
 
         public async Task<ReservationViewModel?> GetReservationByIdAsync(int reservationId)
@@ -67,6 +71,16 @@ namespace LibraRestaurant.Application.Services
 
         public async Task<int> CreateReservationAsync(CreateReservationViewModel reservation)
         {
+            string qrData = string.Concat(
+                        "{",
+                            "\"tableNumber\":\"", reservation.TableNumber, "\",",
+                            "\"capacity\":\"", reservation.Capacity, "\",",
+                            "\"storeId\":\"", reservation.StoreId, "\",",
+                            "\"description\":\"", reservation.Description, "\"",
+                        "}"
+                    );
+
+            var qr = await _imageService.UploadFile(await GenerateQRCodeAsync(qrData), string.Concat(reservation.TableNumber.ToString(), "-", reservation.StoreId), "QRs");
 
             await _bus.SendCommandAsync(new CreateReservationCommand(
                 0,
@@ -78,13 +92,34 @@ namespace LibraRestaurant.Application.Services
                 reservation.ReservationTime,
                 reservation.CustomerName,
                 reservation.CustomerPhone,
-                null));
+                qr));
 
             return 0;
         }
 
         public async Task UpdateReservationAsync(UpdateReservationViewModel reservation)
         {
+            string QRCode = string.Empty;
+
+            if(string.IsNullOrEmpty(reservation.Code))
+            {
+                string qrData = string.Concat(
+                        "{",
+                            "\"tableNumber\":\"", reservation.TableNumber, "\",",
+                            "\"capacity\":\"", reservation.Capacity, "\",",
+                            "\"storeId\":\"", reservation.StoreId, "\",",
+                            "\"description\":\"", reservation.Description, "\"",
+                        "}"
+                    );
+
+                QRCode = await _imageService.UploadFile(await GenerateQRCodeAsync(qrData), string.Concat(reservation.TableNumber.ToString(), "-", reservation.StoreId), "QRs");
+            }
+
+            else
+            {
+                QRCode = reservation.Code;
+            }
+
             await _bus.SendCommandAsync(new UpdateReservationCommand(
                 reservation.ReservationId,
                 reservation.TableNumber,
@@ -95,12 +130,44 @@ namespace LibraRestaurant.Application.Services
                 reservation.ReservationTime,
                 reservation.CustomerName,
                 reservation.CustomerPhone,
-                reservation.QRCode));
+                QRCode));
         }
 
         public async Task DeleteReservationAsync(int reservationId)
         {
             await _bus.SendCommandAsync(new DeleteReservationCommand(reservationId));
+        }
+
+        public async Task UpdateReservationCustomerAsync(UpdateReservationCustomerViewModel reservationCustomer)
+        {
+            await _bus.SendCommandAsync(new UpdateReservationCustomerCommand(
+                reservationCustomer.ReservationId,
+                reservationCustomer.Status,
+                reservationCustomer.CustomerName,
+                reservationCustomer.CustomerPhone));
+        }
+
+        //Generate QR Code
+        private async Task<string> GenerateQRCodeAsync(string qrData)
+        {
+            await Task.CompletedTask;
+            QRCodeGenerator generator = new QRCodeGenerator();
+            QRCodeData data = generator.CreateQrCode(qrData, QRCodeGenerator.ECCLevel.Q);
+            QRCode code = new QRCode(data);
+            Bitmap bitmap = code.GetGraphic(60);
+            byte[] bitmapArray = BitmapToByteArray(bitmap);
+            string qrURL = string.Format("data:image/png;base64,{0}", Convert.ToBase64String(bitmapArray));
+            return qrURL;
+        }
+
+        //Convert bit map to byte array
+        private byte[] BitmapToByteArray(Bitmap bitmap)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                bitmap.Save(ms, ImageFormat.Png);
+                return ms.ToArray();
+            }
         }
     }
 }

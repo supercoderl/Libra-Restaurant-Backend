@@ -70,15 +70,6 @@ namespace LibraRestaurant.Api.Controllers
             return Response(reservation);
         }
 
-        [HttpGet("{id}/status")]
-        [SwaggerOperation("Get reservation status")]
-        [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<int>))]
-        public async Task<IActionResult> GetReservationStatus([FromRoute] int id)
-        {
-            var status = await _reservationService.GetReservationStatus(id);
-            return Response(status);
-        }
-
         [HttpGet("{tableNumber}/{storeId}")]
         [SwaggerOperation("Get a reservation by table number and store id")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<ReservationViewModel>))]
@@ -113,6 +104,15 @@ namespace LibraRestaurant.Api.Controllers
         public async Task<IActionResult> UpdateReservationAsync([FromBody] UpdateReservationViewModel viewModel)
         {
             await _reservationService.UpdateReservationAsync(viewModel);
+            return Response(viewModel);
+        }
+
+        [HttpPut("customer")]
+        [SwaggerOperation("Update customer information")]
+        [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<UpdateReservationCustomerViewModel>))]
+        public async Task<IActionResult> UpdateReservationCustomerAsync([FromBody] UpdateReservationCustomerViewModel viewModel)
+        {
+            await _reservationService.UpdateReservationCustomerAsync(viewModel);
             return Response(viewModel);
         }
     }
