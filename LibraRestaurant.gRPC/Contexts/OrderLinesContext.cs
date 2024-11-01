@@ -33,6 +33,7 @@ namespace LibraRestaurant.gRPC.Contexts
                 Guid.Parse(orderLine.OrderId),
                 orderLine.ItemId,
                 orderLine.Quantity,
+                orderLine.FoodPrice,
                 orderLine.IsCanceled,
                 DateTime.Parse(orderLine.CanceledTime),
                 orderLine.CanceledReason,

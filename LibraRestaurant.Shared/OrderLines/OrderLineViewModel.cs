@@ -7,6 +7,7 @@ public sealed record OrderLineViewModel(
     Guid OrderId,
     int ItemId,
     int Quantity,
+    double FoodPrice,
     bool IsCanceled,
     DateTime? CanceledTime,
     string? CanceledReason,

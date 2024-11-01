@@ -116,6 +116,7 @@ public sealed class UpdateItemCommandValidationTests :
         string? email = null,
         string? firstName = null,
         string? lastName = null,
+        UserStatus? status = null,
         string? mobile = null)
     {
         return new UpdateEmployeeCommand(
@@ -124,6 +125,7 @@ public sealed class UpdateItemCommandValidationTests :
             email ?? "test@email.com",
             firstName ?? "test",
             lastName ?? "email",
+            status ?? UserStatus.Active,
             mobile ?? "09091234567");
     }
 }

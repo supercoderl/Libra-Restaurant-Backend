@@ -189,7 +189,7 @@ namespace LibraRestaurant.Application.Services
 
             vnpay.AddRequestData("vnp_Locale", request.Locale);
 
-            vnpay.AddRequestData("vnp_OrderInfo", "Hoa don so:" + request.OrderId);
+            vnpay.AddRequestData("vnp_OrderInfo", "Hoa don so_" + request.OrderId);
             vnpay.AddRequestData("vnp_OrderType", "other"); //default value: other
 
             vnpay.AddRequestData("vnp_ReturnUrl", _vNPayConfig.vnp_Returnurl);

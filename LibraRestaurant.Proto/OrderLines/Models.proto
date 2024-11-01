@@ -7,11 +7,12 @@ message GrpcOrderLine {
   string orderId = 2;
   int32 itemId = 3;
   int32 quantity = 4;
-  bool isCanceled = 5;
-  string canceledTime = 6;
-  string canceledReason = 7;
-  string customerReview = 8;
-  bool isDeleted = 9;
+  double foodPrice = 5;
+  bool isCanceled = 6;
+  string canceledTime = 7;
+  string canceledReason = 8;
+  string customerReview = 9;
+  bool isDeleted = 10;
 }
 
 message GetOrderLinesByIdsResult {

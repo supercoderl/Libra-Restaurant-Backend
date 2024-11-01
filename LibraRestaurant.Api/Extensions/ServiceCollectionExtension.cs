@@ -69,6 +69,7 @@ public static class ServiceCollectionExtension
             .AddJwtBearer(
                 jwtOptions =>
                 {
+                    jwtOptions.SaveToken = true;
                     jwtOptions.TokenValidationParameters = CreateTokenValidationParameters(configuration);
                 });
 

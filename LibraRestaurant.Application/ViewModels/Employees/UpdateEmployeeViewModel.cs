@@ -9,4 +9,5 @@ public sealed record UpdateEmployeeViewModel(
     string Email,
     string FirstName,
     string LastName,
+    UserStatus Status,
     string Mobile);

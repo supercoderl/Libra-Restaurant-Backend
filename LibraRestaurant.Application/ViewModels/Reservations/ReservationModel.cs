@@ -17,8 +17,9 @@ public sealed class ReservationViewModel
     public string? CustomerPhone { get; set; }
     public string? QRCode { get; set; }
     public string? StoreName { get; set; }
+    public Guid? OrderId { get; set; }
 
-    public static ReservationViewModel FromReservation(Reservation reservation)
+    public static ReservationViewModel FromReservation(Reservation reservation, Guid? orderId)
     {
         return new ReservationViewModel
         {
@@ -32,7 +33,8 @@ public sealed class ReservationViewModel
             Description = reservation.Description,
             ReservationTime = reservation.ReservationTime,
             QRCode = reservation.Code,
-            StoreName = reservation?.Store?.Name
+            StoreName = reservation?.Store?.Name,
+            OrderId = orderId
         };
     }
 }

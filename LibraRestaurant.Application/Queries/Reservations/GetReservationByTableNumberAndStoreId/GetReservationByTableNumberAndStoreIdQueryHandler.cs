@@ -1,5 +1,7 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using LibraRestaurant.Application.Queries.Orders.GetOrderByStoreAndReservation;
 using LibraRestaurant.Application.ViewModels.Menus;
 using LibraRestaurant.Application.ViewModels.Reservations;
 using LibraRestaurant.Domain.Errors;
@@ -36,6 +38,15 @@ public sealed class GetReservationByTableNumberAndStoreIdQueryHandler :
             return null;
         }
 
-        return ReservationViewModel.FromReservation(reservation);
+        var orderId = await CheckOrderIsReady(request.StoreId, reservation.ReservationId);
+
+        return ReservationViewModel.FromReservation(reservation, orderId);
+    }
+
+    private async Task<Guid?> CheckOrderIsReady(Guid storeId, int reservationId)
+    {
+        var order = await _bus.QueryAsync(new GetOrderByStoreAndReservationQuery(storeId, reservationId));
+        if (order is not null) return order.OrderId;
+        return null;
     }
 }

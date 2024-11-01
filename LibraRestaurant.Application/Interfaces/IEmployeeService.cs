@@ -23,4 +23,5 @@ public interface IEmployeeService
     public Task ChangePasswordAsync(ChangePasswordViewModel viewModel);
     public Task<Object> LoginEmployeeAsync(LoginEmployeeViewModel viewModel);
     public Task<Object> RefreshEmployeeAsync(string refreshToken);
+    public Task<string> LogoutAsync(string refreshToken);
 }

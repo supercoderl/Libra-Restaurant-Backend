@@ -67,6 +67,13 @@ using LibraRestaurant.Application.Queries.Reservations.GetAllTablesRealTime;
 using System.Collections.Generic;
 using LibraRestaurant.Application.Queries.Messages.GetAll;
 using LibraRestaurant.Application.ViewModels.Messages;
+using LibraRestaurant.Application.Queries.Discounts.GetDiscountById;
+using LibraRestaurant.Application.ViewModels.Discounts;
+using LibraRestaurant.Application.Queries.Discounts.GetAll;
+using LibraRestaurant.Application.Queries.DiscountTypes.GetDiscountTypeById;
+using LibraRestaurant.Application.ViewModels.DiscountTypes;
+using LibraRestaurant.Application.Queries.DiscountTypes.GetAll;
+using LibraRestaurant.Application.Queries.DiscountTypes.GetDiscountTypeByCode;
 
 namespace LibraRestaurant.Application.Extensions;
 
@@ -98,6 +105,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IRealTimeService, RealTimeService>();
         services.AddScoped<IMessageService, MessageService>();
+        services.AddScoped<IDiscountService, DiscountService>();
+        services.AddScoped<IDiscountTypeService, DiscountTypeService>();
 
         services.AddSingleton<Cloudinary>(sp =>
         {
@@ -236,6 +245,15 @@ public static class ServiceCollectionExtensions
         //Message
         services.AddScoped<IRequestHandler<GetAllMessagesQuery, PagedResult<MessageViewModel>>, GetAllMessagesQueryHandler>();
 
+        // Discount
+        services.AddScoped<IRequestHandler<GetDiscountByIdQuery, DiscountViewModel?>, GetDiscountByIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetAllDiscountsQuery, PagedResult<DiscountViewModel>>, GetAllDiscountsQueryHandler>();
+
+        // Discount Type
+        services.AddScoped<IRequestHandler<GetDiscountTypeByIdQuery, DiscountTypeViewModel?>, GetDiscountTypeByIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetAllDiscountTypesQuery, PagedResult<DiscountTypeViewModel>>, GetAllDiscountTypesQueryHandler>();
+        services.AddScoped<IRequestHandler<GetDiscountTypeByCodeQuery, DiscountTypeViewModel?>, GetDiscountTypeByCodeQueryHandler>();
+
         return services;
     }
 
@@ -257,6 +275,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISortingExpressionProvider<PaymentHistoryViewModel, PaymentHistory>, PaymentHistoryViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<RoleViewModel, Role>, RoleViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<MessageViewModel, Message>, MessageViewModelSortProvider>();
+        services.AddScoped<ISortingExpressionProvider<DiscountViewModel, Discount>, DiscountViewModelSortProvider>();
+        services.AddScoped<ISortingExpressionProvider<DiscountTypeViewModel, DiscountType>, DiscountTypeViewModelSortProvider>();
 
         return services;
     }

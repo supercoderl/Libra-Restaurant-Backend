@@ -67,7 +67,7 @@ namespace LibraNovel.Application.Libraries
 
                 signData = signData.Remove(data.Length - 1, 1);
             }
-            string vnp_SecureHash = Utils.HmacSHA512(vnp_HashSecret, signData);
+            string vnp_SecureHash = Utils.HmacSHA512(vnp_HashSecret ?? string.Empty, signData);
             baseUrl += "vnp_SecureHash=" + vnp_SecureHash;
 
             return baseUrl;

@@ -34,6 +34,7 @@ public sealed class GetAllOrdersQueryHandler :
         var ordersQuery = _orderRepository
             .GetAllNoTracking()
             .IgnoreQueryFilters()
+            .OrderByDescending(x => x.LatestStatusUpdate)
             .Where(x => request.IncludeDeleted || !x.Deleted);
 
         if (!string.IsNullOrWhiteSpace(request.SearchTerm))

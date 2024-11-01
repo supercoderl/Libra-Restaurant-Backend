@@ -14,6 +14,7 @@ namespace LibraRestaurant.Domain.Entities
         public Guid OrderId { get; private set; }
         public int ItemId { get; private set; }
         public int Quantity { get; private set; }
+        public double FoodPrice { get; private set; }
         public bool IsCanceled { get; private set; }
         public DateTime? CanceledTime { get; private set; }
         public string? CanceledReason { get; private set; }
@@ -33,6 +34,7 @@ namespace LibraRestaurant.Domain.Entities
             Guid orderId,
             int itemId,
             int quantity,
+            double foodPrice,
             bool isCanceled,
             DateTime? canceledTime,
             string? canceledReason,
@@ -44,6 +46,7 @@ namespace LibraRestaurant.Domain.Entities
             OrderId = orderId;
             ItemId = itemId;
             Quantity = quantity;
+            FoodPrice = foodPrice;
             IsCanceled = isCanceled;
             CustomerReview = customerReview;
             CustomerLike = customerLike;
@@ -61,6 +64,8 @@ namespace LibraRestaurant.Domain.Entities
         public void SetItemId(int itemId) { ItemId = itemId; }
 
         public void SetQuantity(int quantity) { Quantity = quantity; }
+
+        public void SetFoodPrice(double foodPrice) { FoodPrice = foodPrice; }
 
         public void SetIsCanceled(bool isCanceled) {  IsCanceled = isCanceled; }
 

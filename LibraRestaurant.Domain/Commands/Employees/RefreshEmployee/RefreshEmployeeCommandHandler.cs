@@ -122,7 +122,8 @@ public sealed class RefreshEmployeeCommandHandler : CommandHandlerBase,
             new Claim(ClaimTypes.Email, employee.Email),
             new Claim(ClaimTypes.MobilePhone, employee.Mobile),
             new Claim(ClaimTypes.NameIdentifier, employee.Id.ToString()),
-            new Claim(ClaimTypes.Name, employee.FullName)
+            new Claim(ClaimTypes.Name, employee.FullName),
+            new Claim("jti", Guid.NewGuid().ToString())
         };
 
         if (employee.EmployeeRoles is not null && employee.EmployeeRoles.Any())
@@ -144,7 +145,7 @@ public sealed class RefreshEmployeeCommandHandler : CommandHandlerBase,
             tokenSettings.Issuer,
             tokenSettings.Audience,
             claims,
-            expires: DateTime.Now.AddMinutes(_expiryDurationMinutes),
+            expires: DateTime.Now.AddMinutes(_expiryDurationMinutes + new Random().Next(1, 2)),
             signingCredentials: credentials);
 
         return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);

@@ -90,13 +90,8 @@ public class Employee : Entity
         LastLoggedinDate = lastLoggedinDate;
     }
 
-    public void SetInactive()
+    public void SetStatus(UserStatus status)
     {
-        Status = UserStatus.Inactive;
-    }
-
-    public void SetActive()
-    {
-        Status = UserStatus.Active;
+        Status = status;
     }
 }

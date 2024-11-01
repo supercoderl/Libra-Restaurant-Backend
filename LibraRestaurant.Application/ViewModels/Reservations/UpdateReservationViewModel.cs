@@ -13,4 +13,4 @@ public sealed record UpdateReservationViewModel(
     DateTime? ReservationTime,
     string? CustomerName,
     string? CustomerPhone,
-    string? QRCode);
+    string? Code);

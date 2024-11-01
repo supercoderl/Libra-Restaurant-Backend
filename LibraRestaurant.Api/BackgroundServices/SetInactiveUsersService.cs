@@ -53,7 +53,7 @@ public sealed class SetInactiveEmployeesService : BackgroundService
 
             foreach (var employee in inactiveEmployees)
             {
-                employee.SetInactive();
+                employee.SetStatus(UserStatus.Inactive);
             }
 
             try

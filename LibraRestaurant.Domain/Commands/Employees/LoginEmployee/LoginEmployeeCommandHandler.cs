@@ -44,7 +44,7 @@ public sealed class LoginEmployeeCommandHandler : CommandHandlerBase,
     {
         if (!await TestValidityAsync(request))
         {
-            return "";
+            return string.Empty;
         }
 
         var employee = await _employeeRepository.GetByEmailAsync(request.Email);
@@ -57,7 +57,7 @@ public sealed class LoginEmployeeCommandHandler : CommandHandlerBase,
                     $"There is no employee with email {request.Email}",
                     ErrorCodes.ObjectNotFound));
 
-            return "";
+            return string.Empty;
         }
 
         var passwordVerified = BC.Verify(request.Password, employee.Password);
@@ -70,17 +70,17 @@ public sealed class LoginEmployeeCommandHandler : CommandHandlerBase,
                     "The password is incorrect",
                     DomainErrorCodes.Employee.PasswordIncorrect));
 
-            return "";
+            return string.Empty;
         }
 
-        employee.SetActive();
+        employee.SetStatus(Enums.UserStatus.Active);
         employee.SetLastLoggedinDate(DateTimeOffset.Now);
 
         string refreshToken = await BuildRefreshToken(employee, Bus);
 
         if (!await CommitAsync())
         {
-            return "";
+            return string.Empty;
         }
 
         return new
@@ -97,7 +97,7 @@ public sealed class LoginEmployeeCommandHandler : CommandHandlerBase,
             new Claim(ClaimTypes.Email, employee.Email),
             new Claim(ClaimTypes.MobilePhone, employee.Mobile),
             new Claim(ClaimTypes.NameIdentifier, employee.Id.ToString()),
-            new Claim(ClaimTypes.Name, employee.FullName)
+            new Claim(ClaimTypes.Name, employee.FullName),
         };
 
         if (employee.EmployeeRoles is not null && employee.EmployeeRoles.Any())

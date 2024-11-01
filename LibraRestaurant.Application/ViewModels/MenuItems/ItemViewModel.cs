@@ -1,4 +1,5 @@
 ﻿using LibraRestaurant.Domain.Entities;
+using LibraRestaurant.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,25 @@ namespace LibraRestaurant.Application.ViewModels.MenuItems
         public DateTime? LastUpdatedAt { get; set; }
 
         public List<int>? CategoryIds { get; set; }
+        public DiscountWithItem? Discount { get; set; }
+        public DiscountStatus DiscountStatus { get; set; }
 
         public static ItemViewModel FromItem(MenuItem item)
         {
+            var currentTime = DateTime.Now;
+
+            // Lấy tất cả các discount và phân loại theo trạng thái
+            var discountsWithStatus = item.Discounts?.Select(d => new
+            {
+                Discount = d,
+                Status = d.DiscountType != null ?
+                     (d.DiscountType.StartTime > currentTime ? DiscountStatus.NotYet :
+                       (d.DiscountType.EndTime < currentTime ? DiscountStatus.Expired : DiscountStatus.Active)) : DiscountStatus.Unknow
+            }).ToList();
+
+            // Tìm discount hợp lệ (đang trong thời gian)
+            var discount = discountsWithStatus?.SingleOrDefault();
+
             return new ItemViewModel
             {
                 ItemId = item.ItemId,
@@ -40,7 +57,9 @@ namespace LibraRestaurant.Application.ViewModels.MenuItems
                 Instruction = item.Instruction,
                 CreatedAt = item.CreatedAt,
                 LastUpdatedAt = item.LastUpdatedAt,
-                CategoryIds = item.CategoryItems?.Select(ci => ci.CategoryId).ToList()
+                CategoryIds = item.CategoryItems?.Select(ci => ci.CategoryId).ToList(),
+                Discount = discount is not null ? new DiscountWithItem().FromDiscountWithItem(discount.Discount) : null,
+                DiscountStatus = discount is not null ? discount.Status : DiscountStatus.Unknow
             };
         }
     }
@@ -52,5 +71,24 @@ namespace LibraRestaurant.Application.ViewModels.MenuItems
         public string Title { get; set; } = string.Empty;
         public int Quantity { get; set; }
         public double Price { get; set; }
+    }
+
+    public class DiscountWithItem
+    {
+        public int DiscountId { get; set; }
+        public bool IsPercentage { get; set; }
+        public double DiscountValue { get; set; }
+        public int DiscountTypeId { get; set; }
+
+        public DiscountWithItem FromDiscountWithItem(Discount discount)
+        {
+            return new DiscountWithItem
+            {
+                DiscountId = discount.DiscountId,
+                IsPercentage = discount.DiscountType?.IsPercentage ?? false,
+                DiscountValue = discount.DiscountType?.Value ?? 0,
+                DiscountTypeId = discount.DiscountTypeId
+            };
+        }
     }
 }

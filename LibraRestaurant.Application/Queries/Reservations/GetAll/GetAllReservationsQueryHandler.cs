@@ -53,7 +53,7 @@ public sealed class GetAllReservationsQueryHandler :
         var reservations = await reservationsQuery
             .Skip((request.Query.Page - 1) * request.Query.PageSize)
             .Take(request.Query.PageSize)
-            .Select(reservation => ReservationViewModel.FromReservation(reservation))
+            .Select(reservation => ReservationViewModel.FromReservation(reservation, null))
             .ToListAsync(cancellationToken);
 
         return new PagedResult<ReservationViewModel>(

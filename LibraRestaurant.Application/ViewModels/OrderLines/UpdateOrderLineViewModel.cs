@@ -8,6 +8,7 @@ public sealed record UpdateOrderLineViewModel(
     Guid OrderId,
     int ItemId,
     int Quantity,
+    double FoodPrice,
     bool IsCanceled,
     DateTime? CanceledTime,
     string? CanceledReason,

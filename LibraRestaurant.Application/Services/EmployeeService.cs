@@ -13,6 +13,7 @@ using LibraRestaurant.Domain.Commands.Employees.LoginEmployee;
 using LibraRestaurant.Domain.Commands.Employees.UpdateEmployee;
 using LibraRestaurant.Domain.Interfaces;
 using LibraRestaurant.Domain.Commands.Employees.RefreshEmployee;
+using LibraRestaurant.Domain.Commands.Employees.LogoutEmployee;
 
 namespace LibraRestaurant.Application.Services;
 
@@ -70,6 +71,7 @@ public sealed class EmployeeService : IEmployeeService
             employee.Email,
             employee.FirstName,
             employee.LastName,
+            employee.Status,
             employee.Mobile));
     }
 
@@ -91,5 +93,10 @@ public sealed class EmployeeService : IEmployeeService
     public async Task<Object> RefreshEmployeeAsync(string refreshToken)
     {
         return await _bus.QueryAsync(new RefreshEmployeeCommand(refreshToken));
+    }
+
+    public async Task<string> LogoutAsync(string refreshToken)
+    {
+        return await _bus.QueryAsync(new LogoutEmployeeCommand(refreshToken));
     }
 }

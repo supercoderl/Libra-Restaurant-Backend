@@ -12,6 +12,7 @@ public sealed class UpdateEmployeeCommand : CommandBase
     public string Email { get; }
     public string FirstName { get; }
     public string LastName { get; }
+    public UserStatus Status { get; }
     public string Mobile { get; }
 
     public UpdateEmployeeCommand(
@@ -20,6 +21,7 @@ public sealed class UpdateEmployeeCommand : CommandBase
         string email,
         string firstName,
         string lastName,
+        UserStatus status,
         string mobile) : base(employeeId)
     {
         EmployeeId = employeeId;
@@ -27,6 +29,7 @@ public sealed class UpdateEmployeeCommand : CommandBase
         Email = email;
         FirstName = firstName;
         LastName = lastName;
+        Status = status;
         Mobile = mobile;
     }
 

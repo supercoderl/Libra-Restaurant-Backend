@@ -33,6 +33,11 @@ namespace LibraRestaurant.Infrastructure.Configurations
                 .IsRequired();
 
             builder
+                .Property(orderLine => orderLine.FoodPrice)
+                .HasColumnType("money")
+                .IsRequired();
+
+            builder
                 .Property(orderLine => orderLine.IsCanceled)
                 .IsRequired()
                 .HasColumnType("bit");
