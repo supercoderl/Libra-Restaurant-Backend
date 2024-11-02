@@ -216,4 +216,13 @@ public static class DomainErrorCodes
         public const string EmptyMinItemQuantity = "DISCOUNT_TYPE_MIN_ITEM_QUANTITY";
         public const string EmptyMaxDiscountValue = "DISCOUNT_TYPE_MAX_DISCOUNT_VALUE";
     }
+
+    public static class Review
+    {
+        //Review Validation
+        public const string EmptyId = "REVIEW_TYPE_EMPTY_ID";
+        public const string EmptyName = "REVIEW_EMPTY_CUSTOMER_NAME";
+        public const string EmptyRating = "REVIEW_EMPTY_RATING";
+        public const string EmptyComment = "REVIEW_EMPTY_COMMENT";
+    }
 }

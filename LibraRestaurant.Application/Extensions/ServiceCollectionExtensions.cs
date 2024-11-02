@@ -74,6 +74,9 @@ using LibraRestaurant.Application.Queries.DiscountTypes.GetDiscountTypeById;
 using LibraRestaurant.Application.ViewModels.DiscountTypes;
 using LibraRestaurant.Application.Queries.DiscountTypes.GetAll;
 using LibraRestaurant.Application.Queries.DiscountTypes.GetDiscountTypeByCode;
+using LibraRestaurant.Application.ViewModels.Reviews;
+using LibraRestaurant.Application.Queries.Reviews.GetAll;
+using LibraRestaurant.Application.Queries.Reviews.GetReviewById;
 
 namespace LibraRestaurant.Application.Extensions;
 
@@ -107,6 +110,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IMessageService, MessageService>();
         services.AddScoped<IDiscountService, DiscountService>();
         services.AddScoped<IDiscountTypeService, DiscountTypeService>();
+        services.AddScoped<IReviewService, ReviewService>();
 
         services.AddSingleton<Cloudinary>(sp =>
         {
@@ -254,6 +258,10 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRequestHandler<GetAllDiscountTypesQuery, PagedResult<DiscountTypeViewModel>>, GetAllDiscountTypesQueryHandler>();
         services.AddScoped<IRequestHandler<GetDiscountTypeByCodeQuery, DiscountTypeViewModel?>, GetDiscountTypeByCodeQueryHandler>();
 
+        // Review
+        services.AddScoped<IRequestHandler<GetReviewByIdQuery, ReviewViewModel?>, GetReviewByIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetAllReviewsQuery, PagedResult<ReviewViewModel>>, GetAllReviewsQueryHandler>();
+
         return services;
     }
 
@@ -277,6 +285,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISortingExpressionProvider<MessageViewModel, Message>, MessageViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<DiscountViewModel, Discount>, DiscountViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<DiscountTypeViewModel, DiscountType>, DiscountTypeViewModelSortProvider>();
+        services.AddScoped<ISortingExpressionProvider<ReviewViewModel, Review>, ReviewViewModelSortProvider>();
 
         return services;
     }

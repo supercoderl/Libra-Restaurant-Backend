@@ -80,6 +80,10 @@ using LibraRestaurant.Domain.Commands.DiscountTypes.UpdateDiscountType;
 using LibraRestaurant.Domain.Commands.DiscountTypes.DeleteDiscountType;
 using LibraRestaurant.Shared.Events.Discount;
 using LibraRestaurant.Shared.Events.DiscountType;
+using LibraRestaurant.Domain.Commands.Reviews.CreateReview;
+using LibraRestaurant.Domain.Commands.Reviews.DeleteReview;
+using LibraRestaurant.Shared.Events.Review;
+using LibraRestaurant.Domain.Commands.Reviews.UpdateReview;
 
 namespace LibraRestaurant.Domain.Extensions;
 
@@ -179,6 +183,11 @@ public static class ServiceCollectionExtension
         services.AddScoped<IRequestHandler<UpdateDiscountTypeCommand>, UpdateDiscountTypeCommandHandler>();
         services.AddScoped<IRequestHandler<DeleteDiscountTypeCommand>, DeleteDiscountTypeCommandHandler>();
 
+        //Review
+        services.AddScoped<IRequestHandler<CreateReviewCommand>, CreateReviewCommandHandler>();
+        services.AddScoped<IRequestHandler<DeleteReviewCommand>, DeleteReviewCommandHandler>();
+        services.AddScoped<IRequestHandler<UpdateReviewCommand>, UpdateReviewCommandHandler>();
+
         return services;
     }
 
@@ -274,6 +283,11 @@ public static class ServiceCollectionExtension
         services.AddScoped<INotificationHandler<DiscountTypeCreatedEvent>, DiscountTypeEventHandler>();
         services.AddScoped<INotificationHandler<DiscountTypeUpdatedEvent>, DiscountTypeEventHandler>();
         services.AddScoped<INotificationHandler<DiscountTypeDeletedEvent>, DiscountTypeEventHandler>();
+
+        //Review
+        services.AddScoped<INotificationHandler<ReviewCreatedEvent>, ReviewEventHandler>();
+        services.AddScoped<INotificationHandler<ReviewDeletedEvent>, ReviewEventHandler>();
+        services.AddScoped<INotificationHandler<ReviewUpdatedEvent>, ReviewEventHandler>();
 
         return services;
     }

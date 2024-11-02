@@ -34,6 +34,9 @@ namespace LibraRestaurant.Domain.Entities
         [InverseProperty("Item")]
         public virtual ICollection<Discount>? Discounts { get; set; } = new List<Discount>();
 
+        [InverseProperty("Item")]
+        public virtual ICollection<Review>? Reviews { get; set; } = new List<Review>();
+
         public MenuItem(
             int itemId,
             string title,
