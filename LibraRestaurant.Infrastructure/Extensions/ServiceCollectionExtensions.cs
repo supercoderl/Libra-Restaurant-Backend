@@ -66,6 +66,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IMessageRepository, MessageRepository>();
         services.AddScoped<IDiscountRepository, DiscountRepository>();
         services.AddScoped<IDiscountTypeRepository, DiscountTypeRepository>();
+        services.AddScoped<IReviewRepository, ReviewRepository>();
 
         return services;
     }

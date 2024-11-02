@@ -6,6 +6,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Reviews\Models.proto" />
+      <None Remove="Reviews\ReviewsApi.proto" />
+    </ItemGroup>
+
+    <ItemGroup>
         <Protobuf Include="Categories\CategoriesApi.proto" GrpcServices="Both" />
         <Protobuf Include="Categories\Models.proto" GrpcServices="Both" />
         <Protobuf Include="Cities\CitiesApi.proto" GrpcServices="Both" />
@@ -36,6 +41,8 @@
         <Protobuf Include="PaymentMethods\Models.proto" GrpcServices="Both" />
         <Protobuf Include="Reservations\ReservationsApi.proto" GrpcServices="Both" />
         <Protobuf Include="Reservations\Models.proto" GrpcServices="Both" />
+        <Protobuf Include="Reviews\Models.proto" GrpcServices="Both" />
+        <Protobuf Include="Reviews\ReviewsApi.proto" GrpcServices="Both" />
         <Protobuf Include="Roles\RolesApi.proto" GrpcServices="Both" />
         <Protobuf Include="Roles\Models.proto" GrpcServices="Both" />
         <Protobuf Include="Stores\StoresApi.proto" GrpcServices="Both" />

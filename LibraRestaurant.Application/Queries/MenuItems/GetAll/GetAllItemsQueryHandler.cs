@@ -61,6 +61,7 @@ namespace LibraRestaurant.Application.Queries.MenuItems.GetAll
             itemsQuery = itemsQuery.GetOrderedQueryable(request.SortQuery, _sortingExpressionProvider);
 
             var items = await itemsQuery
+                .OrderByDescending(x => x.CreatedAt)
                 .Skip((request.Query.Page - 1) * request.Query.PageSize)
                 .Take(request.Query.PageSize)
                 .Select(item => ItemViewModel.FromItem(item))

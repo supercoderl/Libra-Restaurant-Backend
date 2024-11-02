@@ -41,6 +41,7 @@ public sealed class GetAllPaymentHistoriesQueryHandler :
         paymentHistoriesQuery = paymentHistoriesQuery.GetOrderedQueryable(request.SortQuery, _sortingExpressionProvider);
 
         var paymentHistories = await paymentHistoriesQuery
+            .OrderByDescending(x => x.CreatedAt)
             .Skip((request.Query.Page - 1) * request.Query.PageSize)
             .Take(request.Query.PageSize)
             .Select(paymentHistory => PaymentHistoryViewModel.FromPaymentHistory(paymentHistory))

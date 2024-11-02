@@ -26,6 +26,7 @@ namespace LibraRestaurant.Application.ViewModels.MenuItems
         public List<int>? CategoryIds { get; set; }
         public DiscountWithItem? Discount { get; set; }
         public DiscountStatus DiscountStatus { get; set; }
+        public double RatingScore {  get; set; }
 
         public static ItemViewModel FromItem(MenuItem item)
         {
@@ -59,7 +60,8 @@ namespace LibraRestaurant.Application.ViewModels.MenuItems
                 LastUpdatedAt = item.LastUpdatedAt,
                 CategoryIds = item.CategoryItems?.Select(ci => ci.CategoryId).ToList(),
                 Discount = discount is not null ? new DiscountWithItem().FromDiscountWithItem(discount.Discount) : null,
-                DiscountStatus = discount is not null ? discount.Status : DiscountStatus.Unknow
+                DiscountStatus = discount is not null ? discount.Status : DiscountStatus.Unknow,
+                RatingScore = double.Parse(string.Format("{0:0.0}", item?.Reviews?.Select(r => r.Rating).DefaultIfEmpty(0).Average() ?? 0))
             };
         }
     }

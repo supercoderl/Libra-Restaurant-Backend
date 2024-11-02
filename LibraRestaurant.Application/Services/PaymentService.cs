@@ -158,7 +158,7 @@ namespace LibraRestaurant.Application.Services
             //Get payment input
             OrderInfo order = new OrderInfo();
             order.OrderId = ConvertGuidToLong(request.TransactionId);
-            order.Amount = long.Parse((request.Amount * 100).ToString());
+            order.Amount = long.Parse((request.Amount).ToString());
             order.Status = request.Status;
             order.CreatedDate = request.CreatedDate ?? DateTime.Now;
             //Save order to db
