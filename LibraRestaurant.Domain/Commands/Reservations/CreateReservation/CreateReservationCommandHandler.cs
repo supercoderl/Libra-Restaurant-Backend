@@ -44,9 +44,9 @@ namespace LibraRestaurant.Domain.Commands.Reservations.CreateReservation
                 request.StoreId,
                 request.Description,
                 request.ReservationTime,
-                request.CustomerName,
-                request.CustomerPhone,
-                request.Code);
+                request.CustomerId,
+                request.Code,
+                request.CleaningTime);
 
             _reservationRepository.Add(reservation);
 

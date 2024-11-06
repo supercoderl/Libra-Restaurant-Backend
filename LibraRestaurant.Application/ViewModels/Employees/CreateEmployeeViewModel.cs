@@ -8,5 +8,4 @@ public sealed record CreateEmployeeViewModel(
     string FirstName,
     string Mobile,
     string LastName,
-    string Password,
     DateTime RegisteredDate);

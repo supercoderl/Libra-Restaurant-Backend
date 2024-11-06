@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using LibraRestaurant.Shared.Events.OrderHead;
 using LibraRestaurant.Domain.Commands.OrderLines.CreateOrderLine;
+using System.ComponentModel.Design;
 
 namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
 {
@@ -143,7 +144,16 @@ namespace LibraRestaurant.Domain.Commands.Orders.UpdateOrder
             var reservation = await _reservationRepository.GetByIdAsync(ReservationId);
             if (reservation is not null)
             {
-                reservation.SetStatus(Action == "pay" ? Enums.ReservationStatus.Cleaning : Enums.ReservationStatus.Available);
+                if(Action == "pay")
+                {
+                    reservation.SetStatus(Enums.ReservationStatus.Cleaning);
+                    reservation.SetCleaningTime(DateTime.Now);
+                }
+                else
+                {
+                    reservation.SetStatus(Enums.ReservationStatus.Available);
+                }
+                
                 _reservationRepository.Update(reservation);
             }
         }

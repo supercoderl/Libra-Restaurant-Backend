@@ -18,11 +18,12 @@ using QRCoder;
 using System.Drawing.Imaging;
 using System.Drawing;
 using System.IO;
+using LibraRestaurant.Domain.Commands.Customers.CreateCustomer;
 
 namespace LibraRestaurant.Domain.Commands.Reservations.UpdateReservationCustomer
 {
     public sealed class UpdateReservationCustomerCommandHandler : CommandHandlerBase,
-        IRequestHandler<UpdateReservationCustomerCommand>
+        IRequestHandler<UpdateReservationCustomerCommand, int>
     {
         private readonly IReservationRepository _reservationRepository;
 
@@ -35,11 +36,13 @@ namespace LibraRestaurant.Domain.Commands.Reservations.UpdateReservationCustomer
             _reservationRepository = reservationRepository;
         }
 
-        public async Task Handle(UpdateReservationCustomerCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(UpdateReservationCustomerCommand request, CancellationToken cancellationToken)
         {
+            int customerId = -1;
+
             if (!await TestValidityAsync(request))
             {
-                return;
+                return customerId;
             }
 
             var reservation = await _reservationRepository.GetByIdAsync(request.ReservationId);
@@ -51,12 +54,31 @@ namespace LibraRestaurant.Domain.Commands.Reservations.UpdateReservationCustomer
                         request.MessageType,
                         $"There is no reservation with Id {request.ReservationId}",
                         ErrorCodes.ObjectNotFound));
-                return;
+                return customerId;
             }
 
             reservation.SetStatus(request.Status);
-            reservation.SetCustomerName(request.CustomerName);
-            reservation.SetCustomerPhone(request.CustomerPhone);
+   
+            if(string.IsNullOrEmpty(request.CustomerName) || string.IsNullOrEmpty(request.CustomerPhone))
+            {
+                reservation.SetCustomer(null);
+            }
+            else
+            {
+                customerId = await Bus.QueryAsync(new CreateCustomerCommand(0, request.CustomerName, request.CustomerPhone, null, null));
+
+                if (customerId == -1)
+                {
+                    await NotifyAsync(
+                    new DomainNotification(
+                        request.MessageType,
+                        $"An error occur when saving customer's data.",
+                        ErrorCodes.CommitFailed));
+                    return -1;
+                }
+
+                reservation.SetCustomer(customerId);
+            }
 
             _reservationRepository.Update(reservation);
 
@@ -64,6 +86,8 @@ namespace LibraRestaurant.Domain.Commands.Reservations.UpdateReservationCustomer
             {
                 await Bus.RaiseEventAsync(new ReservationUpdatedEvent(reservation.ReservationId));
             }
+
+            return customerId;
         }
     }
 }

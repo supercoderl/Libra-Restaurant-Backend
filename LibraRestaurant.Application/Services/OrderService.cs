@@ -68,6 +68,7 @@ namespace LibraRestaurant.Application.Services
             order.Subtotal,
             order.Tax,
             order.Total,
+            order.CustomerId,
             order.LatestStatus,
             order.LatestStatusUpdate,
             order.IsPaid,

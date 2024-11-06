@@ -39,7 +39,8 @@ public sealed class OrderViewModel
     public DateTime? CompletedTime { get; set; }
     public string? StoreName { get; set; }
     public List<OrderLogFromOrderViewModel>? OrderLogs { get; set; }
-    public ReservationInfo? ReservationInfo { get; set; }
+    public string? CustomerName { get; set; }
+    public string? CustomerPhone { get; set; }
 
     public List<OrderLineFromOrderViewModel>? OrderLines { get; set; }
 
@@ -77,7 +78,8 @@ public sealed class OrderViewModel
             StoreName = order?.Store?.Name,
             OrderLines = GenerateOrderLines(order?.OrderLines),
             OrderLogs = GenerateOrderLogs(order?.OrderLogs),
-            ReservationInfo = GenerateReservationInfo(order?.Reservation)
+            CustomerName = order?.Customer?.Name,
+            CustomerPhone = order?.Customer?.Phone
         };
     }
 
@@ -120,21 +122,4 @@ public sealed class OrderViewModel
             })
             .ToList();
     }
-
-    private static ReservationInfo? GenerateReservationInfo(Reservation? reservation)
-    {
-        if(reservation is null) return null;
-
-        return new ReservationInfo
-        {
-            CustomerName = reservation.CustomerName,
-            CustomerPhone = reservation.CustomerPhone,
-        };
-    }
-}
-
-public class ReservationInfo
-{
-    public string? CustomerName { get; set; }
-    public string? CustomerPhone { get; set; }
 }

@@ -3,7 +3,7 @@ using LibraRestaurant.Shared.Events;
 
 namespace LibraRestaurant.Domain.EventHandler.Fanout;
 
-/*public interface IFanoutEventHandler
+public interface IFanoutEventHandler
 {
     Task<DomainEvent> HandleDomainEventAsync(DomainEvent @event);
-}*/
+}

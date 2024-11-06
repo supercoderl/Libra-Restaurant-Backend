@@ -176,6 +176,48 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Customer", b =>
+                {
+                    b.Property<int>("CustomerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("CustomerId");
+
+                    b.ToTable("Customers");
+                });
+
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Discount", b =>
                 {
                     b.Property<int>("DiscountId")
@@ -579,7 +621,7 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         new
                         {
                             ItemId = 1,
-                            CreatedAt = new DateTime(2024, 11, 2, 9, 21, 53, 210, DateTimeKind.Local).AddTicks(2826),
+                            CreatedAt = new DateTime(2024, 11, 5, 16, 15, 49, 548, DateTimeKind.Local).AddTicks(3069),
                             Deleted = false,
                             Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             Instruction = "Ngon hơn khi dùng nóng",
@@ -660,6 +702,9 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Property<DateTime?>("CompletedTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("CustomerNotes")
                         .HasColumnType("nvarchar(max)");
 
@@ -737,6 +782,10 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("OrderId");
+
+                    b.HasIndex("CustomerId")
+                        .IsUnique()
+                        .HasFilter("[CustomerId] IS NOT NULL");
 
                     b.HasIndex("PaymentMethodId");
 
@@ -950,14 +999,14 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("CleaningTime")
+                        .HasColumnType("datetime");
+
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CustomerName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CustomerPhone")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -984,6 +1033,10 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ReservationId");
+
+                    b.HasIndex("CustomerId")
+                        .IsUnique()
+                        .HasFilter("[CustomerId] IS NOT NULL");
 
                     b.HasIndex("StoreId");
 
@@ -1366,6 +1419,12 @@ namespace LibraRestaurant.Infrastructure.Migrations
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.OrderHeader", b =>
                 {
+                    b.HasOne("LibraRestaurant.Domain.Entities.Customer", "Customer")
+                        .WithOne("OrderHeader")
+                        .HasForeignKey("LibraRestaurant.Domain.Entities.OrderHeader", "CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("FK_Order_Customer_CustomerId");
+
                     b.HasOne("LibraRestaurant.Domain.Entities.PaymentMethod", "PaymentMethod")
                         .WithMany("OrderHeaders")
                         .HasForeignKey("PaymentMethodId")
@@ -1385,6 +1444,8 @@ namespace LibraRestaurant.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_Order_Store_StoreId");
+
+                    b.Navigation("Customer");
 
                     b.Navigation("PaymentMethod");
 
@@ -1458,12 +1519,20 @@ namespace LibraRestaurant.Infrastructure.Migrations
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.Reservation", b =>
                 {
+                    b.HasOne("LibraRestaurant.Domain.Entities.Customer", "Customer")
+                        .WithOne("Reservation")
+                        .HasForeignKey("LibraRestaurant.Domain.Entities.Reservation", "CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("FK_Reservation_Customer_CustomerId");
+
                     b.HasOne("LibraRestaurant.Domain.Entities.Store", "Store")
                         .WithMany("Reservations")
                         .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_Reservation_Store_StoreId");
+
+                    b.Navigation("Customer");
 
                     b.Navigation("Store");
                 });
@@ -1546,6 +1615,13 @@ namespace LibraRestaurant.Infrastructure.Migrations
                     b.Navigation("Districts");
 
                     b.Navigation("Stores");
+                });
+
+            modelBuilder.Entity("LibraRestaurant.Domain.Entities.Customer", b =>
+                {
+                    b.Navigation("OrderHeader");
+
+                    b.Navigation("Reservation");
                 });
 
             modelBuilder.Entity("LibraRestaurant.Domain.Entities.DiscountType", b =>

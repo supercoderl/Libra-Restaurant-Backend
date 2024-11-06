@@ -32,9 +32,9 @@ namespace LibraRestaurant.gRPC.Contexts
                 Guid.Parse(reservation.StoreId),
                 reservation.Description,
                 DateTime.Parse(reservation.ReservationTime),
-                reservation.CustomerName,
-                reservation.CustomerPhone,
+                reservation.CustomerId,
                 reservation.Code,
+                DateTime.Parse(reservation.CleaningTime),
                 reservation.IsDeleted));
         }
     }

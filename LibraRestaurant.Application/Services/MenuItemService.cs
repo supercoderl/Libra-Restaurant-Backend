@@ -5,16 +5,11 @@ using LibraRestaurant.Application.Queries.MenuItems.GetBySlug;
 using LibraRestaurant.Application.ViewModels;
 using LibraRestaurant.Application.ViewModels.MenuItems;
 using LibraRestaurant.Application.ViewModels.Sorting;
-using LibraRestaurant.Domain.Commands.CategoryItems.UpdateCategoryItem;
-using LibraRestaurant.Domain.Commands.CategoryItems.UpsertCategoryItem;
 using LibraRestaurant.Domain.Commands.MenuItems.CreateItem;
 using LibraRestaurant.Domain.Commands.MenuItems.DeleteItem;
 using LibraRestaurant.Domain.Commands.MenuItems.UpdateItem;
 using LibraRestaurant.Domain.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LibraRestaurant.Application.Services

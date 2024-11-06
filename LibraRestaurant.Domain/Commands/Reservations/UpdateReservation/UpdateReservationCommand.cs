@@ -19,9 +19,9 @@ namespace LibraRestaurant.Domain.Commands.Reservations.UpdateReservation
         public Guid StoreId { get; }
         public string? Description { get; }
         public DateTime? ReservationTime { get; }
-        public string? CustomerName { get; }
-        public string? CustomerPhone { get; }
+        public int? CustomerId { get; }
         public string? Code { get; }
+        public DateTime? CleaningTime { get; }
 
         public UpdateReservationCommand(
             int reservationId,
@@ -31,9 +31,9 @@ namespace LibraRestaurant.Domain.Commands.Reservations.UpdateReservation
             Guid storeId,
             string? description,
             DateTime? reservationTime,
-            string? customerName,
-            string? customerPhone,
-            string? code) : base(reservationId)
+            int? customerId,
+            string? code,
+            DateTime? cleaningTime) : base(reservationId)
         {
             ReservationId = reservationId;
             TableNumber = tableNumber;
@@ -42,9 +42,9 @@ namespace LibraRestaurant.Domain.Commands.Reservations.UpdateReservation
             StoreId = storeId;
             Description = description;
             ReservationTime = reservationTime;
-            CustomerName = customerName;
-            CustomerPhone = customerPhone;
+            CustomerId = customerId;
             Code = code;
+            CleaningTime = cleaningTime;
         }
 
         public override bool IsValid()

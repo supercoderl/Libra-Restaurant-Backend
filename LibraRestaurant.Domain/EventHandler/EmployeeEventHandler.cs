@@ -25,27 +25,22 @@ public sealed class EmployeeEventHandler :
         return Task.CompletedTask;
     }
 
-    public async Task Handle(EmployeeCreatedEvent notification, CancellationToken cancellationToken)
+    public Task Handle(EmployeeCreatedEvent notification, CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
-        /*        await _distributedCache.RemoveAsync(
-                    CacheKeyGenerator.GetEntityCacheKey<Tenant>(notification.TenantId),
-                    cancellationToken);*/
+        return Task.CompletedTask;
     }
 
     public async Task Handle(EmployeeDeletedEvent notification, CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
-        /*        await _distributedCache.RemoveAsync(
-                    CacheKeyGenerator.GetEntityCacheKey<Tenant>(notification.TenantId),
-                    cancellationToken);*/
+        await _distributedCache.RemoveAsync(
+            CacheKeyGenerator.GetEntityCacheKey<Employee>(notification.AggregateId),
+            cancellationToken);
     }
 
     public async Task Handle(EmployeeUpdatedEvent notification, CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
-        /*        await _distributedCache.RemoveAsync(
-                    CacheKeyGenerator.GetEntityCacheKey<Tenant>(notification.TenantId),
-                    cancellationToken);*/
+        await _distributedCache.RemoveAsync(
+            CacheKeyGenerator.GetEntityCacheKey<Employee>(notification.AggregateId),
+            cancellationToken);
     }
 }

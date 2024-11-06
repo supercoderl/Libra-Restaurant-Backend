@@ -22,6 +22,7 @@ namespace LibraRestaurant.Shared.OrderHeaders
         double Subtotal,
         double Tax,
         double Total,
+        int? CustomerId,
         bool IsPaid,
         bool IsPreparationDelayed,
         DateTime? DelayedTime,

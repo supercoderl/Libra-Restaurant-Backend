@@ -77,6 +77,10 @@ using LibraRestaurant.Application.Queries.DiscountTypes.GetDiscountTypeByCode;
 using LibraRestaurant.Application.ViewModels.Reviews;
 using LibraRestaurant.Application.Queries.Reviews.GetAll;
 using LibraRestaurant.Application.Queries.Reviews.GetReviewById;
+using LibraRestaurant.Application.Queries.Customers.GetCustomerById;
+using LibraRestaurant.Application.ViewModels.Customers;
+using LibraRestaurant.Application.Queries.Customers.GetAll;
+using LibraRestaurant.Application.Queries.Reservations.GetReservationByStatus;
 
 namespace LibraRestaurant.Application.Extensions;
 
@@ -84,6 +88,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
+        // Normal Service
         services.AddScoped<IEmployeeService, EmployeeService>();
         services.AddScoped<IMenuItemService, MenuItemService>();
         services.AddScoped<IMenuService, MenuService>();
@@ -111,6 +116,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IDiscountService, DiscountService>();
         services.AddScoped<IDiscountTypeService, DiscountTypeService>();
         services.AddScoped<IReviewService, ReviewService>();
+        services.AddScoped<ICustomerService, CustomerService>();
+        services.AddScoped<ISocialService, SocialService>();
 
         services.AddSingleton<Cloudinary>(sp =>
         {
@@ -214,6 +221,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRequestHandler<GetAllReservationsQuery, PagedResult<ReservationViewModel>>, GetAllReservationsQueryHandler>();
         services.AddScoped<IRequestHandler<GetReservationByTableNumberAndStoreIdQuery, ReservationViewModel?>, GetReservationByTableNumberAndStoreIdQueryHandler>();
         services.AddScoped<IRequestHandler<GetAllTablesRealTimeQuery, List<TableRealTimeViewModel>>, GetAllTablesRealTimeQueryHandler>();
+        services.AddScoped<IRequestHandler<GetReservationByStatusQuery, List<ReservationViewModel>>, GetReservationByStatusQueryHandler>();
 
         // OrderLine
         services.AddScoped<IRequestHandler<GetOrderLineByIdQuery, OrderLineViewModel?>, GetOrderLineByIdQueryHandler>();
@@ -262,6 +270,10 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRequestHandler<GetReviewByIdQuery, ReviewViewModel?>, GetReviewByIdQueryHandler>();
         services.AddScoped<IRequestHandler<GetAllReviewsQuery, PagedResult<ReviewViewModel>>, GetAllReviewsQueryHandler>();
 
+        // Review
+        services.AddScoped<IRequestHandler<GetCustomerByIdQuery, CustomerViewModel?>, GetCustomerByIdQueryHandler>();
+        services.AddScoped<IRequestHandler<GetAllCustomersQuery, PagedResult<CustomerViewModel>>, GetAllCustomersQueryHandler>();
+
         return services;
     }
 
@@ -286,6 +298,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISortingExpressionProvider<DiscountViewModel, Discount>, DiscountViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<DiscountTypeViewModel, DiscountType>, DiscountTypeViewModelSortProvider>();
         services.AddScoped<ISortingExpressionProvider<ReviewViewModel, Review>, ReviewViewModelSortProvider>();
+        services.AddScoped<ISortingExpressionProvider<CustomerViewModel, Customer>, CustomerViewModelSortProvider>();
 
         return services;
     }

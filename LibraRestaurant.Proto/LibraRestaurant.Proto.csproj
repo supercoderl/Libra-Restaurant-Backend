@@ -6,8 +6,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Reviews\Models.proto" />
-      <None Remove="Reviews\ReviewsApi.proto" />
+      <None Remove="Customers\CustomersApi.proto" />
+      <None Remove="Customers\Models.proto" />
     </ItemGroup>
 
     <ItemGroup>
@@ -17,6 +17,8 @@
         <Protobuf Include="Cities\Models.proto" GrpcServices="Both" />
         <Protobuf Include="Currencies\CurrenciesApi.proto" GrpcServices="Both" />
         <Protobuf Include="Currencies\Models.proto" GrpcServices="Both" />
+        <Protobuf Include="Customers\CustomersApi.proto" GrpcServices="Both" />
+        <Protobuf Include="Customers\Models.proto" GrpcServices="Both" />
         <Protobuf Include="Discounts\Models.proto">
           <GrpcServices>Both</GrpcServices>
         </Protobuf>

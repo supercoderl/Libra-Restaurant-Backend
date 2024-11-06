@@ -25,6 +25,7 @@ namespace LibraRestaurant.Domain.Entities
         public double Subtotal { get; private set; }
         public double Tax { get; private set; }
         public double Total { get; private set; }
+        public int? CustomerId { get; private set; }
         public OrderStatus LatestStatus { get; private set; }
         public DateTime LatestStatusUpdate {  get; private set; }
         public bool IsPaid { get; private set; }
@@ -62,6 +63,10 @@ namespace LibraRestaurant.Domain.Entities
         [InverseProperty("OrderHeader")]
         public virtual ICollection<Discount>? Discounts { get; set; } = new List<Discount>();
 
+        [ForeignKey("CustomerId")]
+        [InverseProperty("OrderHeader")]
+        public virtual Customer? Customer { get; set; }
+
         public OrderHeader(
             Guid orderId,
             string orderNo,
@@ -78,6 +83,7 @@ namespace LibraRestaurant.Domain.Entities
             double subtotal,
             double tax,
             double total,
+            int? customerId,
             OrderStatus latestStatus,
             DateTime latestStatusUpdate,
             bool isPaid,
@@ -107,6 +113,7 @@ namespace LibraRestaurant.Domain.Entities
             Subtotal = subtotal;
             Tax = tax;
             Total = total;
+            CustomerId = customerId;
             LatestStatus = latestStatus;
             LatestStatusUpdate = latestStatusUpdate;
             IsPaid = isPaid;
@@ -189,6 +196,11 @@ namespace LibraRestaurant.Domain.Entities
         public void SetTotal( double total ) 
         { 
             Total = total; 
+        }
+
+        public void SetCustomer(int? customerId)
+        {
+            CustomerId = customerId;
         }
 
         public void SetLatestStatus( OrderStatus latestStatus )

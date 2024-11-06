@@ -30,6 +30,7 @@ public partial class ApplicationDbContext : DbContext
     public DbSet<Discount> Discounts { get; set; } = null!;
     public DbSet<DiscountType> DiscountTypes { get; set; } = null!;
     public DbSet<Review> Reviews { get; set; } = null!;
+    public DbSet<Customer> Customers { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -87,5 +88,6 @@ public partial class ApplicationDbContext : DbContext
         builder.ApplyConfiguration(new DiscountConfiguration());
         builder.ApplyConfiguration(new DiscountTypeConfiguration());
         builder.ApplyConfiguration(new ReviewConfiguration());
+        builder.ApplyConfiguration(new CustomerConfiguration());
     }
 }

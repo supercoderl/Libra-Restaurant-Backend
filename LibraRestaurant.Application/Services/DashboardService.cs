@@ -1,13 +1,14 @@
 ﻿using LibraRestaurant.Application.Interfaces;
+using LibraRestaurant.Application.Queries.Customers.GetAll;
+using LibraRestaurant.Application.Queries.MenuItems.GetAll;
 using LibraRestaurant.Application.Queries.Orders.CountOrder;
+using LibraRestaurant.Application.Queries.Orders.GetAll;
 using LibraRestaurant.Application.Queries.PaymentHistories.GetPaymentAmount;
 using LibraRestaurant.Application.ViewModels.Dashboards;
-using LibraRestaurant.Application.ViewModels.Menus;
 using LibraRestaurant.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LibraRestaurant.Application.Services
@@ -30,9 +31,27 @@ namespace LibraRestaurant.Application.Services
             var (lastMonth, lastMonthYear) = GetMonthAndYear(DateTime.Now, true);
 
             int orderCount = await _bus.QueryAsync(new CountOrderQuery(null, null));
+
             double paymentAmount = await _bus.QueryAsync(new GetPaymentAmountQuery());
+
             int customerInThisMonth = await _bus.QueryAsync(new CountOrderQuery(currentMonth, currentYear));
+
             int customerInLastMonth = await _bus.QueryAsync(new CountOrderQuery(lastMonth, lastMonthYear));
+
+            var customers = await _bus.QueryAsync(new GetAllCustomersQuery(
+                new ViewModels.PageQuery { Page = 1, PageSize = 5 },
+                false,
+                "",
+                null
+            ));
+
+            var items = await _bus.QueryAsync(new GetAllItemsQuery(
+                new ViewModels.PageQuery { Page = 1, PageSize = 5 },
+                false,
+                "",
+                null,
+                -1
+            ));
             
             double percentageChange;
 
@@ -58,7 +77,18 @@ namespace LibraRestaurant.Application.Services
                     CustomerCountInThisMonth = customerInThisMonth,
                     CustomerCountInLastMonth = customerInLastMonth,
                     Percentage = percentageChange,
-                }
+                    Top5Customers = customers.Items.Select(customer => new Top5Customers
+                    {
+                        CustomerName = customer.Name,
+                        CustomerPhone = customer.Phone,
+                    }).ToList()
+                },
+                Top5Items = items.Items.Select(item => new Top5Items
+                {
+                    Title = item.Title,
+                    Quantity = item.Quantity,
+                    Price = item.Price,
+                }).ToList()
             };
 
             return result;

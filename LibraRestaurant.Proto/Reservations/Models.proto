@@ -9,9 +9,9 @@ message GrpcReservation {
   string storeId = 4;
   string description = 5;
   string reservationTime = 6;
-  string customerName = 7;
-  string customerPhone = 8;
-  string code = 9;
+  int32 customerId = 7;
+  string code = 8;
+  string cleaningTime = 9;
   bool isDeleted = 10;
 }
 

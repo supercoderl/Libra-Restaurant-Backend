@@ -1,25 +1,13 @@
 ﻿using LibraRestaurant.Application.Interfaces;
-using LibraRestaurant.Application.Queries.PaymentHistories.GetAll;
-using LibraRestaurant.Application.Queries.PaymentHistories.GetPaymentHistoryById;
-using LibraRestaurant.Application.Queries.PaymentHistories.GetPaymentHistoryByOrder;
-using LibraRestaurant.Application.ViewModels.PaymentHistorys;
 using LibraRestaurant.Application.ViewModels.Sorting;
 using LibraRestaurant.Application.ViewModels;
-using LibraRestaurant.Domain.Commands.PaymentHistories.CreatePaymentHistory;
-using LibraRestaurant.Domain.Commands.PaymentHistories.DeletePaymentHistory;
-using LibraRestaurant.Domain.Enums;
 using LibraRestaurant.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using LibraRestaurant.Application.ViewModels.Reviews;
 using LibraRestaurant.Application.Queries.Reviews.GetAll;
 using LibraRestaurant.Domain.Commands.Reviews.CreateReview;
 using LibraRestaurant.Domain.Commands.Reviews.DeleteReview;
 using LibraRestaurant.Application.Queries.Reviews.GetReviewById;
-using LibraRestaurant.Domain.Commands.Reservations.UpdateReservation;
 using LibraRestaurant.Domain.Commands.Reviews.UpdateReview;
 
 namespace LibraRestaurant.Application.Services

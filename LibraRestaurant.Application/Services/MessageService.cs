@@ -1,23 +1,12 @@
 ﻿using LibraRestaurant.Application.Interfaces;
-using LibraRestaurant.Application.Queries.Menus.GetAll;
-using LibraRestaurant.Application.Queries.Menus.GetMenuById;
-using LibraRestaurant.Application.ViewModels.Menus;
 using LibraRestaurant.Application.ViewModels.Sorting;
 using LibraRestaurant.Application.ViewModels;
-using LibraRestaurant.Domain.Commands.Menus.CreateMenu;
-using LibraRestaurant.Domain.Commands.Menus.DeleteMenu;
-using LibraRestaurant.Domain.Commands.Menus.UpdateMenu;
 using LibraRestaurant.Domain.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using LibraRestaurant.Application.ViewModels.Messages;
 using LibraRestaurant.Domain.Commands.Messages.SendMessage;
 using LibraRestaurant.Application.Queries.Messages.GetAll;
-using LibraRestaurant.Application.ViewModels.OrderLines;
-using LibraRestaurant.Domain.Commands.OrderLines.UpdateOrderLine;
 using LibraRestaurant.Domain.Commands.Messages.UpdateMessage;
 
 namespace LibraRestaurant.Application.Services

@@ -22,6 +22,7 @@ using LibraRestaurant.Proto.Messages;
 using LibraRestaurant.Proto.Discounts;
 using LibraRestaurant.Proto.DiscountTypes;
 using LibraRestaurant.Proto.Reviews;
+using LibraRestaurant.Proto.Customers;
 
 namespace LibraRestaurant.gRPC.Extensions;
 
@@ -118,6 +119,9 @@ public static class ServiceCollectionExtensions
         var reviewsClient = new ReviewsApi.ReviewsApiClient(channel);
         services.AddSingleton(reviewsClient);
 
+        var customersClient = new CustomersApi.CustomersApiClient(channel);
+        services.AddSingleton(customersClient);
+
         services.AddSingleton<IEmployeesContext, EmployeesContext>();
         services.AddSingleton<IMenuItemsContext, MenuItemsContext>();
         services.AddSingleton<IMenusContext, MenusContext>();
@@ -137,6 +141,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IDiscountsContext, DiscountsContext>();
         services.AddSingleton<IDiscountTypesContext, DiscountTypesContext>();
         services.AddSingleton<IReviewsContext, ReviewsContext>();
+        services.AddSingleton<ICustomersContext, CustomersContext>();
 
         return services;
     }

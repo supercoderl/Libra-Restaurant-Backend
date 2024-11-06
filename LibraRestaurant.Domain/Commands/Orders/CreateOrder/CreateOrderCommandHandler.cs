@@ -58,6 +58,7 @@ namespace LibraRestaurant.Domain.Commands.Orders.CreateOrder
                 request.Subtotal,
                 request.Tax,
                 request.Total,
+                request.CustomerId,
                 request.LatestStatus,
                 request.LatestStatusUpdate,
                 request.IsPaid,

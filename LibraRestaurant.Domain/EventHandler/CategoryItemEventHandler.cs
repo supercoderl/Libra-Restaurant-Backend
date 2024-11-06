@@ -1,4 +1,5 @@
-﻿using LibraRestaurant.Shared.Events.Category;
+﻿using LibraRestaurant.Domain.Entities;
+using LibraRestaurant.Shared.Events.Category;
 using LibraRestaurant.Shared.Events.CategoryItem;
 using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
@@ -24,36 +25,30 @@ namespace LibraRestaurant.Domain.EventHandler
             _distributedCache = distributedCache;
         }
 
-        public async Task Handle(CategoryItemCreatedEvent notification, CancellationToken cancellationToken)
+        public Task Handle(CategoryItemCreatedEvent notification, CancellationToken cancellationToken)
         {
-            await Task.CompletedTask;
-            /*        await _distributedCache.RemoveAsync(
-                        CacheKeyGenerator.GetEntityCacheKey<Tenant>(notification.TenantId),
-                        cancellationToken);*/
+            return Task.CompletedTask;
         }
 
         public async Task Handle(CategoryItemDeletedEvent notification, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
-            /*        await _distributedCache.RemoveAsync(
-                        CacheKeyGenerator.GetEntityCacheKey<Tenant>(notification.TenantId),
-                        cancellationToken);*/
+            await _distributedCache.RemoveAsync(
+                CacheKeyGenerator.GetEntityCacheKey<CategoryItem>(notification.AggregateNumberId),
+                cancellationToken);
         }
 
         public async Task Handle(CategoryItemUpdatedEvent notification, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
-            /*        await _distributedCache.RemoveAsync(
-                        CacheKeyGenerator.GetEntityCacheKey<Tenant>(notification.TenantId),
-                        cancellationToken);*/
+            await _distributedCache.RemoveAsync(
+                CacheKeyGenerator.GetEntityCacheKey<CategoryItem>(notification.AggregateNumberId),
+                cancellationToken);
         }
 
-        public async Task Handle(CategoryItemUpsertEvent notification, CancellationToken cancellationToken)
+        public Task Handle(CategoryItemUpsertEvent notification, CancellationToken cancellationToken)
         {
-            await Task.CompletedTask;
-            /*        await _distributedCache.RemoveAsync(
-                        CacheKeyGenerator.GetEntityCacheKey<Tenant>(notification.TenantId),
-                        cancellationToken);*/
+            return Task.CompletedTask;
         }
     }
 }

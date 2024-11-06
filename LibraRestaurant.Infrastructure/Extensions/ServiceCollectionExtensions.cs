@@ -2,6 +2,7 @@
 using LibraRestaurant.Domain.Interfaces;
 using LibraRestaurant.Domain.Interfaces.Repositories;
 using LibraRestaurant.Domain.Notifications;
+using LibraRestaurant.Infrastructure.Background;
 using LibraRestaurant.Infrastructure.Database;
 using LibraRestaurant.Infrastructure.EventSourcing;
 using LibraRestaurant.Infrastructure.Repositories;
@@ -67,6 +68,10 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IDiscountRepository, DiscountRepository>();
         services.AddScoped<IDiscountTypeRepository, DiscountTypeRepository>();
         services.AddScoped<IReviewRepository, ReviewRepository>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+
+        // Backgrounds
+        services.AddHostedService<ReservationBackgroundService>();
 
         return services;
     }

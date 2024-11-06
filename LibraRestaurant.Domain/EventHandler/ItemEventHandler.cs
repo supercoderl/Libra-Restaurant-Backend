@@ -1,4 +1,5 @@
 ﻿
+using LibraRestaurant.Domain.Entities;
 using LibraRestaurant.Shared.Events.MenuItem;
 using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
@@ -23,28 +24,23 @@ namespace LibraRestaurant.Domain.EventHandler
             _distributedCache = distributedCache;
         }
 
-        public async Task Handle(ItemCreatedEvent notification, CancellationToken cancellationToken)
+        public Task Handle(ItemCreatedEvent notification, CancellationToken cancellationToken)
         {
-            await Task.CompletedTask;
-            /*        await _distributedCache.RemoveAsync(
-                        CacheKeyGenerator.GetEntityCacheKey<Tenant>(notification.TenantId),
-                        cancellationToken);*/
+            return Task.CompletedTask;
         }
 
         public async Task Handle(ItemDeletedEvent notification, CancellationToken cancellationToken)
         {
-            await Task.CompletedTask;
-            /*        await _distributedCache.RemoveAsync(
-                        CacheKeyGenerator.GetEntityCacheKey<Tenant>(notification.TenantId),
-                        cancellationToken);*/
+            await _distributedCache.RemoveAsync(
+                CacheKeyGenerator.GetEntityCacheKey<MenuItem>(notification.AggregateNumberId),
+                cancellationToken);
         }
 
         public async Task Handle(ItemUpdatedEvent notification, CancellationToken cancellationToken)
         {
-            await Task.CompletedTask;
-            /*        await _distributedCache.RemoveAsync(
-                        CacheKeyGenerator.GetEntityCacheKey<Tenant>(notification.TenantId),
-                        cancellationToken);*/
+            await _distributedCache.RemoveAsync(
+                CacheKeyGenerator.GetEntityCacheKey<MenuItem>(notification.AggregateNumberId),
+                cancellationToken);
         }
     }
 }

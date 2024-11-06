@@ -56,9 +56,9 @@ namespace LibraRestaurant.Domain.Commands.Reservation.UpdateReservation
             reservation.SetStatus(request.Status);
             reservation.SetDescription(request.Description);
             reservation.SetReservationTime(request.ReservationTime);
-            reservation.SetCustomerName(request.CustomerName);
-            reservation.SetCustomerPhone(request.CustomerPhone);
+            reservation.SetCustomer(request.CustomerId);
             reservation.SetCode(request.Code);
+            reservation.SetCleaningTime(request.CleaningTime);
 
             _reservationRepository.Update(reservation);
 

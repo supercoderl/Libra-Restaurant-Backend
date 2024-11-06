@@ -39,20 +39,17 @@ builder.Services.AddControllersWithViews()
 if (builder.Environment.IsProduction())
 {
     var rabbitHost = builder.Configuration["RabbitMQ:Host"];
+    var rabbitPort = builder.Configuration["RabbitMQ:Port"];
     var rabbitUser = builder.Configuration["RabbitMQ:Username"];
     var rabbitPass = builder.Configuration["RabbitMQ:Password"];
 
-    /*    builder.Services
-            .AddHealthChecks()
-            .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")!)
-            .AddRedis(builder.Configuration["RedisHostName"]!, "Redis")
-            .AddRabbitMQ(
-                $"amqps://gnxqdbrs:mTx3ahYNHIVl-zLGDQDxiAYnqrejSCB3@gerbil.rmq.cloudamqp.com/gnxqdbrs",
-                name: "RabbitMQ");*/
     builder.Services
         .AddHealthChecks()
         .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")!)
-        .AddRedis(builder.Configuration["RedisHostName"]!, "Redis");
+        .AddRedis(builder.Configuration["RedisHostName"]!, "Redis")
+        .AddRabbitMQ(
+            $"amqps://{rabbitUser}:{rabbitPass}@{rabbitHost}/{rabbitUser}",
+            name: "RabbitMQ");
 }
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -65,7 +62,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddCors(builder =>
 {
     builder.AddPolicy("policy", x => 
-        x.SetIsOriginAllowed(_ => true)
+        x.WithOrigins(
+            "http://localhost:9000",
+            "https://libra-restaurant.vercel.app",
+            "http://localhost:3000"
+            )
          .AllowAnyHeader()
          .AllowAnyMethod()
          .AllowCredentials()
@@ -83,7 +84,7 @@ builder.Services.AddNotificationHandlers();
 builder.Services.AddApiEmployee();
 builder.Services.AddSignalR();
 
-/*builder.Services.AddRabbitMqHandler(builder.Configuration, "RabbitMQ");*/
+builder.Services.AddRabbitMqHandler(builder.Configuration, "RabbitMQ");
 
 builder.Services.AddHostedService<SetInactiveEmployeesService>();
 
@@ -122,19 +123,19 @@ using (var scope = app.Services.CreateScope())
     domainStoreDbContext.EnsureMigrationsApplied();
 }
 
-if (app.Environment.IsDevelopment())
+/*if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
     app.MapGrpcReflectionService();
-}
+}*/
 
-/*app.UseSwagger();
+app.UseSwagger();
 app.UseSwaggerUI();
-app.MapGrpcReflectionService();*/
+app.MapGrpcReflectionService();
 
 app.UseCors("policy");
-app.UseHttpsRedirection();
+/*app.UseHttpsRedirection();*/
 
 app.UseAuthentication();
 app.UseAuthorization();

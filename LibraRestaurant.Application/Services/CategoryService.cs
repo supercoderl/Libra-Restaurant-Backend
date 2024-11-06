@@ -1,17 +1,8 @@
 ﻿using LibraRestaurant.Application.Interfaces;
-using LibraRestaurant.Application.Queries.Currencies.GetAll;
-using LibraRestaurant.Application.Queries.Currencies.GetCurrencyById;
-using LibraRestaurant.Application.ViewModels.Currencies;
 using LibraRestaurant.Application.ViewModels.Sorting;
 using LibraRestaurant.Application.ViewModels;
-using LibraRestaurant.Domain.Commands.Currencies.CreateCurrency;
-using LibraRestaurant.Domain.Commands.Currencies.DeleteCurrency;
-using LibraRestaurant.Domain.Commands.Currencies.UpdateCurrency;
 using LibraRestaurant.Domain.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using LibraRestaurant.Application.Queries.Categories.GetCategoryById;
 using LibraRestaurant.Application.Queries.Categories.GetAll;

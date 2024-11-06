@@ -28,6 +28,7 @@ namespace LibraRestaurant.Domain.Commands.Orders.CreateOrder
         public double Subtotal { get; }
         public double Tax { get; }
         public double Total { get; }
+        public int? CustomerId { get; }
         public OrderStatus LatestStatus { get; }
         public DateTime LatestStatusUpdate { get; }
         public bool IsPaid { get; }
@@ -59,6 +60,7 @@ namespace LibraRestaurant.Domain.Commands.Orders.CreateOrder
             double subtotal,
             double tax,
             double total,
+            int? customerId,
             OrderStatus latestStatus,
             DateTime latestStatusUpdate,
             bool isPaid,
@@ -89,6 +91,7 @@ namespace LibraRestaurant.Domain.Commands.Orders.CreateOrder
             Subtotal = subtotal;
             Tax = tax;
             Total = total;
+            CustomerId = customerId;
             LatestStatus = latestStatus;
             LatestStatusUpdate = latestStatusUpdate;
             IsPaid = isPaid;
