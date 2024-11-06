@@ -225,4 +225,18 @@ public static class DomainErrorCodes
         public const string EmptyRating = "REVIEW_EMPTY_RATING";
         public const string EmptyComment = "REVIEW_EMPTY_COMMENT";
     }
+
+    public static class Customer
+    {
+        //Customer Validation
+        public const string EmptyId = "CUSTOMER_TYPE_EMPTY_ID";
+        public const string EmptyName = "CUSTOMER_EMPTY_NAME";
+        public const string EmptyPhone = "CUSTOMER_EMPTY_PHONE";
+    }
+
+    public static class Google
+    {
+        //Google Validation
+        public const string EmptyEmail = "GOOGLE_TYPE_EMPTY_EMAIL";
+    }
 }

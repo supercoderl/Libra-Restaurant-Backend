@@ -11,6 +11,6 @@ public sealed record UpdateReservationViewModel(
     ReservationStatus Status,
     string? Description,
     DateTime? ReservationTime,
-    string? CustomerName,
-    string? CustomerPhone,
-    string? Code);
+    int? CustomerId,
+    string? Code,
+    DateTime? CleaningTime);

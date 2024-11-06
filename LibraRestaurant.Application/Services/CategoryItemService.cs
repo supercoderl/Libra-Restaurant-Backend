@@ -1,17 +1,5 @@
 ﻿using LibraRestaurant.Application.Interfaces;
-using LibraRestaurant.Application.Queries.Categories.GetAll;
-using LibraRestaurant.Application.Queries.Categories.GetCategoryById;
-using LibraRestaurant.Application.ViewModels.Categories;
-using LibraRestaurant.Application.ViewModels.Sorting;
-using LibraRestaurant.Application.ViewModels;
-using LibraRestaurant.Domain.Commands.Categories.CreateCategory;
-using LibraRestaurant.Domain.Commands.Categories.DeleteCategory;
-using LibraRestaurant.Domain.Commands.Categories.UpdateCategory;
 using LibraRestaurant.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using LibraRestaurant.Application.ViewModels.CategoryItems;
 using LibraRestaurant.Domain.Commands.CategoryItems.CreateCategoryItem;

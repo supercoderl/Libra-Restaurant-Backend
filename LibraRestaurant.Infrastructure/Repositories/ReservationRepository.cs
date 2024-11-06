@@ -1,4 +1,5 @@
 ﻿using LibraRestaurant.Domain.Entities;
+using LibraRestaurant.Domain.Enums;
 using LibraRestaurant.Domain.Interfaces.Repositories;
 using LibraRestaurant.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
@@ -18,12 +19,24 @@ namespace LibraRestaurant.Infrastructure.Repositories
 
         public async Task<Reservation?> GetByReservationIdAsync(int reservationId)
         {
-            return await DbSet.SingleOrDefaultAsync(item => item.ReservationId == reservationId);
+            return await DbSet.SingleOrDefaultAsync(reservation => reservation.ReservationId == reservationId);
         }
 
         public async Task<Reservation?> GetByReservationTableNumberAndStoreIdAsync(int tableNumber, Guid storeId)
         {
-            return await DbSet.SingleOrDefaultAsync(item => item.TableNumber == tableNumber && item.StoreId == storeId);
+            return await DbSet.SingleOrDefaultAsync(reservation => reservation.TableNumber == tableNumber && reservation.StoreId == storeId);
+        }
+
+        public async Task<List<Reservation>> GetByStatusAsync(ReservationStatus status)
+        {
+            try
+            {
+                return await DbSet.Where(reservation => reservation.Status == status).ToListAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ public sealed record ReservationViewModel(
     Guid StoreId,
     string? Description,
     DateTime? ReservationTime,
-    string? CustomerName,
-    string? CustomerPhone,
+    int? CustomerId,
     string? Code,
+    DateTime? CleaningTime,
     bool IsDeleted);

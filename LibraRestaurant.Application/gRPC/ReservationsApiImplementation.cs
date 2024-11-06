@@ -43,9 +43,9 @@ namespace LibraRestaurant.Application.gRPC
                     StoreId = reservation.StoreId.ToString(),
                     Description = reservation.Description,
                     ReservationTime = reservation.ReservationTime.ToString(),
-                    CustomerName = reservation.CustomerName,
-                    CustomerPhone = reservation.CustomerPhone,
+                    CustomerId = reservation.CustomerId ?? 0,
                     Code = reservation.Code,
+                    CleaningTime = reservation.CleaningTime.ToString(),
                     IsDeleted = reservation.Deleted
                 })
                 .ToListAsync();

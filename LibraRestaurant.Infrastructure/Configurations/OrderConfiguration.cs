@@ -74,6 +74,10 @@ namespace LibraRestaurant.Infrastructure.Configurations
                 .IsRequired();
 
             builder
+                .Property(order => order.CustomerId)
+                .HasColumnType("int");
+
+            builder
                 .Property(order => order.LatestStatus)
                 .HasColumnType("int")
                 .IsRequired();
@@ -143,6 +147,13 @@ namespace LibraRestaurant.Infrastructure.Configurations
                 .HasForeignKey(s => s.StoreId)
                 .HasConstraintName("FK_Order_Store_StoreId")
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .HasOne(c => c.Customer)
+                .WithOne(o => o.OrderHeader)
+                .HasForeignKey<OrderHeader>(c => c.CustomerId)
+                .HasConstraintName("FK_Order_Customer_CustomerId")
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

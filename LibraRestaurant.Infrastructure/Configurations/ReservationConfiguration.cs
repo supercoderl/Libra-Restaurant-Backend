@@ -44,13 +44,15 @@ namespace LibraRestaurant.Infrastructure.Configurations
                .HasColumnType("datetime");
 
             builder
-               .Property(reservation => reservation.CustomerName);
-
-            builder
-               .Property(reservation => reservation.CustomerPhone);
+               .Property(reservation => reservation.CustomerId)
+               .HasColumnType("int");
 
             builder
                .Property(reservation => reservation.Code);
+
+            builder
+                .Property(reservation => reservation.CleaningTime)
+                .HasColumnType("datetime");
 
             builder
                 .HasOne(s => s.Store)
@@ -58,6 +60,13 @@ namespace LibraRestaurant.Infrastructure.Configurations
                 .HasForeignKey(s => s.StoreId)
                 .HasConstraintName("FK_Reservation_Store_StoreId")
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .HasOne(c => c.Customer)
+                .WithOne(r => r.Reservation)
+                .HasForeignKey<Reservation>(c => c.CustomerId)
+                .HasConstraintName("FK_Reservation_Customer_CustomerId")
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

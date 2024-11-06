@@ -20,8 +20,6 @@ namespace LibraRestaurant.Application.SortProviders
         { "storeId", reservation => reservation.StoreId },
         { "description", reservation => reservation.Description ?? string.Empty },
         { "reservationTime", reservation => reservation.ReservationTime ?? DateTime.Now },
-        { "customerName", reservation => reservation.CustomerName ?? string.Empty },
-        { "customerPhone", reservation => reservation.CustomerPhone ?? string.Empty },
     };
 
         public Dictionary<string, Expression<Func<Reservation, object>>> GetSortingExpressions()

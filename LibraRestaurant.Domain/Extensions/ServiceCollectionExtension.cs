@@ -84,6 +84,11 @@ using LibraRestaurant.Domain.Commands.Reviews.CreateReview;
 using LibraRestaurant.Domain.Commands.Reviews.DeleteReview;
 using LibraRestaurant.Shared.Events.Review;
 using LibraRestaurant.Domain.Commands.Reviews.UpdateReview;
+using LibraRestaurant.Domain.Commands.Customers.CreateCustomer;
+using LibraRestaurant.Domain.Commands.Customers.DeleteCustomer;
+using LibraRestaurant.Domain.Commands.Customers.UpdateCustomer;
+using LibraRestaurant.Shared.Events.Customer;
+using LibraRestaurant.Domain.Commands.Socials.LoginSocial;
 
 namespace LibraRestaurant.Domain.Extensions;
 
@@ -134,7 +139,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IRequestHandler<CreateReservationCommand>, CreateReservationCommandHandler>();
         services.AddScoped<IRequestHandler<UpdateReservationCommand>, UpdateReservationCommandHandler>();
         services.AddScoped<IRequestHandler<DeleteReservationCommand>, DeleteReservationCommandHandler>();
-        services.AddScoped<IRequestHandler<UpdateReservationCustomerCommand>, UpdateReservationCustomerCommandHandler>();
+        services.AddScoped<IRequestHandler<UpdateReservationCustomerCommand, int>, UpdateReservationCustomerCommandHandler>();
         services.AddScoped<IRequestHandler<GenerateQRCodeCommand>,  GenerateQRCodeCommandHandler>();
 
         // OrderLine
@@ -188,13 +193,21 @@ public static class ServiceCollectionExtension
         services.AddScoped<IRequestHandler<DeleteReviewCommand>, DeleteReviewCommandHandler>();
         services.AddScoped<IRequestHandler<UpdateReviewCommand>, UpdateReviewCommandHandler>();
 
+        //Customer
+        services.AddScoped<IRequestHandler<CreateCustomerCommand, int>, CreateCustomerCommandHandler>();
+        services.AddScoped<IRequestHandler<DeleteCustomerCommand>, DeleteCustomerCommandHandler>();
+        services.AddScoped<IRequestHandler<UpdateCustomerCommand>, UpdateCustomerCommandHandler>();
+
+        //Social
+        services.AddScoped<IRequestHandler<LoginSocialCommand, Object>, LoginSocialCommandHandler>();
+
         return services;
     }
 
     public static IServiceCollection AddNotificationHandlers(this IServiceCollection services)
     {
         // Fanout
-/*        services.AddScoped<IFanoutEventHandler, FanoutEventHandler>();*/
+        services.AddScoped<IFanoutEventHandler, FanoutEventHandler>();
 
         // User
         services.AddScoped<INotificationHandler<EmployeeCreatedEvent>, EmployeeEventHandler>();
@@ -288,6 +301,11 @@ public static class ServiceCollectionExtension
         services.AddScoped<INotificationHandler<ReviewCreatedEvent>, ReviewEventHandler>();
         services.AddScoped<INotificationHandler<ReviewDeletedEvent>, ReviewEventHandler>();
         services.AddScoped<INotificationHandler<ReviewUpdatedEvent>, ReviewEventHandler>();
+
+        //Customer
+        services.AddScoped<INotificationHandler<CustomerCreatedEvent>, CustomerEventHandler>();
+        services.AddScoped<INotificationHandler<CustomerDeletedEvent>, CustomerEventHandler>();
+        services.AddScoped<INotificationHandler<CustomerUpdatedEvent>, CustomerEventHandler>();
 
         return services;
     }

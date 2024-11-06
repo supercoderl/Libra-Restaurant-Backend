@@ -78,6 +78,11 @@ public static class ServiceCollectionExtension
             .Bind(configuration.GetSection("Auth"))
             .ValidateOnStart();
 
+        services
+            .AddOptions<GoogleSettings>()
+            .Bind(configuration.GetSection("GoogleConfiguration"))
+            .ValidateOnStart();
+
         return services;
     }
 

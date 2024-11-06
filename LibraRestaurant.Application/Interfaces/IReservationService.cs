@@ -29,6 +29,7 @@ namespace LibraRestaurant.Application.Interfaces
         public Task<int> CreateReservationAsync(CreateReservationViewModel reservation);
         public Task UpdateReservationAsync(UpdateReservationViewModel reservation);
         public Task DeleteReservationAsync(int reservationId);
-        public Task UpdateReservationCustomerAsync(UpdateReservationCustomerViewModel reservationCustomer);
+        public Task<int> UpdateReservationCustomerAsync(UpdateReservationCustomerViewModel reservationCustomer);
+        public Task<List<ReservationViewModel>> GetAllReservationsByStatusAsync(ReservationStatus status);
     }
 }

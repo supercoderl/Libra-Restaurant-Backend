@@ -1,4 +1,4 @@
-/*using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
@@ -39,8 +39,10 @@ public sealed class RabbitMqHandler : BackgroundService
         {
             AutomaticRecoveryEnabled = true,
             HostName = configuration.Host,
+            Port = configuration.Port,
             UserName = configuration.Username,
             Password = configuration.Password,
+            VirtualHost = configuration.Username,
             DispatchConsumersAsync = true
         };
 
@@ -222,4 +224,4 @@ public sealed class RabbitMqHandler : BackgroundService
             }
         }
     }
-}*/
+}

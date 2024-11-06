@@ -10,7 +10,7 @@ namespace LibraRestaurant.Application.ViewModels.Reservations
     public sealed record UpdateReservationCustomerViewModel(
         int ReservationId,
         ReservationStatus Status,
-        string? CustomerName,
-        string? CustomerPhone
+        string CustomerName,
+        string CustomerPhone
     );
 }

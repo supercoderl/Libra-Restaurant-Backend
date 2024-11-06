@@ -43,11 +43,11 @@ namespace LibraRestaurant.Api.Controllers
         SortQuery? sortQuery = null)
         {
             var categories = await _categoryService.GetAllCategoriesAsync(
-                query,
-                includeDeleted,
-                isAll,
-                searchTerm,
-                sortQuery);
+            query,
+            includeDeleted,
+            isAll,
+            searchTerm,
+            sortQuery);
             return Response(categories);
         }
 

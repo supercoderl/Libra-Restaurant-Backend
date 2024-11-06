@@ -9,5 +9,5 @@ public sealed record CreateReservationViewModel(
     Guid StoreId,
     string? Description,
     DateTime? ReservationTime,
-    string? CustomerName,
-    string? CustomerPhone);
+    int? CustomerId,
+    DateTime? CleaningTime);

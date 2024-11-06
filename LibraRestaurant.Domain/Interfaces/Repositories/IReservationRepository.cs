@@ -1,4 +1,5 @@
 ﻿using LibraRestaurant.Domain.Entities;
+using LibraRestaurant.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace LibraRestaurant.Domain.Interfaces.Repositories
     {
         Task<Reservation?> GetByReservationIdAsync(int reservationId);
         Task<Reservation?> GetByReservationTableNumberAndStoreIdAsync(int tableNumber, Guid storeId);
+        Task<List<Reservation>> GetByStatusAsync(ReservationStatus status);
     }
 }

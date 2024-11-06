@@ -1,5 +1,6 @@
 using System;
 using LibraRestaurant.Domain.Enums;
+using MediatR;
 
 namespace LibraRestaurant.Domain.Commands.Employees.UpdateEmployee;
 

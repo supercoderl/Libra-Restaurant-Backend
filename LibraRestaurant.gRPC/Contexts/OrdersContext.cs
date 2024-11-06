@@ -42,6 +42,7 @@ namespace LibraRestaurant.gRPC.Contexts
                 order.Subtotal,
                 order.Tax,
                 order.Total,
+                order.CustomerId,
                 order.IsPaid,
                 order.IsPreparationDelayed,
                 DateTime.Parse(order.DelayedTime),

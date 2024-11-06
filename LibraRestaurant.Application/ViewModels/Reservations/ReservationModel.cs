@@ -13,11 +13,12 @@ public sealed class ReservationViewModel
     public Guid StoreId { get; set; }
     public string? Description { get; set; }
     public DateTime? ReservationTime { get; set; }
-    public string? CustomerName { get; set; }
-    public string? CustomerPhone { get; set; }
+    public int? CustomerId { get; set; }
     public string? QRCode { get; set; }
+    public DateTime? CleaningTime { get; set; }
     public string? StoreName { get; set; }
     public Guid? OrderId { get; set; }
+    public string? CustomerPhone { get; set; }
 
     public static ReservationViewModel FromReservation(Reservation reservation, Guid? orderId)
     {
@@ -27,14 +28,15 @@ public sealed class ReservationViewModel
             TableNumber = reservation.TableNumber,
             Capacity = reservation.Capacity,
             Status = reservation.Status,
-            CustomerName = reservation.CustomerName,
-            CustomerPhone = reservation.CustomerPhone,
+            CustomerId = reservation.CustomerId,
             StoreId = reservation.StoreId,
             Description = reservation.Description,
             ReservationTime = reservation.ReservationTime,
             QRCode = reservation.Code,
+            CleaningTime = reservation.CleaningTime,
             StoreName = reservation?.Store?.Name,
-            OrderId = orderId
+            OrderId = orderId,
+            CustomerPhone = reservation?.Customer?.Phone
         };
     }
 }

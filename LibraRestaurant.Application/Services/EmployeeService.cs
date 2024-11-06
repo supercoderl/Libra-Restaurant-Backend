@@ -54,11 +54,11 @@ public sealed class EmployeeService : IEmployeeService
         await _bus.SendCommandAsync(new CreateEmployeeCommand(
             employeeId,
             employee.StoreId,
-            employee.Email,
+            NormalizeEmail(employee.Email),
             employee.FirstName,
             employee.LastName,
             employee.Mobile,
-            employee.Password));
+            "Password123!"));
 
         return employeeId;
     }
@@ -68,7 +68,7 @@ public sealed class EmployeeService : IEmployeeService
         await _bus.SendCommandAsync(new UpdateEmployeeCommand(
             employee.Id,
             employee.StoreId,
-            employee.Email,
+            NormalizeEmail(employee.Email),
             employee.FirstName,
             employee.LastName,
             employee.Status,
@@ -87,7 +87,7 @@ public sealed class EmployeeService : IEmployeeService
 
     public async Task<Object> LoginEmployeeAsync(LoginEmployeeViewModel viewModel)
     {
-        return await _bus.QueryAsync(new LoginEmployeeCommand(viewModel.Email, viewModel.Password));
+        return await _bus.QueryAsync(new LoginEmployeeCommand(NormalizeEmail(viewModel.Email), viewModel.Password));
     }
 
     public async Task<Object> RefreshEmployeeAsync(string refreshToken)
@@ -98,5 +98,19 @@ public sealed class EmployeeService : IEmployeeService
     public async Task<string> LogoutAsync(string refreshToken)
     {
         return await _bus.QueryAsync(new LogoutEmployeeCommand(refreshToken));
+    }
+
+    private string NormalizeEmail(string email)
+    {
+        var parts = email.Split('@');
+        if (parts.Length != 2)
+        {
+            return email;
+        }
+
+        var localPart = parts[0].Replace(".", "");
+        var domain = parts[1];
+
+        return $"{localPart}@{domain}";
     }
 }

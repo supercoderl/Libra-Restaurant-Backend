@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Text;
@@ -17,8 +14,6 @@ using Stripe.Checkout;
 using Stripe;
 using Net.payOS;
 using Net.payOS.Types;
-using LibraRestaurant.Domain.Enums;
-using Stripe.Climate;
 
 namespace LibraRestaurant.Application.Services
 {
@@ -257,6 +252,7 @@ namespace LibraRestaurant.Application.Services
             };
 
             var session = _sessionService.Create(options);
+
             await _orderService.UpdatePaymentMethodAsync(request.OrderId, request.PaymentMethodId);
 
             return session;

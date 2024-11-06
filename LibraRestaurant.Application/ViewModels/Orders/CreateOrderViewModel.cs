@@ -20,6 +20,7 @@ public sealed record CreateOrderViewModel(
         double Subtotal,
         double Tax,
         double Total,
+        int? CustomerId,
         OrderStatus LatestStatus,
         DateTime LatestStatusUpdate,
         bool IsPaid,

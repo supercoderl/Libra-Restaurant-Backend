@@ -41,9 +41,7 @@ public sealed class GetAllReservationsQueryHandler :
         if (!string.IsNullOrWhiteSpace(request.SearchTerm))
         {
             reservationsQuery = reservationsQuery.Where(reservation =>
-                (reservation.Description != null && reservation.Description.Contains(request.SearchTerm)) ||
-                (reservation.CustomerName != null && reservation.CustomerName.Contains(request.SearchTerm)) ||
-                (reservation.CustomerPhone != null && reservation.CustomerPhone.Contains(request.SearchTerm)));
+                (reservation.Description != null && reservation.Description.Contains(request.SearchTerm)));
         }
 
         var totalCount = await reservationsQuery.CountAsync(cancellationToken);

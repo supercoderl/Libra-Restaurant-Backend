@@ -16,11 +16,10 @@ using QRCoder;
 using System.Drawing;
 using System.Drawing.Imaging;
 using LibraRestaurant.Application.Queries.Reservations.GetReservationByTableNumberAndStoreId;
-using System.Text.Json;
 using LibraRestaurant.Application.Queries.Reservations.GetAllTablesRealTime;
 using System.Collections.Generic;
 using LibraRestaurant.Domain.Commands.Reservations.UpdateReservationCustomer;
-using LibraRestaurant.Domain.Commands.Reservations.GenerateQRCode;
+using LibraRestaurant.Application.Queries.Reservations.GetReservationByStatus;
 
 namespace LibraRestaurant.Application.Services
 {
@@ -90,9 +89,9 @@ namespace LibraRestaurant.Application.Services
                 reservation.StoreId,
                 reservation.Description,
                 reservation.ReservationTime,
-                reservation.CustomerName,
-                reservation.CustomerPhone,
-                qr));
+                reservation.CustomerId,
+                qr,
+                reservation.CleaningTime));
 
             return 0;
         }
@@ -128,9 +127,9 @@ namespace LibraRestaurant.Application.Services
                 reservation.StoreId,
                 reservation.Description,
                 reservation.ReservationTime,
-                reservation.CustomerName,
-                reservation.CustomerPhone,
-                QRCode));
+                reservation.CustomerId,
+                QRCode,
+                reservation.CleaningTime));
         }
 
         public async Task DeleteReservationAsync(int reservationId)
@@ -138,9 +137,9 @@ namespace LibraRestaurant.Application.Services
             await _bus.SendCommandAsync(new DeleteReservationCommand(reservationId));
         }
 
-        public async Task UpdateReservationCustomerAsync(UpdateReservationCustomerViewModel reservationCustomer)
+        public async Task<int> UpdateReservationCustomerAsync(UpdateReservationCustomerViewModel reservationCustomer)
         {
-            await _bus.SendCommandAsync(new UpdateReservationCustomerCommand(
+            return await _bus.QueryAsync(new UpdateReservationCustomerCommand(
                 reservationCustomer.ReservationId,
                 reservationCustomer.Status,
                 reservationCustomer.CustomerName,
@@ -168,6 +167,11 @@ namespace LibraRestaurant.Application.Services
                 bitmap.Save(ms, ImageFormat.Png);
                 return ms.ToArray();
             }
+        }
+
+        public async Task<List<ReservationViewModel>> GetAllReservationsByStatusAsync(ReservationStatus status)
+        {
+            return await _bus.QueryAsync(new GetReservationByStatusQuery(status));
         }
     }
 }

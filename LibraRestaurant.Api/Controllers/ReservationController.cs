@@ -112,8 +112,8 @@ namespace LibraRestaurant.Api.Controllers
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<UpdateReservationCustomerViewModel>))]
         public async Task<IActionResult> UpdateReservationCustomerAsync([FromBody] UpdateReservationCustomerViewModel viewModel)
         {
-            await _reservationService.UpdateReservationCustomerAsync(viewModel);
-            return Response(viewModel);
+            int customerId = await _reservationService.UpdateReservationCustomerAsync(viewModel);
+            return Response(customerId);
         }
     }
 }
