@@ -80,7 +80,6 @@ public sealed class UserControllerTests : IClassFixture<UserTestFixture>
             "Test",
             "Email",
             "09091234567",
-            "1234#KSAD23s",
             DateTime.Now);
 
         var response = await _fixture.ServerClient.PostAsJsonAsync("/api/v1/user", user);

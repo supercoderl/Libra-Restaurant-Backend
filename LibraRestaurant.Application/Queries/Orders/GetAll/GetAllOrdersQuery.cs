@@ -10,5 +10,6 @@ public sealed record GetAllOrdersQuery(
     PageQuery Query,
     bool IncludeDeleted,
     string SearchTerm = "",
+    string? Phone = null,
     SortQuery? SortQuery = null) :
     IRequest<PagedResult<OrderViewModel>>;

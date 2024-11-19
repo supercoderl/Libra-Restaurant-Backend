@@ -44,6 +44,12 @@ public sealed class GetAllOrdersQueryHandler :
                 (order.CustomerNotes != null && order.CustomerNotes.Contains(request.SearchTerm)));
         }
 
+        if(!string.IsNullOrEmpty(request.Phone))
+        {
+            ordersQuery = ordersQuery.Where(order =>
+                (order.Customer != null && order.Customer.Phone.Contains(request.Phone)));
+        }
+
         var totalCount = await ordersQuery.CountAsync(cancellationToken);
 
         ordersQuery = ordersQuery.GetOrderedQueryable(request.SortQuery, _sortingExpressionProvider);

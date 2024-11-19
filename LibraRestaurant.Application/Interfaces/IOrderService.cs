@@ -19,6 +19,14 @@ namespace LibraRestaurant.Application.Interfaces
             PageQuery query,
             bool includeDeleted,
             string searchTerm = "",
+            string? phone = null,
+            SortQuery? sortQuery = null);
+
+        public Task<PagedResult<OrderViewModel>> GetOrdersByPhoneAsync(
+            PageQuery query,
+            bool includeDeleted,
+            string searchTerm = "",
+            string? phone = null,
             SortQuery? sortQuery = null);
 
         public Task<Guid> CreateOrderAsync(CreateOrderViewModel order);
