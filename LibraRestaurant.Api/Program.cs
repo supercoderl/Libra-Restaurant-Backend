@@ -62,11 +62,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddCors(builder =>
 {
     builder.AddPolicy("policy", x => 
-        x.WithOrigins(
-            "http://localhost:9000",
-            "https://libra-restaurant.vercel.app",
-            "http://localhost:3000"
-            )
+        x.SetIsOriginAllowed(x => _ = true)
          .AllowAnyHeader()
          .AllowAnyMethod()
          .AllowCredentials()

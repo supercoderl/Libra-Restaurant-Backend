@@ -36,9 +36,20 @@ namespace LibraRestaurant.Application.Services
             PageQuery query,
             bool includeDeleted,
             string searchTerm = "",
+            string? phone = null,
             SortQuery? sortQuery = null)
         {
-            return await _bus.QueryAsync(new GetAllOrdersQuery(query, includeDeleted, searchTerm, sortQuery));
+            return await _bus.QueryAsync(new GetAllOrdersQuery(query, includeDeleted, searchTerm, phone, sortQuery));
+        }
+
+        public async Task<PagedResult<OrderViewModel>> GetOrdersByPhoneAsync(
+            PageQuery query,
+            bool includeDeleted,
+            string searchTerm = "",
+            string? phone = null,
+            SortQuery? sortQuery = null)
+        {
+            return await _bus.QueryAsync(new GetAllOrdersQuery(query, includeDeleted, searchTerm, phone, sortQuery));
         }
 
         public async Task<Guid> CreateOrderAsync(CreateOrderViewModel order)

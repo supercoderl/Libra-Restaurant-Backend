@@ -39,6 +39,7 @@ namespace LibraRestaurant.Api.Controllers
             [FromQuery] PageQuery query,
             [FromQuery] string searchTerm = "",
             [FromQuery] bool includeDeleted = false,
+            [FromQuery] string? phone = null,
             [FromQuery] [SortableFieldsAttribute<OrderViewModelSortProvider, OrderViewModel, OrderHeader>]
         SortQuery? sortQuery = null)
         {
@@ -46,6 +47,27 @@ namespace LibraRestaurant.Api.Controllers
                 query,
                 includeDeleted,
                 searchTerm,
+                phone,
+                sortQuery);
+            return Response(orders);
+        }
+
+        [HttpGet("customer")]
+        [SwaggerOperation("Get a list of all orders")]
+        [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<PagedResult<OrderViewModel>>))]
+        public async Task<IActionResult> GetOrdersByPhoneAsync(
+            [FromQuery] PageQuery query,
+            [FromQuery] string searchTerm = "",
+            [FromQuery] bool includeDeleted = false,
+            [FromQuery] string? phone = null,
+            [FromQuery] [SortableFieldsAttribute<OrderViewModelSortProvider, OrderViewModel, OrderHeader>]
+        SortQuery? sortQuery = null)
+        {
+            var orders = await _orderService.GetOrdersByPhoneAsync(
+                query,
+                includeDeleted,
+                searchTerm,
+                phone,
                 sortQuery);
             return Response(orders);
         }

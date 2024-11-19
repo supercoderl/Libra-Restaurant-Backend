@@ -81,6 +81,7 @@ using LibraRestaurant.Application.Queries.Customers.GetCustomerById;
 using LibraRestaurant.Application.ViewModels.Customers;
 using LibraRestaurant.Application.Queries.Customers.GetAll;
 using LibraRestaurant.Application.Queries.Reservations.GetReservationByStatus;
+using LibraRestaurant.Application.Queries.Orders.GetOrdersByPhone;
 
 namespace LibraRestaurant.Application.Extensions;
 
@@ -211,6 +212,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRequestHandler<GetAllOrdersQuery, PagedResult<OrderViewModel>>, GetAllOrdersQueryHandler>();
         services.AddScoped<IRequestHandler<GetOrderByStoreAndReservationQuery, OrderViewModel?>, GetOrderByStoreAndReservationQueryHandler>();
         services.AddScoped<IRequestHandler<CountOrderQuery, int>, CountOrderQueryHandler>();
+        services.AddScoped<IRequestHandler<GetOrdersByPhoneQuery, PagedResult<OrderViewModel>>, GetOrdersByPhoneQueryHandler>();
 
         // Store
         services.AddScoped<IRequestHandler<GetStoreByIdQuery, StoreViewModel?>, GetStoreByIdQueryHandler>();
