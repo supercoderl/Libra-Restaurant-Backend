@@ -2,7 +2,7 @@ namespace LibraRestaurant.Domain.Constants;
 
 public static class MaxLengths
 {
-    public static class User
+    public static class Employee
     {
         public const int Email = 320;
         public const int FirstName = 100;

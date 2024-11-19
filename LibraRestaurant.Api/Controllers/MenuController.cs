@@ -11,11 +11,11 @@ using Swashbuckle.AspNetCore.Annotations;
 using System.Threading.Tasks;
 using LibraRestaurant.Application.ViewModels.Menus;
 using LibraRestaurant.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraRestaurant.Api.Controllers
 {
-    [ApiController]
-    /*    [Authorize]*/
+    [ApiController] 
     [Route("/api/v1/[controller]")]
     public sealed class MenuController : ApiController
     {
@@ -56,6 +56,7 @@ namespace LibraRestaurant.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [SwaggerOperation("Create a new menu")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<int>))]
         public async Task<IActionResult> CreateMenuAsync([FromBody] CreateMenuViewModel viewModel)
@@ -65,6 +66,7 @@ namespace LibraRestaurant.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         [SwaggerOperation("Delete a menu")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<int>))]
         public async Task<IActionResult> DeleteMenuAsync([FromRoute] int id)
@@ -74,6 +76,7 @@ namespace LibraRestaurant.Api.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         [SwaggerOperation("Update a menu")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<UpdateMenuViewModel>))]
         public async Task<IActionResult> UpdateMenuAsync([FromBody] UpdateMenuViewModel viewModel)

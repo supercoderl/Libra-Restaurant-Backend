@@ -1,5 +1,5 @@
 using System;
-using LibraRestaurant.Domain.Commands.Users.CreateUser;
+using LibraRestaurant.Domain.Commands.Employees.CreateEmployee;
 using LibraRestaurant.Domain.Enums;
 using LibraRestaurant.Domain.Interfaces.Repositories;
 using NSubstitute;
@@ -8,25 +8,26 @@ namespace LibraRestaurant.Domain.Tests.CommandHandler.User.CreateUser;
 
 public sealed class CreateItemCommandTestFixture : CommandHandlerFixtureBase
 {
-    public CreateUserCommandHandler CommandHandler { get; }
-    public IUserRepository UserRepository { get; }
+    public CreateEmployeeCommandHandler CommandHandler { get; }
+    public IEmployeeRepository UserRepository { get; }
 
     public CreateItemCommandTestFixture()
     {
-        UserRepository = Substitute.For<IUserRepository>();
+        UserRepository = Substitute.For<IEmployeeRepository>();
 
-        CommandHandler = new CreateUserCommandHandler(
+        CommandHandler = new CreateEmployeeCommandHandler(
             Bus,
             UnitOfWork,
             NotificationHandler,
             UserRepository,
-            User);
+            Employee);
     }
 
-    public Entities.User SetupUser()
+    public Entities.Employee SetupUser()
     {
-        var user = new Entities.User(
+        var user = new Entities.Employee(
             Guid.NewGuid(),
+            null,
             "max@mustermann.com",
             "Max",
             "Mustermann",
@@ -45,12 +46,13 @@ public sealed class CreateItemCommandTestFixture : CommandHandlerFixtureBase
     {
         var userId = Guid.NewGuid();
 
-        User.GetUserId().Returns(userId);
+        Employee.GetEmployeeId().Returns(userId);
 
         UserRepository
             .GetByIdAsync(Arg.Is<Guid>(y => y == userId))
-            .Returns(new Entities.User(
+            .Returns(new Entities.Employee(
                 userId,
+                null,
                 "some email",
                 "some first name",
                 "some last name",

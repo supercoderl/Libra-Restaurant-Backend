@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,9 @@ namespace LibraRestaurant.Domain.Entities
         public bool IsCanceled { get; private set; }
         public DateTime? CanceledTime { get; private set; }
         public string? CanceledReason { get; private set; }
+
+        [InverseProperty("Invoice")]
+        public virtual ICollection<Discount>? Discounts { get; set; } = new List<Discount>();
 
         public Invoice(
             int invoiceId,

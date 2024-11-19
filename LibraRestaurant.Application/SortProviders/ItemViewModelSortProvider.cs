@@ -14,12 +14,12 @@ namespace LibraRestaurant.Application.SortProviders
     {
         private static readonly Dictionary<string, Expression<Func<MenuItem, object>>> s_expressions = new()
         {
-            { "title", user => user.Title },
-            { "slug", user => user.Slug },
-            { "summary", user => user.Summary ?? string.Empty },
-            { "sku", user => user.SKU },
-            { "price", user => user.Price },
-            { "quantity", user => user.Quantity },
+            { "title", item => item.Title },
+            { "slug", item => item.Slug },
+            { "summary", item => item.Summary ?? string.Empty },
+            { "sku", item => item.SKU },
+            { "price", item => item.Price },
+            { "quantity", item => item.Quantity },
             { "recipe", item => item.Recipe ?? string.Empty },
             { "instruction", item => item.Instruction ?? string.Empty },
             { "createdAt", item => item.CreatedAt },

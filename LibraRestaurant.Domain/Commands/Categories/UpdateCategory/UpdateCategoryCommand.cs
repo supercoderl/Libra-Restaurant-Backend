@@ -15,17 +15,20 @@ namespace LibraRestaurant.Domain.Commands.Categories.UpdateCategory
         public string Name { get; }
         public string? Description { get; }
         public bool IsActive { get; }
+        public string? Picture {  get; }
 
         public UpdateCategoryCommand(
             int categoryId,
             string name,
             string? description,
-            bool isActive) : base(categoryId)
+            bool isActive,
+            string? picture) : base(categoryId)
         {
             CategoryId = categoryId;
             Name = name;
             Description = description;
             IsActive = isActive;
+            Picture = picture;
         }
 
         public override bool IsValid()

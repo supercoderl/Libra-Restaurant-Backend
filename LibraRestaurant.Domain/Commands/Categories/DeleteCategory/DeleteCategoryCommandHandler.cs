@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using LibraRestaurant.Shared.Events.Menu;
+using LibraRestaurant.Shared.Events.Category;
 
 namespace LibraRestaurant.Domain.Commands.Categories.DeleteCategory
 {

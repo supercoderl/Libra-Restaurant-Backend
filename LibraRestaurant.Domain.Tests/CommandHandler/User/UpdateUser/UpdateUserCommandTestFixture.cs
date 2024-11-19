@@ -1,5 +1,5 @@
 using System;
-using LibraRestaurant.Domain.Commands.Users.UpdateUser;
+using LibraRestaurant.Domain.Commands.Employees.UpdateEmployee;
 using LibraRestaurant.Domain.Enums;
 using LibraRestaurant.Domain.Interfaces.Repositories;
 using NSubstitute;
@@ -8,25 +8,26 @@ namespace LibraRestaurant.Domain.Tests.CommandHandler.User.UpdateUser;
 
 public sealed class UpdateItemCommandTestFixture : CommandHandlerFixtureBase
 {
-    public UpdateUserCommandHandler CommandHandler { get; }
-    public IUserRepository UserRepository { get; }
+    public UpdateEmployeeCommandHandler CommandHandler { get; }
+    public IEmployeeRepository UserRepository { get; }
 
     public UpdateItemCommandTestFixture()
     {
-        UserRepository = Substitute.For<IUserRepository>();
+        UserRepository = Substitute.For<IEmployeeRepository>();
 
-        CommandHandler = new UpdateUserCommandHandler(
+        CommandHandler = new UpdateEmployeeCommandHandler(
             Bus,
             UnitOfWork,
             NotificationHandler,
             UserRepository,
-            User);
+            Employee);
     }
 
-    public Entities.User SetupUser()
+    public Entities.Employee SetupUser()
     {
-        var user = new Entities.User(
+        var user = new Entities.Employee(
             Guid.NewGuid(),
+            null,
             "max@mustermann.com",
             "Max",
             "Mustermann",
@@ -43,6 +44,6 @@ public sealed class UpdateItemCommandTestFixture : CommandHandlerFixtureBase
 
     public void SetupCurrentUser(Guid userId)
     {
-        User.GetUserId().Returns(userId);
+        Employee.GetEmployeeId().Returns(userId);
     }
 }

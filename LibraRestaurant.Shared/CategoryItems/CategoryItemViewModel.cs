@@ -6,5 +6,4 @@ public sealed record CategoryItemViewModel(
     int CategoryItemId,
     int CategoryId,
     int ItemId,
-    string? Description,
-    bool IsDeleted);
+    string? Description);

@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
-using LibraRestaurant.Domain.Commands.Users.UpdateUser;
+using LibraRestaurant.Domain.Commands.Employees.UpdateEmployee;
 using LibraRestaurant.Domain.Enums;
 using LibraRestaurant.Domain.Errors;
-using LibraRestaurant.Shared.Events.User;
+using LibraRestaurant.Shared.Events.Employee;
 using NSubstitute;
 using Xunit;
 
@@ -18,11 +18,13 @@ public sealed class UpdateItemCommandHandlerTests
     {
         var user = _fixture.SetupUser();
 
-        var command = new UpdateUserCommand(
+        var command = new UpdateEmployeeCommand(
             user.Id,
+            Guid.NewGuid(),
             "test@email.com",
             "Test",
             "Email",
+            UserStatus.Active,
             "09091234567");
 
         await _fixture.CommandHandler.Handle(command, default);
@@ -30,7 +32,7 @@ public sealed class UpdateItemCommandHandlerTests
         _fixture
             .VerifyNoDomainNotification()
             .VerifyCommit()
-            .VerifyRaisedEvent<UserUpdatedEvent>(x => x.AggregateId == command.UserId);
+            .VerifyRaisedEvent<EmployeeUpdatedEvent>(x => x.AggregateId == command.EmployeeId);
     }
 
     [Fact]
@@ -38,22 +40,24 @@ public sealed class UpdateItemCommandHandlerTests
     {
         _fixture.SetupUser();
 
-        var command = new UpdateUserCommand(
+        var command = new UpdateEmployeeCommand(
             Guid.NewGuid(),
+            null,
             "test@email.com",
             "Test",
             "Email",
+            UserStatus.Active,
             "09091234567");
 
         await _fixture.CommandHandler.Handle(command, default);
 
         _fixture
             .VerifyNoCommit()
-            .VerifyNoRaisedEvent<UserUpdatedEvent>()
+            .VerifyNoRaisedEvent<EmployeeUpdatedEvent>()
             .VerifyAnyDomainNotification()
             .VerifyExistingNotification(
                 ErrorCodes.ObjectNotFound,
-                $"There is no user with Id {command.UserId}");
+                $"There is no user with Id {command.EmployeeId}");
     }
 
     [Fact]
@@ -61,17 +65,20 @@ public sealed class UpdateItemCommandHandlerTests
     {
         var user = _fixture.SetupUser();
 
-        var command = new UpdateUserCommand(
+        var command = new UpdateEmployeeCommand(
             user.Id,
+            null,
             "test@email.com",
             "Test",
             "Email",
+            UserStatus.Active,
             "09091234567");
 
         _fixture.UserRepository
             .GetByEmailAsync(command.Email)
-            .Returns(new Entities.User(
+            .Returns(new Entities.Employee(
                 Guid.NewGuid(),
+                null,
                 command.Email,
                 "Some",
                 "User",
@@ -83,10 +90,10 @@ public sealed class UpdateItemCommandHandlerTests
 
         _fixture
             .VerifyNoCommit()
-            .VerifyNoRaisedEvent<UserUpdatedEvent>()
+            .VerifyNoRaisedEvent<EmployeeUpdatedEvent>()
             .VerifyAnyDomainNotification()
             .VerifyExistingNotification(
-                DomainErrorCodes.User.AlreadyExists,
+                DomainErrorCodes.Employee.AlreadyExists,
                 $"There is already a user with email {command.Email}");
     }
 
@@ -96,24 +103,26 @@ public sealed class UpdateItemCommandHandlerTests
         var user = _fixture.SetupUser();
         _fixture.SetupCurrentUser(user.Id);
 
-        var command = new UpdateUserCommand(
+        var command = new UpdateEmployeeCommand(
             user.Id,
+            null,
             "test@email.com",
             "Test",
             "Email",
+            UserStatus.Active,
             "09091234567");
 
         await _fixture.CommandHandler.Handle(command, default);
 
-        _fixture.UserRepository.Received(1).Update(Arg.Is<Entities.User>(u =>
+        _fixture.UserRepository.Received(1).Update(Arg.Is<Entities.Employee>(u =>
             u.Mobile == user.Mobile &&
-            u.Id == command.UserId &&
+            u.Id == command.EmployeeId &&
             u.Email == command.Email &&
             u.FirstName == command.FirstName));
 
         _fixture
             .VerifyNoDomainNotification()
             .VerifyCommit()
-            .VerifyRaisedEvent<UserUpdatedEvent>(x => x.AggregateId == command.UserId);
+            .VerifyRaisedEvent<EmployeeUpdatedEvent>(x => x.AggregateId == command.EmployeeId);
     }
 }

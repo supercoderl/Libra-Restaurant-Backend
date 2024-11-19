@@ -26,7 +26,7 @@ public sealed class StoredDomainNotificationConfiguration : IEntityTypeConfigura
         builder.Property(c => c.SerializedData)
             .IsRequired();
 
-        builder.Property(c => c.User)
+        builder.Property(c => c.Employee)
             .IsRequired()
             .HasMaxLength(100);
 

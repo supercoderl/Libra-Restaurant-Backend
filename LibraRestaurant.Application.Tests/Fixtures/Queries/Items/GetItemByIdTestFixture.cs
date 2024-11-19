@@ -1,5 +1,4 @@
 ﻿using LibraRestaurant.Application.Queries.MenuItems.GetById;
-using LibraRestaurant.Application.Queries.Users.GetUserById;
 using LibraRestaurant.Domain.Entities;
 using LibraRestaurant.Domain.Interfaces.Repositories;
 using MockQueryable.NSubstitute;
@@ -33,6 +32,7 @@ namespace LibraRestaurant.Application.Tests.Fixtures.Queries.Items
                 "Test",
                 "Test",
                 "Test",
+                null,
                 0,
                 0,
                 "Test",
@@ -51,6 +51,7 @@ namespace LibraRestaurant.Application.Tests.Fixtures.Queries.Items
                 "Test",
                 "Test",
                 "Test",
+                null,
                 0,
                 0,
                 "Test",

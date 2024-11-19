@@ -17,7 +17,7 @@ namespace LibraRestaurant.Infrastructure.Migrations.EventStoreDb
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Data = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    User = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Employee = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CorrelationId = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     AggregateId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AggregateNumberId = table.Column<int>(type: "int", nullable: false),

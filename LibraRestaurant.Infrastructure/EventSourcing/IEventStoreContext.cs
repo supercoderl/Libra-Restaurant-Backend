@@ -2,6 +2,6 @@
 
 public interface IEventStoreContext
 {
-    public string GetUserEmail();
+    public string GetEmployeeEmail();
     public string GetCorrelationId();
 }

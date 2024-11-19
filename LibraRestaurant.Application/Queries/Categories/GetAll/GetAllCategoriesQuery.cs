@@ -8,6 +8,7 @@ namespace LibraRestaurant.Application.Queries.Categories.GetAll;
 public sealed record GetAllCategoriesQuery(
     PageQuery Query,
     bool IncludeDeleted,
+    bool IsAll,
     string SearchTerm = "",
     SortQuery? SortQuery = null) :
     IRequest<PagedResult<CategoryViewModel>>;

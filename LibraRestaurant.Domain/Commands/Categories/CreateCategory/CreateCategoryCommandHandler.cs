@@ -34,7 +34,8 @@ namespace LibraRestaurant.Domain.Commands.Categories.CreateCategory
                 request.CategoryId,
                 request.Name,
                 request.Description,
-                request.IsActive);
+                request.IsActive,
+                request.Picture);
 
             _categoryRepository.Add(category);
 

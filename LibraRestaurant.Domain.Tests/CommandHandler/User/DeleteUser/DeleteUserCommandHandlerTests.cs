@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using LibraRestaurant.Domain.Commands.Users.DeleteUser;
+using LibraRestaurant.Domain.Commands.Employees.DeleteEmployee;
 using LibraRestaurant.Domain.Errors;
-using LibraRestaurant.Shared.Events.User;
+using LibraRestaurant.Shared.Events.Employee;
 using Xunit;
 
 namespace LibraRestaurant.Domain.Tests.CommandHandler.User.DeleteUser;
@@ -16,14 +16,14 @@ public sealed class DeleteItemCommandHandlerTests
     {
         var user = _fixture.SetupUser();
 
-        var command = new DeleteUserCommand(user.Id);
+        var command = new DeleteEmployeeCommand(user.Id);
 
         await _fixture.CommandHandler.Handle(command, default);
 
         _fixture
             .VerifyNoDomainNotification()
             .VerifyCommit()
-            .VerifyRaisedEvent<UserDeletedEvent>(x => x.AggregateId == user.Id);
+            .VerifyRaisedEvent<EmployeeDeletedEvent>(x => x.AggregateId == user.Id);
     }
 
     [Fact]
@@ -31,17 +31,17 @@ public sealed class DeleteItemCommandHandlerTests
     {
         _fixture.SetupUser();
 
-        var command = new DeleteUserCommand(Guid.NewGuid());
+        var command = new DeleteEmployeeCommand(Guid.NewGuid());
 
         await _fixture.CommandHandler.Handle(command, default);
 
         _fixture
             .VerifyNoCommit()
-            .VerifyNoRaisedEvent<UserDeletedEvent>()
+            .VerifyNoRaisedEvent<EmployeeDeletedEvent>()
             .VerifyAnyDomainNotification()
             .VerifyExistingNotification(
                 ErrorCodes.ObjectNotFound,
-                $"There is no user with Id {command.UserId}");
+                $"There is no user with Id {command.EmployeeId}");
     }
 
     [Fact]
@@ -49,16 +49,16 @@ public sealed class DeleteItemCommandHandlerTests
     {
         var user = _fixture.SetupUser();
 
-        var command = new DeleteUserCommand(user.Id);
+        var command = new DeleteEmployeeCommand(user.Id);
 
         await _fixture.CommandHandler.Handle(command, default);
 
         _fixture
             .VerifyNoCommit()
-            .VerifyNoRaisedEvent<UserDeletedEvent>()
+            .VerifyNoRaisedEvent<EmployeeDeletedEvent>()
             .VerifyAnyDomainNotification()
             .VerifyExistingNotification(
                 ErrorCodes.InsufficientPermissions,
-                $"No permission to delete user {command.UserId}");
+                $"No permission to delete user {command.EmployeeId}");
     }
 }

@@ -11,18 +11,19 @@ namespace LibraRestaurant.gRPC.Tests.Fixtures;
 
 public sealed class UserTestFixture
 {
-    private IUserRepository UserRepository { get; } = Substitute.For<IUserRepository>();
+    private IEmployeeRepository UserRepository { get; } = Substitute.For<IEmployeeRepository>();
 
-    public UsersApiImplementation UsersApiImplementation { get; }
+    public EmployeesApiImplementation UsersApiImplementation { get; }
 
-    public IEnumerable<User> ExistingUsers { get; }
+    public IEnumerable<Employee> ExistingUsers { get; }
 
     public UserTestFixture()
     {
-        ExistingUsers = new List<User>
+        ExistingUsers = new List<Employee>
         {
             new(
                 Guid.NewGuid(),
+                null,
                 "test@test.de",
                 "Test First Name",
                 "Test Last Name",
@@ -31,6 +32,7 @@ public sealed class UserTestFixture
                 DateTime.Now),
             new(
                 Guid.NewGuid(),
+                null,
                 "email@Email.de",
                 "Email First Name",
                 "Email Last Name",
@@ -39,6 +41,7 @@ public sealed class UserTestFixture
                 DateTime.Now),
             new(
                 Guid.NewGuid(),
+                null,
                 "user@user.de",
                 "User First Name",
                 "User Last Name",
@@ -51,6 +54,6 @@ public sealed class UserTestFixture
 
         UserRepository.GetAllNoTracking().Returns(queryable);
 
-        UsersApiImplementation = new UsersApiImplementation(UserRepository);
+        UsersApiImplementation = new EmployeesApiImplementation(UserRepository);
     }
 }

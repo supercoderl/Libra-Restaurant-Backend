@@ -34,7 +34,7 @@ public sealed class DomainEventStore : IDomainEventStore
                 var storedDomainNotification = new StoredDomainNotification(
                     d,
                     serializedData,
-                    _context.GetUserEmail(),
+                    _context.GetEmployeeEmail(),
                     _context.GetCorrelationId());
 
                 _domainNotificationStoreDbContext.StoredDomainNotifications.Add(storedDomainNotification);
@@ -45,7 +45,7 @@ public sealed class DomainEventStore : IDomainEventStore
                 var storedDomainEvent = new StoredDomainEvent(
                     domainEvent,
                     serializedData,
-                    _context.GetUserEmail(),
+                    _context.GetEmployeeEmail(),
                     _context.GetCorrelationId());
 
                 _eventStoreDbContext.StoredDomainEvents.Add(storedDomainEvent);

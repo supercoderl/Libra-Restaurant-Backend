@@ -1,4 +1,5 @@
 ﻿using LibraRestaurant.gRPC.Interfaces;
+using LibraRestaurant.Proto.Menus;
 using LibraRestaurant.Shared.Menus;
 using System;
 using System.Collections.Generic;

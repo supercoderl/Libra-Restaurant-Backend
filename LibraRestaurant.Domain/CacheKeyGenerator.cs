@@ -14,4 +14,9 @@ public static class CacheKeyGenerator
     {
         return $"{typeof(TEntity)}-{id}";
     }
+
+    public static string GetEntityCacheKey<TEntity>(int id) where TEntity : Entity
+    {
+        return $"{typeof(TEntity)}-{id}";
+    }
 }

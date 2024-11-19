@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using LibraRestaurant.Shared.Events.MenuItem;
 using LibraRestaurant.Shared.Events.Menu;
+using LibraRestaurant.Shared.Events.Category;
 
 namespace LibraRestaurant.Domain.Commands.Categories.UpdateCategory
 {
@@ -51,6 +52,7 @@ namespace LibraRestaurant.Domain.Commands.Categories.UpdateCategory
             category.SetName(request.Name);
             category.SetDescription(request.Description);
             category.SetActive(request.IsActive);
+            category.SetPicture(request.Picture);
 
             _categoryRepository.Update(category);
 

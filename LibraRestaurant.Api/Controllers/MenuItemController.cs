@@ -11,11 +11,12 @@ using Swashbuckle.AspNetCore.Annotations;
 using System.Threading.Tasks;
 using LibraRestaurant.Application.ViewModels.MenuItems;
 using LibraRestaurant.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace LibraRestaurant.Api.Controllers
 {
     [ApiController]
-/*    [Authorize]*/
     [Route("/api/v1/[controller]")]
     public sealed class ItemController : ApiController
     {
@@ -36,13 +37,15 @@ namespace LibraRestaurant.Api.Controllers
             [FromQuery] string searchTerm = "",
             [FromQuery] bool includeDeleted = false,
             [FromQuery] [SortableFieldsAttribute<ItemViewModelSortProvider, ItemViewModel, MenuItem>]
-        SortQuery? sortQuery = null)
+        SortQuery? sortQuery = null,
+            [FromQuery] int categoryId = -1)
         {
             var items = await _itemService.GetAllItemsAsync(
                 query,
                 includeDeleted,
                 searchTerm,
-                sortQuery);
+                sortQuery,
+                categoryId);
             return Response(items);
         }
 
@@ -55,7 +58,17 @@ namespace LibraRestaurant.Api.Controllers
             return Response(item);
         }
 
+        [HttpGet("slug/{slug}")]
+        [SwaggerOperation("Get a item by slug")]
+        [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<ItemViewModel>))]
+        public async Task<IActionResult> GetItemBySlugAsync([FromRoute] string slug)
+        {
+            var item = await _itemService.GetItemBySlugAsync(slug);
+            return Response(item);
+        }
+
         [HttpPost]
+        [Authorize]
         [SwaggerOperation("Create a new item")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<int>))]
         public async Task<IActionResult> CreateItemAsync([FromBody] CreateItemViewModel viewModel)
@@ -65,6 +78,7 @@ namespace LibraRestaurant.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         [SwaggerOperation("Delete a item")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<int>))]
         public async Task<IActionResult> DeleteItemAsync([FromRoute] int id)
@@ -74,12 +88,20 @@ namespace LibraRestaurant.Api.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         [SwaggerOperation("Update a item")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<UpdateItemViewModel>))]
         public async Task<IActionResult> UpdateItemAsync([FromBody] UpdateItemViewModel viewModel)
         {
-            await _itemService.UpdateItemAsync(viewModel);
-            return Response(viewModel);
+            try
+            {
+                await _itemService.UpdateItemAsync(viewModel);
+                return Response(viewModel);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
         }
     }
 }

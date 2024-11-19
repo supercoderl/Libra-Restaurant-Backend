@@ -45,6 +45,7 @@ namespace LibraRestaurant.Application.gRPC
                     Quantity = item.Quantity,
                     Recipe = item.Recipe,
                     Instruction = item.Instruction,
+                    Picture = item.Picture,
                     IsDeleted = item.Deleted
                 })
                 .ToListAsync();

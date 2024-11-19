@@ -1,12 +1,12 @@
 using System;
 using System.Threading.Tasks;
+using LibraRestaurant.Domain.Commands.Employees.DeleteEmployee;
 using LibraRestaurant.Domain.Commands.MenuItems.DeleteItem;
-using LibraRestaurant.Domain.Commands.Users.DeleteUser;
 using LibraRestaurant.Domain.DomainEvents;
 using LibraRestaurant.Domain.EventHandler.Fanout;
 using LibraRestaurant.Domain.Notifications;
+using LibraRestaurant.Shared.Events.Employee;
 using LibraRestaurant.Shared.Events.MenuItem;
-using LibraRestaurant.Shared.Events.User;
 using MediatR;
 using NSubstitute;
 using Xunit;
@@ -44,11 +44,11 @@ public sealed class InMemoryBusTests
 
         var inMemoryBus = new InMemoryBus(mediator, domainEventStore, fanoutEventHandler);
 
-        var userDeletedEvent = new UserDeletedEvent(Guid.NewGuid());
+        var userDeletedEvent = new EmployeeDeletedEvent(Guid.NewGuid());
 
         await inMemoryBus.RaiseEventAsync(userDeletedEvent);
 
-        await mediator.Received(1).Publish(Arg.Is<UserDeletedEvent>(x => x.Equals(userDeletedEvent)));
+        await mediator.Received(1).Publish(Arg.Is<EmployeeDeletedEvent>(x => x.Equals(userDeletedEvent)));
 
         var itemDeletedEvent = new ItemDeletedEvent(0);
 
@@ -64,18 +64,18 @@ public sealed class InMemoryBusTests
         var domainEventStore = Substitute.For<IDomainEventStore>();
         var fanoutEventHandler = Substitute.For<IFanoutEventHandler>();
 
-        var inMemoryBus = new InMemoryBus(mediator, domainEventStore, fanoutEventHandler);
+        var inMemoryBus = new InMemoryBus(mediator, domainEventStore, fanoutEventHandler); //remember add fanoutEventHandler
 
-        var deleteUserCommand = new DeleteUserCommand(Guid.NewGuid());
+        var deleteUserCommand = new DeleteEmployeeCommand(Guid.NewGuid());
 
         await inMemoryBus.SendCommandAsync(deleteUserCommand);
 
-        await mediator.Received(1).Send(Arg.Is<DeleteUserCommand>(x => x.Equals(deleteUserCommand)));
+        await mediator.Received(1).Send(Arg.Is<DeleteEmployeeCommand>(x => x.Equals(deleteUserCommand)));
 
         var deleteItemCommand = new DeleteItemCommand(0);
 
         await inMemoryBus.SendCommandAsync(deleteItemCommand);
 
-        await mediator.Received(1).Send(Arg.Is<DeleteUserCommand>(x => x.Equals(deleteItemCommand)));
+        await mediator.Received(1).Send(Arg.Is<DeleteEmployeeCommand>(x => x.Equals(deleteItemCommand)));
     }
 }

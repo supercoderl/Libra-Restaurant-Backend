@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using LibraRestaurant.Domain.Interfaces.Repositories;
+using LibraRestaurant.Proto.Currencies;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace LibraRestaurant.Application.gRPC
             var currencies = await _currencyRepository
                 .GetAllNoTracking()
                 .IgnoreQueryFilters()
-                .Where(currency => idsAsIntegers.Contains(menu.CurrencyId))
+                .Where(currency => idsAsIntegers.Contains(currency.CurrencyId))
                 .Select(currency => new GrpcCurrency
                 {
                     Id = currency.CurrencyId,
@@ -42,7 +43,7 @@ namespace LibraRestaurant.Application.gRPC
                 })
                 .ToListAsync();
 
-            var result = new GetCurrencysByIdsResult();
+            var result = new GetCurrenciesByIdsResult();
 
             result.Currencies.AddRange(currencies);
 

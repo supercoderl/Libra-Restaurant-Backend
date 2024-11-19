@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,12 +14,20 @@ namespace LibraRestaurant.Domain.Entities
         public int ItemId { get; private set; }
         public string? Description { get; private set; }
 
+        [ForeignKey("CategoryId")]
+        [InverseProperty("CategoryItems")]
+        public virtual Category? Category { get; set; }
+
+        [ForeignKey("ItemId")]
+        [InverseProperty("CategoryItems")]
+        public virtual MenuItem? Item { get; set; }
+
         public CategoryItem(
             int categoryItemId,
             int categoryId,
             int itemId,
             string? description
-        ) : base( categoryItemId )
+        ) : base( categoryItemId)
         {
             CategoryItemId = categoryItemId;
             CategoryId = categoryId;

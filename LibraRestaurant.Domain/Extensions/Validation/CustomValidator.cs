@@ -23,13 +23,13 @@ public static partial class CustomValidator
         int maxLength = 50)
     {
         var options = ruleBuilder
-            .NotEmpty().WithErrorCode(DomainErrorCodes.User.EmptyPassword)
-            .MinimumLength(minLength).WithErrorCode(DomainErrorCodes.User.ShortPassword)
-            .MaximumLength(maxLength).WithErrorCode(DomainErrorCodes.User.LongPassword)
-            .Matches("[A-Z]").WithErrorCode(DomainErrorCodes.User.UppercaseLetterPassword)
-            .Matches("[a-z]").WithErrorCode(DomainErrorCodes.User.LowercaseLetterPassword)
-            .Matches("[0-9]").WithErrorCode(DomainErrorCodes.User.NumberPassword)
-            .Matches("[^a-zA-Z0-9]").WithErrorCode(DomainErrorCodes.User.SpecialCharPassword);
+            .NotEmpty().WithErrorCode(DomainErrorCodes.Employee.EmptyPassword)
+            .MinimumLength(minLength).WithErrorCode(DomainErrorCodes.Employee.ShortPassword)
+            .MaximumLength(maxLength).WithErrorCode(DomainErrorCodes.Employee.LongPassword)
+            .Matches("[A-Z]").WithErrorCode(DomainErrorCodes.Employee.UppercaseLetterPassword)
+            .Matches("[a-z]").WithErrorCode(DomainErrorCodes.Employee.LowercaseLetterPassword)
+            .Matches("[0-9]").WithErrorCode(DomainErrorCodes.Employee.NumberPassword)
+            .Matches("[^a-zA-Z0-9]").WithErrorCode(DomainErrorCodes.Employee.SpecialCharPassword);
         return options;
     }
 

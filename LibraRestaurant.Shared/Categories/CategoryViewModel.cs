@@ -7,4 +7,5 @@ public sealed record CategoryViewModel(
     string Name,
     string? Description,
     bool IsActive,
+    string? Picture,
     bool IsDeleted);

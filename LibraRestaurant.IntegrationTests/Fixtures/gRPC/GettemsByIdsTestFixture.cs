@@ -40,6 +40,7 @@ namespace LibraRestaurant.IntegrationTests.Fixtures.gRPC
                 "Test",
                 "Test",
                 "Test",
+                null,
                 0,
                 0,
                 "Test",

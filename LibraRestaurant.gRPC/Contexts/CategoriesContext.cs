@@ -13,7 +13,7 @@ namespace LibraRestaurant.gRPC.Contexts
     {
         private readonly CategoriesApi.CategoriesApiClient _client;
 
-        public CategoriesContext(CategoriesApi.MenusApiClient client)
+        public CategoriesContext(CategoriesApi.CategoriesApiClient client)
         {
             _client = client;
         }
@@ -26,12 +26,13 @@ namespace LibraRestaurant.gRPC.Contexts
 
             var result = await _client.GetByIdsAsync(request);
 
-            return result.Menus.Select(menu => new CategoryViewModel(
-                menu.Id,
-                menu.Name,
-                menu.Description,
-                menu.IsActive,
-                menu.IsDeleted));
+            return result.Categories.Select(category => new CategoryViewModel(
+                category.Id,
+                category.Name,
+                category.Description,
+                category.IsActive,
+                category.Picture,
+                category.IsDeleted));
         }
     }
 }

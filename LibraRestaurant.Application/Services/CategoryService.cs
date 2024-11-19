@@ -1,17 +1,8 @@
 ﻿using LibraRestaurant.Application.Interfaces;
-using LibraRestaurant.Application.Queries.Currencies.GetAll;
-using LibraRestaurant.Application.Queries.Currencies.GetCurrencyById;
-using LibraRestaurant.Application.ViewModels.Currencies;
 using LibraRestaurant.Application.ViewModels.Sorting;
 using LibraRestaurant.Application.ViewModels;
-using LibraRestaurant.Domain.Commands.Currencies.CreateCurrency;
-using LibraRestaurant.Domain.Commands.Currencies.DeleteCurrency;
-using LibraRestaurant.Domain.Commands.Currencies.UpdateCurrency;
 using LibraRestaurant.Domain.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using LibraRestaurant.Application.Queries.Categories.GetCategoryById;
 using LibraRestaurant.Application.Queries.Categories.GetAll;
@@ -25,10 +16,12 @@ namespace LibraRestaurant.Application.Services
     public class CategoryService : ICategoryService
     {
         private readonly IMediatorHandler _bus;
+        private readonly IImageService _imageService;
 
-        public CategoryService(IMediatorHandler bus)
+        public CategoryService(IMediatorHandler bus, IImageService imageService)
         {
             _bus = bus;
+            _imageService = imageService;
         }
 
         public async Task<CategoryViewModel?> GetCategoryByIdAsync(int categoryId)
@@ -39,30 +32,45 @@ namespace LibraRestaurant.Application.Services
         public async Task<PagedResult<CategoryViewModel>> GetAllCategoriesAsync(
             PageQuery query,
             bool includeDeleted,
+            bool isAll,
             string searchTerm = "",
             SortQuery? sortQuery = null)
         {
-            return await _bus.QueryAsync(new GetAllCategoriesQuery(query, includeDeleted, searchTerm, sortQuery));
+            return await _bus.QueryAsync(new GetAllCategoriesQuery(query, includeDeleted, isAll, searchTerm, sortQuery));
         }
 
         public async Task<int> CreateCategoryAsync(CreateCategoryViewModel category)
         {
+            string? path = null;
+            if (category.Base64 is not null)
+            {
+                path = await _imageService.UploadFile(category.Base64, string.Concat("Category-", DateTime.Now.Date.ToString("dd-MM-yyyy")), "Restaurant/Categories");
+            }
+
             await _bus.SendCommandAsync(new CreateCategoryCommand(
                 0,
                 category.Name,
                 category.Description,
-                true));
+                true,
+                path));
 
             return 0;
         }
 
         public async Task UpdateCategoryAsync(UpdateCategoryViewModel category)
         {
+            string? path = null;
+            if (category.Base64 is not null)
+            {
+                path = await _imageService.UploadFile(category.Base64, string.Concat("Category-", DateTime.Now.Date.ToString("dd-MM-yyyy")), "Restaurant/Categories");
+            }
+
             await _bus.SendCommandAsync(new UpdateCategoryCommand(
                 category.CategoryId,
                 category.Name,
                 category.Description,
-                category.IsActive));
+                category.IsActive,
+                category.Base64 is not null ? path : category.Picture));
         }
 
         public async Task DeleteCategoryAsync(int categoryId)

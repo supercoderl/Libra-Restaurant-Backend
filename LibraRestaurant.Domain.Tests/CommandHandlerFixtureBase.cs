@@ -13,16 +13,16 @@ public class CommandHandlerFixtureBase
     protected IMediatorHandler Bus { get; }
     protected IUnitOfWork UnitOfWork { get; }
     protected DomainNotificationHandler NotificationHandler { get; }
-    protected IUser User { get; }
+    protected IEmployee Employee { get; }
 
     protected CommandHandlerFixtureBase()
     {
         Bus = Substitute.For<IMediatorHandler>();
         UnitOfWork = Substitute.For<IUnitOfWork>();
         NotificationHandler = Substitute.For<DomainNotificationHandler>();
-        User = Substitute.For<IUser>();
+        Employee = Substitute.For<IEmployee>();
 
-        User.GetUserId().Returns(Guid.NewGuid());
+        Employee.GetEmployeeId().Returns(Guid.NewGuid());
 
         UnitOfWork.CommitAsync().Returns(true);
     }

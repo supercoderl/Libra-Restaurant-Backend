@@ -23,6 +23,7 @@ namespace LibraRestaurant.Infrastructure.Configurations
 
             builder
                 .Property(menu => menu.StoreId)
+                .HasColumnType("uniqueidentifier")
                 .IsRequired();
 
             builder
@@ -33,12 +34,12 @@ namespace LibraRestaurant.Infrastructure.Configurations
                 .IsRequired()
                 .HasColumnType("bit");
 
-            builder.HasData(new Menu(
-                Ids.Seed.NumberId,
-                Guid.NewGuid(),
-                "Menu nhà hàng Libra chi nhánh 1",
-                null,
-                true));
+            builder
+                .HasOne(s => s.Store)
+                .WithMany(m => m.Menus)
+                .HasForeignKey(s => s.StoreId)
+                .HasConstraintName("FK_Menu_Store_StoreId")
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

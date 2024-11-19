@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LibraRestaurant.gRPC.Tests.Fixtures;
-using LibraRestaurant.Proto.Users;
+using LibraRestaurant.Proto.Employees;
 using FluentAssertions;
 using Xunit;
 
@@ -25,7 +25,7 @@ public sealed class GetUsersByIdsTests : IClassFixture<UserTestFixture>
             SetupRequest(Enumerable.Empty<Guid>()),
             default!);
 
-        result.Users.Should().HaveCount(0);
+        result.Employees.Should().HaveCount(0);
     }
 
     [Fact]
@@ -44,9 +44,9 @@ public sealed class GetUsersByIdsTests : IClassFixture<UserTestFixture>
             SetupRequest(ids),
             default!);
 
-        result.Users.Should().HaveCount(2);
+        result.Employees.Should().HaveCount(2);
 
-        foreach (var user in result.Users)
+        foreach (var user in result.Employees)
         {
             var userId = Guid.Parse(user.Id);
 
@@ -62,9 +62,9 @@ public sealed class GetUsersByIdsTests : IClassFixture<UserTestFixture>
         }
     }
 
-    private static GetUsersByIdsRequest SetupRequest(IEnumerable<Guid> ids)
+    private static GetEmployeesByIdsRequest SetupRequest(IEnumerable<Guid> ids)
     {
-        var request = new GetUsersByIdsRequest();
+        var request = new GetEmployeesByIdsRequest();
 
         request.Ids.AddRange(ids.Select(id => id.ToString()));
         request.Ids.Add("Not a guid");
