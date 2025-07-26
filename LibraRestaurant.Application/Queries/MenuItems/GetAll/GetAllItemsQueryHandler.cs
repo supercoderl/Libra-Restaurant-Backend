@@ -1,4 +1,4 @@
-﻿using LibraRestaurant.Application.Queries.Users.GetAll;
+﻿
 using LibraRestaurant.Application.ViewModels.Sorting;
 using LibraRestaurant.Application.ViewModels;
 using LibraRestaurant.Domain.Interfaces.Repositories;
@@ -51,11 +51,17 @@ namespace LibraRestaurant.Application.Queries.MenuItems.GetAll
                 );
             }
 
+            if(request.CategoryId != -1)
+            {
+                itemsQuery = itemsQuery.Where(item => item.CategoryItems != null && item.CategoryItems.Where(categoryItem => categoryItem.CategoryId == request.CategoryId).Any());
+            }
+
             var totalCount = await itemsQuery.CountAsync(cancellationToken);
 
             itemsQuery = itemsQuery.GetOrderedQueryable(request.SortQuery, _sortingExpressionProvider);
 
             var items = await itemsQuery
+                .OrderByDescending(x => x.CreatedAt)
                 .Skip((request.Query.Page - 1) * request.Query.PageSize)
                 .Take(request.Query.PageSize)
                 .Select(item => ItemViewModel.FromItem(item))

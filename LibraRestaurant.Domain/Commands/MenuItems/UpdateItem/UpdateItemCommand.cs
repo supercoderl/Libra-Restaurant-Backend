@@ -1,4 +1,4 @@
-﻿using LibraRestaurant.Domain.Commands.Users.UpdateUser;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +19,9 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.UpdateItem
         public double Price { get; }
         public int Quantity { get; }
         public string? Recipe { get; }
+        public string? Picture { get; }
         public string? Instruction { get; }
+        public List<int> CategoryIds { get; }
 
         public UpdateItemCommand(
             int itemId,
@@ -30,7 +32,9 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.UpdateItem
             double price,
             int quantity,
             string? recipe,
-            string? instruction) : base(itemId)
+            string? picture,
+            string? instruction,
+            List<int> categoryIds) : base(itemId)
         {
             ItemId = itemId;
             Title = title;
@@ -40,7 +44,9 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.UpdateItem
             Price = price;
             Quantity = quantity;
             Recipe = recipe;
+            Picture = picture;
             Instruction = instruction;
+            CategoryIds = categoryIds;
         }
 
         public override bool IsValid()

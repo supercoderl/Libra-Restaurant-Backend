@@ -1,4 +1,4 @@
-﻿using LibraRestaurant.Application.Queries.Users.GetUserById;
+﻿
 using LibraRestaurant.Domain.Errors;
 using LibraRestaurant.Domain.Interfaces.Repositories;
 using LibraRestaurant.Domain.Interfaces;

@@ -13,11 +13,12 @@ using Swashbuckle.AspNetCore.Annotations;
 using System.Threading.Tasks;
 using LibraRestaurant.Application.ViewModels.Categories;
 using LibraRestaurant.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 namespace LibraRestaurant.Api.Controllers
 {
     [ApiController]
-    /*    [Authorize]*/
     [Route("/api/v1/[controller]")]
     public sealed class CategoryController : ApiController
     {
@@ -36,15 +37,17 @@ namespace LibraRestaurant.Api.Controllers
         public async Task<IActionResult> GetAllMenusAsync(
             [FromQuery] PageQuery query,
             [FromQuery] string searchTerm = "",
+            [FromQuery] bool isAll = false,
             [FromQuery] bool includeDeleted = false,
             [FromQuery] [SortableFieldsAttribute<CategoryViewModelSortProvider, CategoryViewModel, Category>]
         SortQuery? sortQuery = null)
         {
             var categories = await _categoryService.GetAllCategoriesAsync(
-                query,
-                includeDeleted,
-                searchTerm,
-                sortQuery);
+            query,
+            includeDeleted,
+            isAll,
+            searchTerm,
+            sortQuery);
             return Response(categories);
         }
 
@@ -58,6 +61,7 @@ namespace LibraRestaurant.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [SwaggerOperation("Create a new category")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<int>))]
         public async Task<IActionResult> CreateMenuAsync([FromBody] CreateCategoryViewModel viewModel)
@@ -67,6 +71,7 @@ namespace LibraRestaurant.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         [SwaggerOperation("Delete a category")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<int>))]
         public async Task<IActionResult> DeleteCategoryAsync([FromRoute] int id)
@@ -76,6 +81,7 @@ namespace LibraRestaurant.Api.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         [SwaggerOperation("Update a category")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<UpdateCategoryViewModel>))]
         public async Task<IActionResult> UpdateCategoryAsync([FromBody] UpdateCategoryViewModel viewModel)

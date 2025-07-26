@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using LibraRestaurant.Domain.Commands.Users.ChangePassword;
+using LibraRestaurant.Domain.Commands.Employees.ChangePassword;
 using LibraRestaurant.Domain.Errors;
-using LibraRestaurant.Shared.Events.User;
+using LibraRestaurant.Shared.Events.Employee;
 using Xunit;
 
 namespace LibraRestaurant.Domain.Tests.CommandHandler.User.ChangePassword;
@@ -36,7 +36,7 @@ public sealed class ChangePasswordCommandHandlerTests
 
         _fixture
             .VerifyNoCommit()
-            .VerifyNoRaisedEvent<UserUpdatedEvent>()
+            .VerifyNoRaisedEvent<EmployeeUpdatedEvent>()
             .VerifyAnyDomainNotification()
             .VerifyExistingNotification(
                 ErrorCodes.ObjectNotFound,
@@ -54,10 +54,10 @@ public sealed class ChangePasswordCommandHandlerTests
 
         _fixture
             .VerifyNoCommit()
-            .VerifyNoRaisedEvent<UserUpdatedEvent>()
+            .VerifyNoRaisedEvent<EmployeeUpdatedEvent>()
             .VerifyAnyDomainNotification()
             .VerifyExistingNotification(
-                DomainErrorCodes.User.PasswordIncorrect,
+                DomainErrorCodes.Employee.PasswordIncorrect,
                 "The password is incorrect");
     }
 }

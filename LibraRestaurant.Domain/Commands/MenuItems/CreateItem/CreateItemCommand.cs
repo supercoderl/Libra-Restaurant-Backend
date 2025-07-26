@@ -1,4 +1,4 @@
-﻿using LibraRestaurant.Domain.Commands.Users.CreateUser;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +20,8 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.CreateItem
         public int Quantity { get; }
         public string? Recipe {  get; }
         public string? Instruction { get; }
+        public string? Picture { get; }
+        public List<int> CategoryIds { get; }
 
         public CreateItemCommand(
             int itemId,
@@ -30,7 +32,9 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.CreateItem
             double price,
             int quantity,
             string? recipe,
-            string? instruction
+            string? instruction,
+            string? picture,
+            List<int> categoryIds
         ) : base(itemId)
         {
             ItemId = itemId;
@@ -42,6 +46,8 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.CreateItem
             Quantity = quantity;
             Recipe = recipe;
             Instruction = instruction;
+            Picture = picture;
+            CategoryIds = categoryIds;
         }
 
         public override bool IsValid()

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using LibraRestaurant.Application.ViewModels;
-using LibraRestaurant.Application.ViewModels.Users;
+using LibraRestaurant.Application.ViewModels.Employees;
 using LibraRestaurant.Domain.Constants;
 using LibraRestaurant.Domain.Enums;
 using LibraRestaurant.IntegrationTests.Extensions;
@@ -34,7 +34,7 @@ public sealed class UserControllerTests : IClassFixture<UserTestFixture>
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var message = await response.Content.ReadAsJsonAsync<PagedResult<UserViewModel>>();
+        var message = await response.Content.ReadAsJsonAsync<PagedResult<EmployeeViewModel>>();
 
         message?.Data.Should().NotBeNull();
 
@@ -58,7 +58,7 @@ public sealed class UserControllerTests : IClassFixture<UserTestFixture>
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var message = await response.Content.ReadAsJsonAsync<UserViewModel>();
+        var message = await response.Content.ReadAsJsonAsync<EmployeeViewModel>();
 
         message?.Data.Should().NotBeNull();
 
@@ -74,12 +74,12 @@ public sealed class UserControllerTests : IClassFixture<UserTestFixture>
     [Priority(10)]
     public async Task Should_Create_User()
     {
-        var user = new CreateUserViewModel(
+        var user = new CreateEmployeeViewModel(
+            null,
             "some@user.com",
             "Test",
             "Email",
             "09091234567",
-            "1234#KSAD23s",
             DateTime.Now);
 
         var response = await _fixture.ServerClient.PostAsJsonAsync("/api/v1/user", user);
@@ -94,7 +94,7 @@ public sealed class UserControllerTests : IClassFixture<UserTestFixture>
     [Priority(15)]
     public async Task Should_Login_User()
     {
-        var user = new LoginUserViewModel(
+        var user = new LoginEmployeeViewModel(
             "admin@email.com",
             "!Password123#");
 
@@ -114,7 +114,7 @@ public sealed class UserControllerTests : IClassFixture<UserTestFixture>
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var message = await response.Content.ReadAsJsonAsync<UserViewModel>();
+        var message = await response.Content.ReadAsJsonAsync<EmployeeViewModel>();
 
         message?.Data.Should().NotBeNull();
 
@@ -130,18 +130,20 @@ public sealed class UserControllerTests : IClassFixture<UserTestFixture>
     [Priority(25)]
     public async Task Should_Update_User()
     {
-        var user = new UpdateUserViewModel(
-            Ids.Seed.UserId,
+        var user = new UpdateEmployeeViewModel(
+            Ids.Seed.EmployeeId,
+            null,
             "newtest@email.com",
             "NewTest",
             "NewEmail",
+            UserStatus.Active,
             "09091234567");
 
         var response = await _fixture.ServerClient.PutAsJsonAsync("/api/v1/user", user);
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var message = await response.Content.ReadAsJsonAsync<UpdateUserViewModel>();
+        var message = await response.Content.ReadAsJsonAsync<UpdateEmployeeViewModel>();
 
         message?.Data.Should().NotBeNull();
 
@@ -154,7 +156,7 @@ public sealed class UserControllerTests : IClassFixture<UserTestFixture>
 
         userResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var userMessage = await userResponse.Content.ReadAsJsonAsync<UserViewModel>();
+        var userMessage = await userResponse.Content.ReadAsJsonAsync<EmployeeViewModel>();
 
         userMessage?.Data.Should().NotBeNull();
 
@@ -188,7 +190,7 @@ public sealed class UserControllerTests : IClassFixture<UserTestFixture>
         content.Should().BeEquivalentTo(user);
 
         // Verify the user can login with the new password
-        var login = new LoginUserViewModel(
+        var login = new LoginEmployeeViewModel(
             TestAuthenticationOptions.Email,
             user.NewPassword);
 

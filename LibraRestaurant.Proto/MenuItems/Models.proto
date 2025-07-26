@@ -12,7 +12,8 @@ message GrpcMenuItem {
   int32 quantity = 7;
   string recipe = 8;
   string instruction = 9;
-  bool isDeleted = 10;
+  string picture = 10;
+  bool isDeleted = 11;
 }
 
 message GetItemsByIdsResult {

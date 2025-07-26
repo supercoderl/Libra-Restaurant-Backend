@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,9 @@ namespace LibraRestaurant.Domain.Entities
         public double MinOrderValue { get; private set; }
         public int MinItemQuantity { get; private set; }
         public double MaxDiscountValue { get; private set; }
+
+        [InverseProperty("DiscountType")]
+        public virtual ICollection<Discount>? Discounts { get; set; } = new List<Discount>();
 
         public DiscountType(
             int discountTypeId,

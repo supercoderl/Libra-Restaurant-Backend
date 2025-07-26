@@ -7,10 +7,11 @@ message GrpcCategory {
   string name = 2;
   string description = 3;
   bool isActive = 4;
-  bool isDeleted = 5;
+  string picture = 5;
+  bool isDeleted = 6;
 }
 
-message GetCategoiesByIdsResult {
+message GetCategoriesByIdsResult {
   repeated GrpcCategory categories = 1;
 }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,16 @@ namespace LibraRestaurant.Domain.Entities
         public string FullnameEn { get; private set; }
         public string CodeName { get; private set; }
         public int CityId { get; private set; }
+
+        [ForeignKey("CityId")]
+        [InverseProperty("Districts")]
+        public virtual City? City { get; set; }
+
+        [InverseProperty("District")]
+        public virtual ICollection<Ward>? Wards { get; set; } = new List<Ward>();
+
+        [InverseProperty("District")]
+        public virtual ICollection<Store>? Stores { get; set; } = new List<Store>();
 
         public District(
             int districtId,

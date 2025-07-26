@@ -15,6 +15,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Stripe;
+using LibraRestaurant.Application.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,9 +31,15 @@ builder.Services
     .AddDbContextCheck<ApplicationDbContext>()
     .AddApplicationStatus();
 
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
+
 if (builder.Environment.IsProduction())
 {
     var rabbitHost = builder.Configuration["RabbitMQ:Host"];
+    var rabbitPort = builder.Configuration["RabbitMQ:Port"];
     var rabbitUser = builder.Configuration["RabbitMQ:Username"];
     var rabbitPass = builder.Configuration["RabbitMQ:Password"];
 
@@ -39,7 +48,7 @@ if (builder.Environment.IsProduction())
         .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")!)
         .AddRedis(builder.Configuration["RedisHostName"]!, "Redis")
         .AddRabbitMQ(
-            $"amqp://{rabbitUser}:{rabbitPass}@{rabbitHost}",
+            $"amqps://{rabbitUser}:{rabbitPass}@{rabbitHost}/{rabbitUser}",
             name: "RabbitMQ");
 }
 
@@ -50,6 +59,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         b => b.MigrationsAssembly("LibraRestaurant.Infrastructure"));
 });
 
+builder.Services.AddCors(builder =>
+{
+    builder.AddPolicy("policy", x => 
+        x.SetIsOriginAllowed(x => _ = true)
+         .AllowAnyHeader()
+         .AllowAnyMethod()
+         .AllowCredentials()
+    );
+});
+
 builder.Services.AddSwagger();
 builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration, "LibraRestaurant.Infrastructure");
@@ -58,11 +77,12 @@ builder.Services.AddServices();
 builder.Services.AddSortProviders();
 builder.Services.AddCommandHandlers();
 builder.Services.AddNotificationHandlers();
-builder.Services.AddApiUser();
+builder.Services.AddApiEmployee();
+builder.Services.AddSignalR();
 
 builder.Services.AddRabbitMqHandler(builder.Configuration, "RabbitMQ");
 
-builder.Services.AddHostedService<SetInactiveUsersService>();
+builder.Services.AddHostedService<SetInactiveEmployeesService>();
 
 builder.Services.AddMediatR(cfg => { cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly); });
 
@@ -99,14 +119,19 @@ using (var scope = app.Services.CreateScope())
     domainStoreDbContext.EnsureMigrationsApplied();
 }
 
-if (app.Environment.IsDevelopment())
+/*if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
     app.MapGrpcReflectionService();
-}
+}*/
 
-app.UseHttpsRedirection();
+app.UseSwagger();
+app.UseSwaggerUI();
+app.MapGrpcReflectionService();
+
+app.UseCors("policy");
+/*app.UseHttpsRedirection();*/
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -116,7 +141,8 @@ app.MapHealthChecks("/healthz", new HealthCheckOptions
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 app.MapControllers();
-app.MapGrpcService<UsersApiImplementation>();
+app.MapGrpcService<EmployeesApiImplementation>();
+app.MapHub<TrackerHub>("/tracker");
 
 app.Run();
 

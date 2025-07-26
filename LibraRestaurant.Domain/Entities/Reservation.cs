@@ -1,6 +1,7 @@
 ﻿using LibraRestaurant.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,8 +17,20 @@ namespace LibraRestaurant.Domain.Entities
         public Guid StoreId { get; private set; }
         public string? Description { get; private set; }
         public DateTime? ReservationTime { get; private set; }
-        public string? CustomerName { get; private set; }
-        public string? CustomerPhone { get; private set; }
+        public int? CustomerId { get; private set; }
+        public string? Code { get; private set; }
+        public DateTime? CleaningTime { get; private set; }
+
+        [ForeignKey("StoreId")]
+        [InverseProperty("Reservations")]
+        public virtual Store? Store { get; set; }
+
+        [InverseProperty("Reservation")]
+        public virtual ICollection<OrderHeader>? OrderHeaders { get; set; } = new List<OrderHeader>();
+
+        [ForeignKey("CustomerId")]
+        [InverseProperty("Reservation")]
+        public virtual Customer? Customer { get; set; }
 
         public Reservation(
             int reservationId,
@@ -27,8 +40,9 @@ namespace LibraRestaurant.Domain.Entities
             Guid storeId,
             string? description,
             DateTime? reservationTime,
-            string? customerName,
-            string? customerPhone
+            int? customerId,
+            string? code,
+            DateTime? cleaningTime
         ) : base(reservationId)
         {
             ReservationId = reservationId;
@@ -38,8 +52,9 @@ namespace LibraRestaurant.Domain.Entities
             StoreId = storeId;
             Description = description;
             ReservationTime = reservationTime;
-            CustomerName = customerName;
-            CustomerPhone = customerPhone;
+            CustomerId = customerId;
+            Code = code;
+            CleaningTime = cleaningTime;
         }
 
         public void SetTableNumber( int tableNumber )
@@ -72,14 +87,19 @@ namespace LibraRestaurant.Domain.Entities
             ReservationTime = reservationTime;
         }
 
-        public void SetCustomerName( string? customerName )
+        public void SetCustomer( int? customerId )
         {
-            CustomerName = customerName;
+            CustomerId = customerId;
         }
 
-        public void SetCustomerPhone( string? customerPhone )
+        public void SetCode(string? code )
         {
-            CustomerPhone = customerPhone;
+            Code = code;
+        }
+
+        public void SetCleaningTime( DateTime? cleaningTime )
+        {
+            CleaningTime = cleaningTime;
         }
     }
 }

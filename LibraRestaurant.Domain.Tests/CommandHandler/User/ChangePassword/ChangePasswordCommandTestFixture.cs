@@ -1,5 +1,5 @@
 ﻿using System;
-using LibraRestaurant.Domain.Commands.Users.ChangePassword;
+using LibraRestaurant.Domain.Commands.Employees.ChangePassword;
 using LibraRestaurant.Domain.Enums;
 using LibraRestaurant.Domain.Interfaces.Repositories;
 using NSubstitute;
@@ -10,24 +10,25 @@ namespace LibraRestaurant.Domain.Tests.CommandHandler.User.ChangePassword;
 public sealed class ChangePasswordCommandTestFixture : CommandHandlerFixtureBase
 {
     public ChangePasswordCommandHandler CommandHandler { get; }
-    private IUserRepository UserRepository { get; }
+    private IEmployeeRepository UserRepository { get; }
 
     public ChangePasswordCommandTestFixture()
     {
-        UserRepository = Substitute.For<IUserRepository>();
+        UserRepository = Substitute.For<IEmployeeRepository>();
 
         CommandHandler = new ChangePasswordCommandHandler(
             Bus,
             UnitOfWork,
             NotificationHandler,
             UserRepository,
-            User);
+            Employee);
     }
 
-    public Entities.User SetupUser()
+    public Entities.Employee SetupUser()
     {
-        var user = new Entities.User(
+        var user = new Entities.Employee(
             Guid.NewGuid(),
+            null,
             "max@mustermann.com",
             "Max",
             "Mustermann",
@@ -35,7 +36,7 @@ public sealed class ChangePasswordCommandTestFixture : CommandHandlerFixtureBase
             BC.HashPassword("z8]tnayvd5FNLU9:]AQm"),
             DateTime.Now);
 
-        User.GetUserId().Returns(user.Id);
+        Employee.GetEmployeeId().Returns(user.Id);
 
         UserRepository
             .GetByIdAsync(Arg.Is<Guid>(y => y == user.Id))
@@ -47,7 +48,7 @@ public sealed class ChangePasswordCommandTestFixture : CommandHandlerFixtureBase
     public Guid SetupMissingUser()
     {
         var id = Guid.NewGuid();
-        User.GetUserId().Returns(id);
+        Employee.GetEmployeeId().Returns(id);
         return id;
     }
 }

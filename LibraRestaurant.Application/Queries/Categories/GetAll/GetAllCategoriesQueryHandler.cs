@@ -47,9 +47,14 @@ public sealed class GetAllCategoriesQueryHandler :
 
         categoriesQuery = categoriesQuery.GetOrderedQueryable(request.SortQuery, _sortingExpressionProvider);
 
+        if (!request.IsAll)
+        {
+            categoriesQuery = categoriesQuery
+                .Skip((request.Query.Page - 1) * request.Query.PageSize)
+                .Take(request.Query.PageSize);
+        }
+
         var categories = await categoriesQuery
-            .Skip((request.Query.Page - 1) * request.Query.PageSize)
-            .Take(request.Query.PageSize)
             .Select(category => CategoryViewModel.FromCategory(category))
             .ToListAsync(cancellationToken);
 

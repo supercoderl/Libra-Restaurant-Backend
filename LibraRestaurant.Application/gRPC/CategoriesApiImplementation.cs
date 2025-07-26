@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using LibraRestaurant.Domain.Interfaces.Repositories;
+using LibraRestaurant.Proto.Categories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,12 @@ namespace LibraRestaurant.Application.gRPC
     {
         private readonly ICategoryRepository _categoryRepository;
 
-        public CategorisApiImplementation(ICategoryRepository categoryRepository)
+        public CategoriesApiImplementation(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }
 
-        public override async Task<GetCategiriesByIdsResult> GetByIds(
+        public override async Task<GetCategoriesByIdsResult> GetByIds(
             GetCategoriesByIdsRequest request,
             ServerCallContext context)
         {
@@ -45,7 +46,7 @@ namespace LibraRestaurant.Application.gRPC
 
             var result = new GetCategoriesByIdsResult();
 
-            result.Categories.AddRange(category);
+            result.Categories.AddRange(categories);
 
             return result;
         }

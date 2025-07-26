@@ -37,6 +37,9 @@ namespace LibraRestaurant.Infrastructure.Configurations
                 .HasMaxLength(MaxLengths.MenuItem.SKU);
 
             builder
+                .Property(item => item.Picture);
+
+            builder
                 .Property(item => item.Price)
                 .IsRequired()
                 .HasColumnType("money");
@@ -60,6 +63,7 @@ namespace LibraRestaurant.Infrastructure.Configurations
                 "nem-lui-nuong-mia",
                 "Nem lụi được biết đến là đặc sản của vùng đất kinh kỳ đồng thời là lựa chọn mà mọi tín đồ yêu thích ẩm thực không thể bỏ qua. Món ăn hấp dẫn ngay từ cái nhìn đầu tiên với màu sắc vàng ươm cùng mùi vị thơm lừng sau khi được nướng lên. Thực khách sẽ cảm nhận trọn vẹn vị đậm đà pha chút mềm dai của thịt heo, giò sống hài hòa với các gia vị đặc biệt. Thêm vào đó, Nem lụi TASTY còn ngon hơn khi dùng kèm bánh tráng, bún tươi, rau sống và nước chấm sền sệt, vị bùi ngậy do chính các đầu bếp TASTY sáng tạo.",
                 "FD000001",
+                null,
                 160000,
                 10,
                 "Mỡ gáy, thịt nạc mông, giò sống heo, mía cây, màu thực phẩm, chất tạo độ dai thực phẩm, bột nở, bột bắp, tiêu đen, tiêu sọ trắng, sả cây, hành tím, tỏi, mật ong, mắm khô, bột ngũ vị hương, bột ngọt, đường cát",

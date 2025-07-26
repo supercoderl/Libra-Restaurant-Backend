@@ -1,6 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
-using LibraRestaurant.Application.Queries.Users.GetAll;
+using LibraRestaurant.Application.Queries.Employees.GetAll;
 using LibraRestaurant.Application.Tests.Fixtures.Queries.Users;
 using LibraRestaurant.Application.ViewModels;
 using FluentAssertions;
@@ -24,7 +24,7 @@ public sealed class GetAllUsersQueryHandlerTests
         };
 
         var result = await _fixture.Handler.Handle(
-            new GetAllUsersQuery(query, false, user.Email),
+            new GetAllEmployeesQuery(query, false, user.Email),
             default);
 
         _fixture.VerifyNoDomainNotification();
@@ -51,7 +51,7 @@ public sealed class GetAllUsersQueryHandlerTests
         };
 
         var result = await _fixture.Handler.Handle(
-            new GetAllUsersQuery(query, false),
+            new GetAllEmployeesQuery(query, false),
             default);
 
         _fixture.VerifyNoDomainNotification();

@@ -2,6 +2,7 @@
 using LibraRestaurant.Domain.Interfaces;
 using LibraRestaurant.Domain.Interfaces.Repositories;
 using LibraRestaurant.Domain.Notifications;
+using LibraRestaurant.Infrastructure.Background;
 using LibraRestaurant.Infrastructure.Database;
 using LibraRestaurant.Infrastructure.EventSourcing;
 using LibraRestaurant.Infrastructure.Repositories;
@@ -45,11 +46,32 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IMediatorHandler, InMemoryBus>();
 
         // Repositories
-        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IMenuItemRepository, MenuItemRepository>();
         services.AddScoped<IMenuRepository, MenuRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IStoreRepository, StoreRepository>();
+        services.AddScoped<IReservationRepository, ReservationRepository>();
+        services.AddScoped<IOrderLineRepository, OrderLineRepository>();
+        services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
+        services.AddScoped<ICityRepository, CityRepository>();
+        services.AddScoped<IDistrictRepository, DistrictRepository>();
+        services.AddScoped<IWardRepository, WardRepository>();
+        services.AddScoped<IPaymentHistoryRepository, PaymentHistoryRepository>();
+        services.AddScoped<ICategoryItemRepository, CategoryItemRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IEmployeeRoleRepository, EmployeeRoleRepository>();
+        services.AddScoped<ITokenRepository, TokenRepository>();
+        services.AddScoped<IMessageRepository, MessageRepository>();
+        services.AddScoped<IDiscountRepository, DiscountRepository>();
+        services.AddScoped<IDiscountTypeRepository, DiscountTypeRepository>();
+        services.AddScoped<IReviewRepository, ReviewRepository>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+
+        // Backgrounds
+        services.AddHostedService<ReservationBackgroundService>();
 
         return services;
     }

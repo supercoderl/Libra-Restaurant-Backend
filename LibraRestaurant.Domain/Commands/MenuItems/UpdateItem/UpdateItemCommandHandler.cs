@@ -1,9 +1,8 @@
-﻿using LibraRestaurant.Domain.Commands.Users.UpdateUser;
+﻿
 using LibraRestaurant.Domain.Errors;
 using LibraRestaurant.Domain.Interfaces.Repositories;
 using LibraRestaurant.Domain.Interfaces;
 using LibraRestaurant.Domain.Notifications;
-using LibraRestaurant.Shared.Events.User;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -12,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using LibraRestaurant.Shared.Events.MenuItem;
+using LibraRestaurant.Domain.Commands.CategoryItems.UpsertCategoryItem;
 
 namespace LibraRestaurant.Domain.Commands.MenuItems.UpdateItem
 {
@@ -55,6 +55,7 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.UpdateItem
             item.SetPrice(request.Price);
             item.SetQuantity(request.Quantity);
             item.SetRecipe(request.Recipe);
+            item.SetPicture(request.Picture);
             item.SetInstruction(request.Instruction);
             item.SetLastUpdatedAt(DateTime.Now);
 
@@ -63,6 +64,7 @@ namespace LibraRestaurant.Domain.Commands.MenuItems.UpdateItem
             if (await CommitAsync())
             {
                 await Bus.RaiseEventAsync(new ItemUpdatedEvent(item.ItemId));
+                await Bus.SendCommandAsync(new UpsertCategoryItemCommand(0, request.CategoryIds, item.ItemId, null));
             }
         }
     }

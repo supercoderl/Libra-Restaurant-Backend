@@ -16,6 +16,7 @@ namespace LibraRestaurant.Shared.MenuItem
         int Quantity,
         string? Recipe,
         string? Instruction,
+        string? Picture,
         bool IsDeleted
     );
 }
