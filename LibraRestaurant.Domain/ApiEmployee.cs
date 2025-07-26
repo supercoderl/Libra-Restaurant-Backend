@@ -36,7 +36,7 @@ public sealed class ApiEmployee : IEmployee
             return employeeId;
         }
 
-        throw new ArgumentException("Could not parse employee id to guid");
+        return Guid.Empty;
     }
 
     public List<UserRole> GetUserRoles()
